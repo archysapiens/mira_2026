@@ -1,0 +1,4 @@
+azure-functions==1.23.0
+pyodbc==5.2.0
+PyJWT==2.10.1
+
