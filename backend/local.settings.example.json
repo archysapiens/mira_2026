@@ -1,2 +1,11 @@
-{"IsEncrypted":false,"Values":{"AzureWebJobsStorage":"UseDevelopmentStorage=true","FUNCTIONS_WORKER_RUNTIME":"python","SQL_CONNECTION_STRING":"Driver={ODBC Driver 18 for SQL Server};Server=tcp:SERVIDOR.database.windows.net,1433;Database=mira;Uid=USUARIO;Pwd=PASSWORD;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;","JWT_SECRET":"CAMBIAR-POR-UN-SECRETO-LARGO-Y-ALEATORIO","ALLOWED_ORIGIN":"http://localhost:5500"}}
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "SQL_CONNECTION_STRING": "Driver={ODBC Driver 18 for SQL Server};Server=tcp:TU_SERVIDOR.database.windows.net,1433;Database=TU_BASE;Uid=TU_USUARIO;Pwd=TU_PASSWORD;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;",
+    "JWT_SECRET": "CAMBIAR_EN_LOCAL_SETTINGS_JSON",
+    "ALLOWED_ORIGIN": "http://localhost:5500"
+  }
+}
 

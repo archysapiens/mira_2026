@@ -1,2 +1,61 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MIRA Servicios</title><link rel="stylesheet" href="css/styles.css"></head><body><header class="top"><img src="assets/mira-logo.svg" alt="MIRA"><nav><a href="#inicio">Inicio</a><a href="#servicios">Servicios</a><a href="#contacto">Contacto</a></nav><a href="login.html">Iniciar sesión</a><button class="cta" id="quoteBtn">Cotizar servicios</button></header><section class="hero" id="inicio"><div><p class="eyebrow">MANTENIMIENTO · LIMPIEZA · SANITIZACIÓN</p><h1>Soluciones integrales con seguimiento real.</h1><p>Registra una solicitud, recibe un folio y consulta su avance desde el portal MIRA.</p><button class="primary" id="heroQuote">Comenzar solicitud →</button></div></section><section class="catalog" id="servicios"><p class="eyebrow">CATÁLOGO</p><h2>Servicios especializados</h2><div class="cards"><article><h3>Limpieza de silos</h3><p>Sanitización y mantenimiento industrial.</p></article><article><h3>Recubrimientos</h3><p>Sistemas epóxicos para industria alimentaria.</p></article><article><h3>Mantenimiento</h3><p>Techumbres, estructuras e instalaciones.</p></article></div></section><script>document.querySelectorAll('#quoteBtn,#heroQuote').forEach(x=>x.onclick=()=>alert('Conecte aquí el funnel existente al endpoint POST /api/requests'))</script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MIRA Servicios</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="top">
+    <img src="assets/mira-logo.svg" alt="MIRA">
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a href="login.html">Iniciar sesión</a>
+    <button class="cta" id="quoteBtn">Cotizar servicios</button>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div>
+      <p class="eyebrow">MANTENIMIENTO · LIMPIEZA · SANITIZACIÓN</p>
+      <h1>Soluciones integrales con seguimiento real.</h1>
+      <p>Registra una solicitud, recibe un folio y consulta su avance desde el portal MIRA.</p>
+      <button class="primary" id="heroQuote">Comenzar solicitud →</button>
+    </div>
+  </section>
+
+  <section class="catalog" id="servicios">
+    <p class="eyebrow">CATÁLOGO</p>
+    <h2>Servicios especializados</h2>
+    
+    <div class="cards">
+      <article>
+        <h3>Limpieza de silos</h3>
+        <p>Sanitización y mantenimiento industrial.</p>
+      </article>
+
+      <article>
+        <h3>Recubrimientos</h3>
+        <p>Sistemas epóxicos para industria alimentaria.</p>
+      </article>
+
+      <article>
+        <h3>Mantenimiento</h3>
+        <p>Techumbres, estructuras e instalaciones.</p>
+      </article>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll('#quoteBtn, #heroQuote').forEach(x => {
+      x.onclick = () => alert('Conecte aquí el funnel existente al endpoint POST /api/requests');
+    });
+  </script>
+
+</body>
+</html>
 
