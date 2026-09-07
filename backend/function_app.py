@@ -55,11 +55,44 @@ def requests(req):
     if (x:=options(req)):return x
     if req.method=="POST":
         d=body(req);claim=auth(req);client_id=claim["sub"] if claim and claim["role"]=="CLIENT" else None;rid=str(uuid.uuid4())
+        contact_name=d.get("contactName") or d.get("name")
+        email=d.get("email")
+        if not contact_name or not email:
+            return response({"error":"Nombre y correo son obligatorios"},400)
+        
+        # Formatear ubicación estructurada si viene por partes
+        location=d.get("location")
+        if not location:
+            loc_parts=[p for p in [d.get("state"),d.get("municipality"),d.get("address")] if p]
+            location=", ".join(loc_parts) if loc_parts else "No especificada"
+        
+        # Formatear descripción combinada para no perder datos del wizard
+        desc_parts=[]
+        if d.get("description"):desc_parts.append(d["description"])
+        if d.get("needType"):desc_parts.append(f"Tipo de inmueble: {d['needType']}")
+        if d.get("requestedDate"):desc_parts.append(f"Fecha requerida: {d['requestedDate']}")
+        if d.get("comments"):desc_parts.append(f"Comentarios: {d['comments']}")
+        full_description="\n\n".join(desc_parts) if desc_parts else None
+
+        need=d.get("need") or d.get("needType") or "Servicio MIRA"
+
         with conn() as cn:
-            cur=cn.cursor();cur.execute("INSERT mira.Requests(RequestId,ClientUserId,ContactName,Email,Phone,Company,Location,Need,Urgency,Description,Source) VALUES(?,?,?,?,?,?,?,?,?,?,?)",rid,client_id,d["contactName"],d["email"],d.get("phone"),d.get("company"),d["location"],d.get("need"),d.get("urgency"),d.get("description"),d.get("source","WEB"))
-            for sid in d.get("serviceIds",[]):cur.execute("INSERT mira.RequestServices(RequestId,ServiceId) VALUES(?,?)",rid,sid)
-            cur.execute("INSERT mira.StatusHistory(RequestId,NewStatus,Comment,ChangedByUserId) VALUES(?,'E','Solicitud creada',?)",rid,client_id);cn.commit();row=cur.execute("SELECT Folio FROM mira.Requests WHERE RequestId=?",rid).fetchone()
-        return response({"id":rid,"folio":row.Folio,"status":"E"},201)
+            cur=cn.cursor()
+            cur.execute("INSERT mira.Requests(RequestId,ClientUserId,ContactName,Email,Phone,Company,Location,Need,Urgency,Description,Source) VALUES(?,?,?,?,?,?,?,?,?,?,?)",rid,client_id,contact_name,email.lower().strip(),d.get("phone"),d.get("company"),location,need,d.get("urgency"),full_description,d.get("source","WEB"))
+            
+            # Asociar servicios de forma segura con mira.Services
+            for sid in d.get("serviceIds",[]):
+                try:
+                    if isinstance(sid,int):
+                        cur.execute("IF EXISTS (SELECT 1 FROM mira.Services WHERE ServiceId=?) INSERT mira.RequestServices(RequestId,ServiceId) VALUES(?,?)",sid,rid,sid)
+                    elif isinstance(sid,str):
+                        cur.execute("INSERT mira.RequestServices(RequestId,ServiceId) SELECT ?,ServiceId FROM mira.Services WHERE Code=?",rid,sid)
+                except Exception:pass
+            
+            cur.execute("INSERT mira.StatusHistory(RequestId,NewStatus,Comment,ChangedByUserId) VALUES(?,'E','Solicitud creada',?)",rid,client_id)
+            cn.commit()
+            row=cur.execute("SELECT Folio FROM mira.Requests WHERE RequestId=?",rid).fetchone()
+        return response({"id":rid,"folio":row.Folio if row else None,"status":"E"},201)
     claim=auth(req)
     if not claim:return response({"error":"No autorizado"},401)
     where="";params=[]
