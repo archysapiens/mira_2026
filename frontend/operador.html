@@ -3,314 +3,1508 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portal Operativo | MIRA Soluciones Integrales</title>
+  <title>Portal Operador | MIRA Soluciones Integrales</title>
   
   <!-- Tipografías Oficiales MIRA -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/styles.css?v=3.0">
+  <link rel="stylesheet" href="css/styles.css?v=3.1">
 
-  <!-- Estilos embebidos de alta fidelidad MIRA -->
+  <!-- Estilos del Dashboard SaaS MIRA Portal Operador -->
   <style>
     :root {
       --mira-navy: #062D3A;
       --mira-navy-dark: #041E27;
-      --mira-navy-light: #0D3E4F;
+      --mira-navy-surface: #082F3D;
+      --mira-navy-hover: #0C3E4F;
       --mira-green: #7AC143;
       --mira-green-bright: #8CC63F;
-      --mira-green-dark: #66A334;
-      --mira-green-tint: #EEF7E6;
-      --mira-green-border: #C8E6B2;
-      --mira-bg: #F4F6F4;
-      --mira-bg-warm: #F5F3EB;
+      --mira-green-dark: #00875A;
+      --mira-green-tint: #F0FDF4;
+      --mira-green-border: #BBF7D0;
+      --mira-bg: #F4F7F9;
       --mira-bg-card: #FFFFFF;
-      --mira-bg-subtle: #F7F9F7;
-      --mira-text-primary: #062D3A;
+      --mira-text-main: #062D3A;
       --mira-text-secondary: #56696D;
       --mira-text-muted: #8E9FA2;
-      --mira-text-light: #B0C4C8;
-      --mira-line: #DCE2DD;
-      --mira-line-subtle: #E8ECE8;
-      --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
-      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 12px;
+      --mira-border: #E8ECEF;
+      --mira-border-light: #F1F5F9;
+      --sidebar-width: 250px;
+      --header-height: 72px;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
       --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(6, 45, 58, 0.04);
+      --shadow-md: 0 4px 12px rgba(6, 45, 58, 0.06);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-sans); color: var(--mira-text-primary); background-color: var(--mira-bg); line-height: 1.5; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--mira-text-main);
+      background-color: var(--mira-bg);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
     button, input, select, textarea { font-family: inherit; font-size: 14px; }
     button { cursor: pointer; border: none; background: none; transition: all 0.2s ease; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
     a { text-decoration: none; color: inherit; }
     .hidden { display: none !important; }
 
-    /* TOP NAVBAR */
-    .mira-topbar {
-      height: 78px;
-      padding: 0 4vw;
-      background: #FFFFFF;
+    /* CONTENEDOR PRINCIPAL SAAS (SIDEBAR + MAIN) */
+    .mira-saas-layout {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--mira-line);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(6, 45, 58, 0.04);
+      min-height: 100vh;
+      width: 100%;
     }
 
-    .mira-brand-group {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .mira-logo-img {
-      height: 48px;
-      width: auto;
-      max-width: 140px;
-    }
-
-    .mira-brand-text {
+    /* ===================================================
+       1. SIDEBAR LATERAL OSCURO
+       =================================================== */
+    .mira-sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--mira-navy);
+      color: #FFFFFF;
       display: flex;
       flex-direction: column;
-      border-left: 1px solid var(--mira-line);
-      padding-left: 14px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      z-index: 1000;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      background-image: 
+        radial-gradient(circle at 10% 90%, rgba(0, 163, 137, 0.12) 0%, transparent 60%),
+        radial-gradient(circle at 90% 10%, rgba(122, 193, 67, 0.08) 0%, transparent 50%);
     }
 
-    .mira-brand-tagline {
-      font-size: 10px;
+    .sidebar-brand-box {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .sidebar-logo-img {
+      height: 44px;
+      width: auto;
+      display: block;
+      filter: brightness(0) invert(1);
+    }
+
+    .sidebar-tagline {
+      font-size: 9.5px;
       letter-spacing: 0.16em;
-      color: var(--mira-text-secondary);
+      color: #8E9FA2;
       font-weight: 700;
       text-transform: uppercase;
+      margin-top: 6px;
+      display: block;
     }
 
-    .mira-brand-portal {
-      font-size: 11.5px;
+    .sidebar-nav {
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: #D2E2E5;
       font-weight: 600;
-      color: var(--mira-green-dark);
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      font-size: 13.5px;
+      width: 100%;
+      text-align: left;
+      position: relative;
+      transition: all 0.2s ease;
     }
 
-    .mira-brand-portal .dot {
-      width: 7px;
-      height: 7px;
-      background: #3B82F6;
-      border-radius: 50%;
-      box-shadow: 0 0 6px #3B82F6;
+    .sidebar-link svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+      flex-shrink: 0;
+      opacity: 0.85;
+      transition: opacity 0.2s;
     }
 
-    .mira-nav-links {
+    .sidebar-link:hover {
+      background: var(--mira-navy-hover);
+      color: #FFFFFF;
+    }
+
+    .sidebar-link:hover svg {
+      opacity: 1;
+    }
+
+    .sidebar-link.active {
+      background: #00A389;
+      color: #FFFFFF;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0, 163, 137, 0.35);
+    }
+
+    .sidebar-link.active svg {
+      opacity: 1;
+    }
+
+    .sidebar-link:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .badge-chip {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.12);
+      color: #D2E2E5;
+      font-weight: 600;
+      margin-left: auto;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Caja de ayuda / soporte inferior */
+    .sidebar-help-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 16px 14px;
+      margin: 14px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 8px;
     }
 
-    .mira-nav-link {
-      padding: 8px 14px;
-      color: var(--mira-text-primary);
-      font-size: 13.5px;
-      font-weight: 600;
-      border-radius: var(--radius-sm);
-      transition: all 0.2s ease;
-      display: inline-flex;
+    .help-header {
+      display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
     }
 
-    .mira-nav-link:hover {
-      color: var(--mira-green-dark);
-      background: var(--mira-bg-subtle);
+    .help-icon-wrap {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(122, 193, 67, 0.15);
+      color: var(--mira-green-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
-    .mira-nav-link.active {
-      color: #FFFFFF;
-      background: var(--mira-navy);
+    .help-title {
+      font-size: 12.5px;
       font-weight: 700;
+      color: #FFFFFF;
     }
 
-    .mira-top-actions {
+    .help-desc {
+      font-size: 11.5px;
+      color: #8E9FA2;
+    }
+
+    .btn-help-contact {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: background 0.2s;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .btn-help-contact:hover {
+      background: var(--mira-green-dark);
+      border-color: var(--mira-green-dark);
+    }
+
+    /* Marca final sidebar */
+    .sidebar-footer-brand {
+      padding: 14px 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-bar-accent {
+      width: 3px;
+      height: 24px;
+      background: var(--mira-green);
+      border-radius: 2px;
+    }
+
+    .footer-text-mira {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #8E9FA2;
+      line-height: 1.25;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ===================================================
+       2. CONTENEDOR DERECHO (HEADER + MAIN)
+       =================================================== */
+    .mira-main-wrapper {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--mira-bg);
+    }
+
+    /* HEADER SUPERIOR CLARO */
+    .mira-app-header {
+      height: var(--header-height);
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--mira-border);
+      padding: 0 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      box-shadow: 0 1px 4px rgba(6, 45, 58, 0.03);
+    }
+
+    .header-title-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn-drawer-toggle {
+      display: none;
+      padding: 8px;
+      border-radius: var(--radius-sm);
+      color: var(--mira-navy);
+    }
+
+    .header-main-heading {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--mira-navy);
+      line-height: 1.2;
+    }
+
+    .header-sub-heading {
+      font-size: 12.5px;
+      color: var(--mira-text-secondary);
+    }
+
+    .header-actions-box {
       display: flex;
       align-items: center;
       gap: 16px;
     }
 
-    .user-profile-badge {
+    .btn-bell-icon {
+      position: relative;
+      padding: 8px;
+      color: var(--mira-text-secondary);
+      border-radius: 50%;
+      transition: background 0.15s;
+    }
+
+    .btn-bell-icon:hover {
+      background: #F1F5F9;
+      color: var(--mira-navy);
+    }
+
+    .bell-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      background: #EF4444;
+      border: 2px solid #FFFFFF;
+      border-radius: 50%;
+    }
+
+    .user-profile-capsule {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 5px 12px 5px 6px;
-      background: var(--mira-bg-subtle);
-      border: 1px solid var(--mira-line);
+      padding: 4px 12px 4px 4px;
       border-radius: var(--radius-full);
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      box-shadow: var(--shadow-sm);
     }
 
-    .user-avatar-circle {
+    .user-capsule-avatar {
       width: 34px;
       height: 34px;
       border-radius: 50%;
       background: var(--mira-navy);
       color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       font-weight: 700;
       font-size: 13px;
-      border: 2px solid #3B82F6;
-    }
-
-    .user-meta-text { display: flex; flex-direction: column; }
-    .user-name-label { font-size: 12.5px; font-weight: 700; color: var(--mira-navy); line-height: 1.2; }
-    .user-role-label { font-size: 10px; font-weight: 700; color: #1D4ED8; text-transform: uppercase; letter-spacing: 0.05em; }
-
-    .btn-logout-icon {
-      color: var(--mira-text-secondary);
-      padding: 6px;
-      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
-      transition: color 0.2s, background 0.2s;
-    }
-
-    .btn-logout-icon:hover { color: #9B2C1D; background: #FDF0ED; }
-
-    .btn-cta-green {
-      background: var(--mira-green);
-      color: #FFFFFF;
-      padding: 10px 18px;
-      font-weight: 700;
-      font-size: 13.5px;
-      border-radius: var(--radius-sm);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-    }
-
-    .btn-cta-green:hover { background: var(--mira-green-dark); transform: translateY(-1px); }
-
-    /* HERO */
-    .mira-hero-section {
-      min-height: 420px;
-      padding: 60px 6vw 50px;
-      background: linear-gradient(90deg, rgba(4, 30, 39, 0.94) 0%, rgba(6, 45, 58, 0.88) 50%, rgba(6, 45, 58, 0.72) 100%), url('assets/mira.png') center/cover no-repeat, #062D3A;
-      color: #FFFFFF;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
       justify-content: center;
     }
 
-    .hero-container { max-width: 820px; position: relative; z-index: 2; }
-    .hero-status-pill {
-      display: inline-flex;
+    .user-capsule-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .user-capsule-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--mira-navy);
+    }
+
+    .user-capsule-role {
+      font-size: 11px;
+      color: var(--mira-text-muted);
+    }
+
+    .btn-capsule-logout {
+      padding: 6px;
+      color: var(--mira-text-muted);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 2px;
+    }
+
+    .btn-capsule-logout:hover {
+      color: #EF4444;
+      background: #FEE2E2;
+    }
+
+    /* CONTENIDO PRINCIPAL */
+    .mira-page-content {
+      padding: 28px 36px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      max-width: 1440px;
+      width: 100%;
+    }
+
+    /* ===================================================
+       3. HERO DEL OPERADOR
+       =================================================== */
+    .operator-hero-card {
+      background: linear-gradient(135deg, #F0F6FA 0%, #E6F0F6 100%);
+      border: 1px solid #D5E5EE;
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-text-col {
+      flex: 1;
+      max-width: 580px;
+    }
+
+    .hero-main-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--mira-navy);
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .hero-name-accent {
+      color: #00875A;
+    }
+
+    .hero-main-desc {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--mira-navy);
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .hero-sub-desc {
+      font-size: 13.5px;
+      color: var(--mira-text-secondary);
+      line-height: 1.5;
+    }
+
+    .hero-visual-col {
+      width: 280px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .hero-tech-img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 14px rgba(6, 45, 58, 0.12);
+      display: block;
+    }
+
+    .hero-quote-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      right: 8px;
+      background: rgba(6, 45, 58, 0.88);
+      color: #FFFFFF;
+      font-size: 10.5px;
+      font-style: italic;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      backdrop-filter: blur(4px);
+      text-align: center;
+      border-left: 3px solid var(--mira-green);
+    }
+
+    /* ===================================================
+       4. MÉTRICAS OPERATIVAS (4 TARJETAS)
+       =================================================== */
+    .metrics-row-saas {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .saas-metric-card {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .saas-metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .metric-icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-total { background: #EBF8EE; color: #2D6619; }
+    .icon-pending { background: #FEF3C7; color: #D97706; }
+    .icon-active { background: #EFF6FF; color: #2563EB; }
+    .icon-done { background: #D1FAE5; color: #059669; }
+
+    .metric-text-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .metric-count-num {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--mira-navy);
+      margin-bottom: 2px;
+    }
+
+    .metric-label-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--mira-navy);
+    }
+
+    .metric-sub-note {
+      font-size: 11px;
+      color: var(--mira-text-muted);
+      margin-top: 2px;
+    }
+
+    /* ===================================================
+       5. GRID OPERATIVO (70% IZQ / 30% DER)
+       =================================================== */
+    .dashboard-saas-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .col-main-left {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      min-width: 0;
+    }
+
+    .col-side-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* PANEL BLANCO GENERAL */
+    .mira-white-panel {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .panel-inner-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--mira-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .panel-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-heading-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--mira-navy);
+      display: flex;
       align-items: center;
       gap: 8px;
-      padding: 5px 14px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      border-radius: var(--radius-full);
+    }
+
+    .panel-sub-text {
       font-size: 12px;
-      color: #E8F5E9;
+      color: var(--mira-text-muted);
+    }
+
+    .link-view-all {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--mira-green-dark);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.15s;
+    }
+
+    .link-view-all:hover {
+      color: #062D3A;
+      text-decoration: underline;
+    }
+
+    /* TABLA SAAS RECIENTES */
+    .table-scroll-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .mira-saas-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .mira-saas-table th {
+      background: #F8FAFC;
+      padding: 12px 20px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: var(--mira-text-muted);
+      border-bottom: 1px solid var(--mira-border);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .mira-saas-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--mira-border-light);
+      font-size: 13px;
+      color: var(--mira-text-main);
+      vertical-align: middle;
+    }
+
+    .mira-saas-table tr:hover {
+      background-color: #F8FAF7;
+    }
+
+    .folio-saas-chip {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--mira-navy);
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .status-pill {
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .pill-a { background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; }
+    .pill-e { background: #FEF3C7; color: #B45309; border: 1px solid #FDE68A; }
+    .pill-t { background: #D1FAE5; color: #047857; border: 1px solid #A7F3D0; }
+    .pill-c { background: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; }
+
+    .btn-detail-small {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      color: var(--mira-navy);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-detail-small:hover {
+      background: var(--mira-navy);
+      color: #FFFFFF;
+      border-color: var(--mira-navy);
+    }
+
+    /* CARD SERVICIO EN CURSO (DUAL SUB-CARD) */
+    .current-service-card {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .current-service-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--mira-navy);
       margin-bottom: 16px;
-      backdrop-filter: blur(4px);
     }
-    .hero-status-pill .pulse-dot { width: 8px; height: 8px; background: #3B82F6; border-radius: 50%; box-shadow: 0 0 8px #3B82F6; }
-    .hero-eyebrow { color: var(--mira-green-bright); font-size: 11.5px; letter-spacing: 0.18em; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; }
-    .hero-main-title { font-family: var(--font-serif); font-size: 48px; line-height: 1.1; font-weight: 700; color: #FFFFFF; margin-bottom: 16px; }
-    .hero-main-title span.accent-green { color: var(--mira-green-bright); }
-    .hero-description { font-size: 16px; line-height: 1.6; color: #D2E2E5; max-width: 680px; margin-bottom: 26px; }
-    .hero-buttons-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-    .btn-hero-primary { background: var(--mira-green); color: #FFFFFF; padding: 13px 24px; font-size: 14.5px; font-weight: 700; border-radius: var(--radius-sm); display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
-    .btn-hero-primary:hover { background: var(--mira-green-dark); transform: translateY(-1px); }
-    .btn-hero-ghost { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.3); color: #FFFFFF; padding: 13px 22px; font-size: 14.5px; font-weight: 600; border-radius: var(--radius-sm); transition: all 0.2s; }
-    .btn-hero-ghost:hover { background: rgba(255, 255, 255, 0.16); border-color: #FFFFFF; }
 
-    .hero-kpi-bar { display: flex; align-items: center; gap: 40px; margin-top: 40px; padding-top: 22px; border-top: 1px solid rgba(255, 255, 255, 0.15); flex-wrap: wrap; }
-    .kpi-item { display: flex; flex-direction: column; }
-    .kpi-number { font-family: var(--font-serif); font-size: 26px; font-weight: 700; color: #FFFFFF; line-height: 1.1; }
-    .kpi-label { font-size: 11.5px; color: var(--mira-text-light); }
-
-    /* PILARES */
-    .mira-pillars-strip { background: #FFFFFF; border-bottom: 1px solid var(--mira-line); padding: 16px 6vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-    .pillar-box { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--mira-navy); text-transform: uppercase; }
-    .pillar-box .check { color: var(--mira-green); font-weight: 900; font-size: 14px; }
-
-    /* OPERACIONES */
-    .operations-container { max-width: 1400px; margin: 0 auto; padding: 40px 6vw 80px; }
-    .panel-header-block { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
-    .panel-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 0.16em; color: var(--mira-green-dark); text-transform: uppercase; margin-bottom: 4px; }
-    .panel-main-title { font-family: var(--font-serif); font-size: 34px; font-weight: 700; color: var(--mira-navy); line-height: 1.15; }
-    .panel-subtitle { font-size: 14.5px; color: var(--mira-text-secondary); margin-top: 4px; }
-
-    /* MÉTRICAS */
-    .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 36px; }
-    .mira-metric-card { background: #FFFFFF; border: 1px solid var(--mira-line); border-radius: var(--radius-md); padding: 24px 22px; box-shadow: 0 1px 3px rgba(6, 45, 58, 0.04); display: flex; flex-direction: column; position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
-    .mira-metric-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(6, 45, 58, 0.08); }
-    .mira-metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--mira-navy); }
-    .mira-metric-card.card-e::before { background: #3B82F6; }
-    .mira-metric-card.card-a::before { background: var(--mira-green); }
-    .mira-metric-card.card-t::before { background: #0D9488; }
-    .metric-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .metric-card-label { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; color: var(--mira-text-secondary); text-transform: uppercase; }
-    .metric-card-number { font-family: var(--font-serif); font-size: 44px; font-weight: 700; color: var(--mira-navy); line-height: 1; margin-bottom: 8px; }
-    .metric-card-desc { font-size: 12px; color: var(--mira-text-muted); }
-
-    /* TABLA */
-    .mira-card-box { background: #FFFFFF; border: 1px solid var(--mira-line); border-radius: var(--radius-md); box-shadow: 0 1px 3px rgba(6, 45, 58, 0.04); overflow: hidden; }
-    .card-box-header { padding: 22px 28px; border-bottom: 1px solid var(--mira-line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .card-box-title { font-family: var(--font-serif); font-size: 22px; font-weight: 700; color: var(--mira-navy); }
-    .btn-view-all { font-size: 13px; font-weight: 700; color: var(--mira-green-dark); background: var(--mira-green-tint); border: 1px solid var(--mira-green-border); padding: 8px 16px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; }
-    .btn-view-all:hover { background: var(--mira-green); color: #FFFFFF; }
-    .table-container { width: 100%; overflow-x: auto; }
-    .mira-custom-table { width: 100%; border-collapse: collapse; text-align: left; }
-    .mira-custom-table th { background: var(--mira-bg-subtle); padding: 14px 24px; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; color: var(--mira-text-secondary); border-bottom: 1px solid var(--mira-line); text-transform: uppercase; }
-    .mira-custom-table td { padding: 16px 24px; border-bottom: 1px solid var(--mira-line-subtle); font-size: 13.5px; color: var(--mira-text-primary); }
-    .mira-custom-table tr:hover { background-color: #F8FAF7; }
-    .folio-tag { font-weight: 700; background: var(--mira-bg-subtle); border: 1px solid var(--mira-line); padding: 3px 8px; border-radius: var(--radius-sm); font-size: 12.5px; color: var(--mira-navy); }
-    .status-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: var(--radius-full); font-size: 11.5px; font-weight: 700; white-space: nowrap; }
-    .badge-sent { background: #EBF3F5; color: var(--mira-navy); border: 1px solid #C4DCE3; }
-    .badge-attended { background: var(--mira-green-tint); color: #2D6619; border: 1px solid var(--mira-green-border); }
-    .badge-completed { background: #E6F4F1; color: #0E5E50; border: 1px solid #BEE5DC; }
-    .badge-canceled { background: #FDF0ED; color: #9B2C1D; border: 1px solid #F6C8BE; }
-
-    /* WORKSPACE */
-    .workspace-split { display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start; }
-    .request-list-panel { background: #FFFFFF; border: 1px solid var(--mira-line); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; }
-    .request-list-header { padding: 16px; background: var(--mira-bg-subtle); border-bottom: 1px solid var(--mira-line); }
-    .mira-input-search { width: 100%; padding: 10px 14px; border: 1px solid var(--mira-line); border-radius: var(--radius-sm); font-size: 13.5px; outline: none; }
-    .mira-input-search:focus { border-color: var(--mira-green); box-shadow: 0 0 0 3px rgba(122, 193, 67, 0.15); }
-    .request-scroll-items { max-height: 600px; overflow-y: auto; display: flex; flex-direction: column; }
-    .request-item-btn { width: 100%; padding: 16px 20px; border-bottom: 1px solid var(--mira-line-subtle); text-align: left; background: #FFFFFF; transition: background 0.15s ease; display: flex; flex-direction: column; gap: 6px; }
-    .request-item-btn:hover { background: #F8FAF7; }
-    .request-item-btn.active { background: #F0F7EB; border-left: 4px solid var(--mira-green); padding-left: 16px; }
-    .request-detail-panel { background: #FFFFFF; border: 1px solid var(--mira-line); border-radius: var(--radius-md); padding: 32px; min-height: 480px; }
-    .detail-prop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
-    .detail-prop-box { background: var(--mira-bg-subtle); border: 1px solid var(--mira-line-subtle); border-radius: var(--radius-sm); padding: 14px 16px; }
-    .detail-prop-label { font-size: 11px; font-weight: 800; color: var(--mira-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
-    .detail-prop-value { font-size: 14.5px; font-weight: 700; color: var(--mira-navy); }
-    .detail-full-box { grid-column: 1 / -1; background: #FFFFFF; border: 1px solid var(--mira-line); border-radius: var(--radius-sm); padding: 16px; }
-
-    @media (max-width: 960px) {
-      .mira-nav-links { display: none; }
-      .metrics-row { grid-template-columns: repeat(2, 1fr); }
-      .workspace-split { grid-template-columns: 1fr; }
-      .hero-main-title { font-size: 38px; }
-      .mira-pillars-strip { justify-content: center; gap: 20px; }
+    .current-service-dual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
+
+    .active-service-left {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .active-service-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+    }
+
+    .active-service-key {
+      color: var(--mira-text-secondary);
+      font-weight: 600;
+    }
+
+    .active-service-val {
+      font-weight: 700;
+      color: var(--mira-navy);
+      text-align: right;
+    }
+
+    .btn-active-service-detail {
+      margin-top: 8px;
+      background: #00875A;
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-active-service-detail:hover {
+      background: #006C47;
+    }
+
+    .active-service-right {
+      background: linear-gradient(135deg, #F0FDF4 0%, #E8F8F0 100%);
+      border: 1px solid #BBF7D0;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .active-service-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: #00875A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 135, 90, 0.15);
+    }
+
+    .active-service-msg {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #065F46;
+      line-height: 1.4;
+    }
+
+    /* CARD COLUMNA DERECHA: MI JORNADA DE HOY */
+    .today-schedule-card {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .today-schedule-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--mira-border);
+    }
+
+    .today-date-text {
+      font-size: 11px;
+      color: var(--mira-text-muted);
+      margin-top: 2px;
+    }
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .timeline-time {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--mira-text-muted);
+      width: 44px;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .timeline-dot-track {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 6px;
+    }
+
+    .timeline-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10B981;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 0 0 2px #A7F3D0;
+    }
+
+    .timeline-dot.blue {
+      background: #3B82F6;
+      box-shadow: 0 0 0 2px #BFDBFE;
+    }
+
+    .timeline-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .timeline-task-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--mira-navy);
+      line-height: 1.25;
+    }
+
+    .timeline-task-location {
+      font-size: 11.5px;
+      color: var(--mira-text-secondary);
+      margin-top: 2px;
+    }
+
+    /* CARD COLUMNA DERECHA: ACCIONES RÁPIDAS */
+    .quick-actions-card {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .quick-actions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .quick-action-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid #F1F5F9;
+      transition: all 0.15s ease;
+      background: #FFFFFF;
+    }
+
+    .quick-action-item:hover {
+      border-color: #CBD5E1;
+      background: #F8FAFC;
+      transform: translateX(2px);
+    }
+
+    .action-icon-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #EFF6FF;
+      color: #2563EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .action-icon-circle.pencil {
+      background: #F0FDF4;
+      color: #00875A;
+    }
+
+    .action-text-box {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .action-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--mira-navy);
+      line-height: 1.2;
+    }
+
+    .action-subtitle {
+      font-size: 11px;
+      color: var(--mira-text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .action-chevron {
+      color: #94A3B8;
+    }
+
+    /* ===================================================
+       6. BENEFICIOS Y PILARES OPERATIVOS (FOOTER STRIP)
+       =================================================== */
+    .benefits-footer-strip {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .benefit-icon-round {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #F1F5F9;
+      color: var(--mira-navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .benefit-text-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .benefit-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--mira-navy);
+    }
+
+    .benefit-desc {
+      font-size: 11px;
+      color: var(--mira-text-muted);
+    }
+
+    .footer-logo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .footer-logo-img {
+      height: 28px;
+      width: auto;
+    }
+
+    .footer-logo-tagline {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--mira-text-muted);
+      text-transform: uppercase;
+    }
+
+    /* ===================================================
+       7. VISTA MIS SERVICIOS (35% / 65%)
+       =================================================== */
+    .requests-saas-layout {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .requests-sidebar-list {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .requests-list-controls {
+      padding: 14px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--mira-border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .input-search-saas {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      background: #FFFFFF;
+      outline: none;
+    }
+
+    .input-search-saas:focus {
+      border-color: var(--mira-green);
+      box-shadow: 0 0 0 2px rgba(122, 193, 67, 0.15);
+    }
+
+    .select-status-saas {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      background: #FFFFFF;
+      color: var(--mira-text-main);
+      font-weight: 600;
+    }
+
+    .requests-items-scroll {
+      max-height: calc(100vh - 280px);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .request-list-card {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--mira-border-light);
+      text-align: left;
+      background: #FFFFFF;
+      transition: background 0.15s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .request-list-card:hover {
+      background: #F8FAF7;
+    }
+
+    .request-list-card.active {
+      background: #F0FDF4;
+      border-left: 4px solid var(--mira-green-dark);
+      padding-left: 12px;
+    }
+
+    .request-detail-saas-card {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      min-height: 520px;
+    }
+
+    .saas-tracker-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #F8FAFC;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      margin: 18px 0;
+      gap: 8px;
+    }
+
+    .saas-tracker-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--mira-text-muted);
+    }
+
+    .saas-tracker-step.done {
+      color: #047857;
+    }
+
+    .saas-tracker-step.current {
+      color: var(--mira-navy);
+    }
+
+    .tracker-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #E2E8F0;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+
+    .saas-tracker-step.done .tracker-dot {
+      background: #10B981;
+      color: #FFFFFF;
+    }
+
+    .saas-tracker-step.current .tracker-dot {
+      background: var(--mira-navy);
+      color: #FFFFFF;
+    }
+
+    .detail-grid-saas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .prop-card-saas {
+      background: #F8FAFC;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+    }
+
+    .prop-card-saas.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .prop-label-saas {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--mira-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 2px;
+    }
+
+    .prop-val-saas {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--mira-navy);
+    }
+
+    /* BITÁCORA DE TRABAJO (NOTAS DE TRABAJO) */
+    .worknotes-section-card {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--mira-border);
+    }
+
+    .worknotes-heading {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--mira-navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .worknotes-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .worknote-entry-box {
+      background: #F8FAFC;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+    }
+
+    .worknote-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      margin-bottom: 4px;
+    }
+
+    .worknote-author {
+      font-weight: 800;
+      color: var(--mira-navy);
+    }
+
+    .worknote-date {
+      color: var(--mira-text-muted);
+    }
+
+    .worknote-text {
+      font-size: 13px;
+      color: var(--mira-text-main);
+      line-height: 1.45;
+    }
+
+    .add-note-form-box {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .operator-note-textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 10px 12px;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      background: #FFFFFF;
+      color: var(--mira-text-main);
+      resize: vertical;
+      outline: none;
+    }
+
+    .operator-note-textarea:focus {
+      border-color: #00875A;
+      box-shadow: 0 0 0 2px rgba(0, 135, 90, 0.15);
+    }
+
+    .btn-save-note {
+      background: #00875A;
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-save-note:hover {
+      background: #006C47;
+    }
+
+    .note-feedback-msg {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      margin-top: 8px;
+    }
+
+    .note-feedback-msg.success { background: #D1FAE5; color: #065F46; }
+    .note-feedback-msg.error { background: #FEE2E2; color: #991B1B; }
+
+    /* ===================================================
+       8. VISTA MI PERFIL
+       =================================================== */
+    .profile-saas-card {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      max-width: 640px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .profile-user-strip {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--mira-border);
+      margin-bottom: 20px;
+    }
+
+    .profile-avatar-large {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--mira-navy);
+      color: #FFFFFF;
+      font-size: 24px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--mira-border-light);
+      font-size: 13.5px;
+    }
+
+    /* BOTÓN REFRESCAR */
+    .btn-refresh-saas {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      color: var(--mira-navy);
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.15s;
+    }
+
+    .btn-refresh-saas:hover {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+    }
+
+    /* TOAST FLOTANTE */
+    .notification-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--mira-navy);
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 2000;
+      box-shadow: 0 6px 18px rgba(6, 45, 58, 0.25);
+      border-left: 4px solid var(--mira-green);
+      transition: all 0.3s ease;
+    }
+
+    /* ===================================================
+       9. RESPONSIVE Y OFFCANVAS DRAWER
+       =================================================== */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 45, 58, 0.5);
+      backdrop-filter: blur(2px);
+      z-index: 999;
+    }
+
+    @media (max-width: 1100px) {
+      .dashboard-saas-grid {
+        grid-template-columns: 1fr;
+      }
+      .col-side-right {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .metrics-row-saas {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .requests-saas-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .mira-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+      }
+      .mira-sidebar.open {
+        transform: translateX(0);
+      }
+      .sidebar-backdrop.active {
+        display: block;
+      }
+      .btn-drawer-toggle {
+        display: flex;
+      }
+      .mira-app-header {
+        padding: 0 16px;
+      }
+      .mira-page-content {
+        padding: 20px 16px 40px;
+      }
+      .operator-hero-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px 20px;
+      }
+      .hero-visual-col {
+        width: 100%;
+      }
+      .hero-tech-img {
+        height: 160px;
+      }
+      .current-service-dual {
+        grid-template-columns: 1fr;
+      }
+      .col-side-right {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 600px) {
-      .metrics-row { grid-template-columns: 1fr; }
-      .hero-main-title { font-size: 30px; }
-      .mira-hero-section { padding: 40px 5vw; }
-      .detail-prop-grid { grid-template-columns: 1fr; }
+      .header-sub-heading {
+        display: none;
+      }
+      .user-capsule-info {
+        display: none;
+      }
+      .user-profile-capsule {
+        padding: 4px 6px;
+        gap: 6px;
+      }
+      .header-actions-box {
+        gap: 8px;
+      }
+      .mira-app-header {
+        padding: 0 12px;
+      }
+      .metrics-row-saas {
+        grid-template-columns: 1fr;
+      }
+      .benefits-footer-strip {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .footer-logo-wrap {
+        align-items: flex-start;
+      }
+      .detail-grid-saas {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 
@@ -320,258 +1514,489 @@
     try {
       window.protectPage("OPERATOR");
     } catch (e) {
-      // Redirección en curso
+      // Redirección en curso si no es OPERATOR
     }
   </script>
 </head>
 <body>
 
-  <!-- 1. TOP NAVBAR -->
-  <header class="mira-topbar">
-    <div class="mira-brand-group">
-      <a href="operador.html" style="display: flex; align-items: center; gap: 12px;">
-        <img src="assets/mira-logo.svg" alt="MIRA" class="mira-logo-img">
-        <div class="mira-brand-text">
-          <span class="mira-brand-tagline">SOLUCIONES INTEGRALES</span>
-          <span class="mira-brand-portal"><span class="dot"></span> Portal Operativo</span>
-        </div>
-      </a>
-    </div>
+  <!-- Backdrop para Drawer Móvil -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-    <!-- Navegación Operador -->
-    <nav class="mira-nav-links" id="mainNav">
-      <button class="mira-nav-link active" data-view="summary">Inicio</button>
-      <button class="mira-nav-link" data-view="requests" id="requestsNavText">Solicitudes asignadas</button>
-      <button class="mira-nav-link" data-view="notes">Notas de trabajo</button>
-    </nav>
+  <div class="mira-saas-layout">
 
-    <!-- Píldora de Usuario -->
-    <div class="mira-top-actions">
-      <div class="user-profile-badge">
-        <div class="user-avatar-circle" id="userAvatar">OP</div>
-        <div class="user-meta-text">
-          <span class="user-name-label" id="userName">Operador</span>
-          <span class="user-role-label" id="userRoleBadge">Operador</span>
-        </div>
-        <button class="btn-logout-icon" id="logout" title="Cerrar sesión">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+    <!-- ===================================================
+         1. SIDEBAR LATERAL OSCURO
+         =================================================== -->
+    <aside class="mira-sidebar" id="appSidebar">
+      
+      <!-- Logo MIRA con Tagline Oficial -->
+      <div class="sidebar-brand-box">
+        <a href="operador.html" style="display: block;">
+          <img src="assets/mira-logo.svg" alt="MIRA" class="sidebar-logo-img">
+          <span class="sidebar-tagline">SOLUCIONES QUE MANTIENEN TU MUNDO</span>
+        </a>
+      </div>
+
+      <!-- Menú de Navegación Operador -->
+      <nav class="sidebar-nav mira-nav-links" id="sidebarNav">
+        
+        <button class="sidebar-link active" data-view="summary" id="navSummaryBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Inicio</span>
         </button>
-      </div>
-    </div>
-  </header>
 
-  <!-- 2. HERO OPERADOR -->
-  <section class="mira-hero-section">
-    <div class="hero-container">
-      <div class="hero-status-pill">
-        <span class="pulse-dot"></span>
-        <span>Consola de Campo y Supervisión Técnica</span>
-      </div>
-
-      <p class="hero-eyebrow">OPERACIÓN · DIAGNÓSTICO · ATENCIÓN EN SITIO</p>
-
-      <h1 class="hero-main-title">
-        Eficiencia técnica en campo.<br>
-        <span class="accent-green">Seguimiento en tiempo real.</span>
-      </h1>
-
-      <p class="hero-description">
-        Gestiona los servicios asignados a tu supervisión, reporta avances técnicos y mantén actualizada la bitácora de cada folio.
-      </p>
-
-      <div class="hero-buttons-row">
-        <button class="btn-hero-primary" onclick="switchView('requests')">
-          <span>Ver solicitudes asignadas</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        <button class="sidebar-link" data-view="requests" id="navRequestsBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          <span>Mis servicios</span>
         </button>
-        <button class="btn-hero-ghost" onclick="switchView('notes')">
-          <span>Abrir bitácora de notas</span>
+
+        <button class="sidebar-link" disabled title="Próximamente disponible">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M9 14l2 2 4-4"></path></svg>
+          <span>Órdenes de servicio</span>
+          <span class="badge-chip">Próximamente</span>
         </button>
-      </div>
 
-      <div class="hero-kpi-bar">
-        <div class="kpi-item">
-          <span class="kpi-number">Calidad</span>
-          <span class="kpi-label">estándares certificados</span>
-        </div>
-        <div class="kpi-item">
-          <span class="kpi-number">Ágil</span>
-          <span class="kpi-label">atención y diagnóstico</span>
-        </div>
-        <div class="kpi-item">
-          <span class="kpi-number">Control</span>
-          <span class="kpi-label">trazabilidad por folio</span>
-        </div>
-      </div>
-    </div>
-  </section>
+        <button class="sidebar-link" disabled title="Próximamente disponible">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+          <span>Evidencias</span>
+          <span class="badge-chip">Próximamente</span>
+        </button>
 
-  <!-- 3. PILARES -->
-  <div class="mira-pillars-strip">
-    <div class="pillar-box"><span class="check">✓</span> UNA SOLA COORDINACIÓN</div>
-    <div class="pillar-box"><span class="check">✓</span> PERSONAL ESPECIALIZADO</div>
-    <div class="pillar-box"><span class="check">✓</span> SEGUIMIENTO POR FOLIO</div>
-    <div class="pillar-box"><span class="check">✓</span> ATENCIÓN PERSONALIZADA</div>
-  </div>
+        <button class="sidebar-link" data-view="profile" id="navProfileBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Mi perfil</span>
+        </button>
 
-  <!-- 4. CONTENEDOR OPERATIVO -->
-  <main class="operations-container" id="dashboard-operations">
-    <div id="globalNotification" class="notification-banner hidden" style="margin-bottom: 24px;"></div>
+      </nav>
 
-    <!-- VISTA 1: RESUMEN OPERATIVO -->
-    <section id="summary" class="view-panel">
-      <div class="panel-header-block">
-        <div>
-          <p class="panel-eyebrow">PORTAL OPERATIVO · CUADRILLAS EN CAMPO</p>
-          <h2 class="panel-main-title">Resumen operativo</h2>
-          <p class="panel-subtitle" id="welcomeMessage">Métricas de servicios asignados a tu supervisión y estado de atención.</p>
-        </div>
-      </div>
-
-      <!-- 4 Métricas Operativas -->
-      <div class="metrics-row">
-        <article class="mira-metric-card">
-          <div class="metric-card-top">
-            <span class="metric-card-label">ASIGNADAS A MÍ</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#062D3A" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+      <!-- Tarjeta inferior de soporte -->
+      <div class="sidebar-help-card">
+        <div class="help-header">
+          <div class="help-icon-wrap">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
           </div>
-          <div class="metric-card-number" id="mTotal">-</div>
-          <span class="metric-card-desc">Servicios asignados para atención</span>
-        </article>
-
-        <article class="mira-metric-card card-e">
-          <div class="metric-card-top">
-            <span class="metric-card-label">POR INICIAR</span>
-            <span class="status-badge badge-sent">E</span>
-          </div>
-          <div class="metric-card-number" id="mE">-</div>
-          <span class="metric-card-desc">Pendientes de inicio técnico</span>
-        </article>
-
-        <article class="mira-metric-card card-a">
-          <div class="metric-card-top">
-            <span class="metric-card-label">EN ATENCIÓN</span>
-            <span class="status-badge badge-attended">A</span>
-          </div>
-          <div class="metric-card-number" id="mA">-</div>
-          <span class="metric-card-desc">En diagnóstico o ejecución activa</span>
-        </article>
-
-        <article class="mira-metric-card card-t">
-          <div class="metric-card-top">
-            <span class="metric-card-label">CONCLUIDAS</span>
-            <span class="status-badge badge-completed">T</span>
-          </div>
-          <div class="metric-card-number" id="mT">-</div>
-          <span class="metric-card-desc">Servicios completados en sitio</span>
-        </article>
-      </div>
-
-      <!-- Tabla de Solicitudes Asignadas Recientes -->
-      <div class="mira-card-box">
-        <div class="card-box-header">
           <div>
-            <p class="panel-eyebrow">MONITOREO OPERATIVO</p>
-            <h3 class="card-box-title">Solicitudes asignadas recientes</h3>
+            <div class="help-title">¿Necesitas ayuda?</div>
+            <div class="help-desc">Estamos aquí para apoyarte</div>
           </div>
-          <button class="btn-view-all" id="viewAllRequestsBtn">
-            <span>Ver todas</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+        <a href="mailto:soporte@mira.com" class="btn-help-contact">Contactar soporte</a>
+      </div>
+
+      <!-- Pie de marca sidebar -->
+      <div class="sidebar-footer-brand">
+        <div class="footer-bar-accent"></div>
+        <span class="footer-text-mira">Un mundo<br>en movimiento</span>
+      </div>
+
+    </aside>
+
+    <!-- ===================================================
+         2. CONTENEDOR DERECHO (HEADER + CONTENIDO)
+         =================================================== -->
+    <div class="mira-main-wrapper">
+      
+      <!-- HEADER SUPERIOR CLARO -->
+      <header class="mira-app-header">
+        <div class="header-title-box">
+          <button class="btn-drawer-toggle" id="btnToggleDrawer" aria-label="Abrir menú de navegación">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
           </button>
-        </div>
-
-        <div class="table-container">
-          <table class="mira-custom-table">
-            <thead>
-              <tr>
-                <th>FOLIO</th>
-                <th>CLIENTE</th>
-                <th>SERVICIO / NECESIDAD</th>
-                <th>RESPONSABLE</th>
-                <th>ESTADO</th>
-                <th style="text-align: right;">ACCIÓN</th>
-              </tr>
-            </thead>
-            <tbody id="recentRequestsBody">
-              <tr>
-                <td colspan="6" style="text-align: center; padding: 36px; color: #56696D;">Cargando solicitudes asignadas...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- VISTA 2: GESTIÓN DE SOLICITUDES ASIGNADAS -->
-    <section id="requests" class="view-panel hidden">
-      <div class="panel-header-block">
-        <div>
-          <p class="panel-eyebrow">SEGUIMIENTO DE CAMPO</p>
-          <h2 class="panel-main-title">Solicitudes Asignadas</h2>
-          <p class="panel-subtitle">Consulta especificaciones técnicas de tus servicios asignados y actualiza notas.</p>
-        </div>
-        <button class="btn-view-all" id="refreshRequestsBtn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-          <span>Actualizar</span>
-        </button>
-      </div>
-
-      <div class="workspace-split">
-        <div class="request-list-panel">
-          <div class="request-list-header">
-            <input type="text" id="requestSearchInput" placeholder="Buscar por folio o cliente..." class="mira-input-search">
-          </div>
-          <div id="requestList" class="request-scroll-items">
-            <div style="padding: 24px; text-align: center; color: #56696D;">Cargando solicitudes...</div>
+          <div>
+            <h1 class="header-main-heading">Portal Operador</h1>
+            <p class="header-sub-heading">Gestión y atención de servicios asignados</p>
           </div>
         </div>
 
-        <div class="request-detail-panel" id="requestDetailCard">
-          <div id="requestDetail" style="text-align: center; padding: 60px 20px; color: #56696D;">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="1.5" style="margin-bottom: 12px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-            <h3 style="font-family: var(--font-serif); font-size: 22px; color: var(--mira-navy); margin-bottom: 6px;">Selecciona una solicitud</h3>
-            <p>Haz clic en cualquier solicitud de la lista izquierda para consultar los detalles técnicos.</p>
+        <div class="header-actions-box">
+          <!-- Campana de Notificación -->
+          <button class="btn-bell-icon" title="Notificaciones" onclick="window.switchView('requests')">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <span class="bell-dot"></span>
+          </button>
+
+          <!-- Píldora de Identidad Operador -->
+          <div class="user-profile-capsule" id="userCapsule">
+            <div class="user-capsule-avatar" id="userAvatar">OP</div>
+            <div class="user-capsule-info">
+              <span class="user-capsule-name" id="userName">Operador</span>
+              <span class="user-capsule-role" id="userRoleBadge">Operador</span>
+            </div>
+            <button class="btn-capsule-logout" id="logout" title="Cerrar sesión">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </button>
           </div>
         </div>
-      </div>
-    </section>
+      </header>
 
-    <!-- VISTA 3: NOTAS DE TRABAJO -->
-    <section id="notes" class="view-panel hidden">
-      <div class="panel-header-block">
-        <div>
-          <p class="panel-eyebrow">BITÁCORA OPERATIVA</p>
-          <h2 class="panel-main-title">Notas de trabajo</h2>
-          <p class="panel-subtitle">Historial de avances técnicos y bitácora de campo por solicitud.</p>
-        </div>
-      </div>
+      <!-- CONTENIDO DE LA PÁGINA -->
+      <main class="mira-page-content" id="dashboard-operations">
+        
+        <!-- Notificación Global Flotante -->
+        <div id="globalNotification" class="notification-toast hidden"></div>
 
-      <div class="mira-card-box" style="padding: 28px;">
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; font-size: 12px; font-weight: 700; color: var(--mira-navy); text-transform: uppercase; margin-bottom: 8px;">
-            Selecciona una solicitud asignada:
-          </label>
-          <select id="notesRequestSelect" class="mira-input-search" style="background: #FFFFFF;">
-            <option value="">-- Elige una solicitud --</option>
-          </select>
-        </div>
+        <!-- ===================================================
+             VISTA 1: INICIO / DASHBOARD OPERADOR
+             =================================================== -->
+        <section id="summary" class="view-panel">
+          
+          <!-- A. HERO OPERADOR -->
+          <div class="operator-hero-card">
+            <div class="hero-text-col">
+              <h2 class="hero-main-title">
+                Hola, <span class="hero-name-accent" id="operatorGreetingName">Operador</span> 👋
+              </h2>
+              <div class="hero-main-desc">Aquí puedes consultar y gestionar los servicios que tienes asignados.</div>
+              <p class="hero-sub-desc">
+                Tu trabajo hace posible que las instalaciones de nuestros clientes sigan en movimiento.
+              </p>
+            </div>
 
-        <div id="notesContainer" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
-          <div style="text-align: center; padding: 30px; color: #56696D; font-style: italic;">
-            Selecciona una solicitud arriba para consultar las notas técnicas.
+            <div class="hero-visual-col">
+              <img src="assets/mira_operator_hero.jpg" alt="Técnico especialista MIRA" class="hero-tech-img">
+              <div class="hero-quote-badge">
+                "Servicio de hoy, operaciones del mañana"
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div id="addNoteFormContainer" class="hidden" style="border-top: 1px solid var(--mira-line); padding-top: 20px;">
-          <h4 style="font-size: 14px; font-weight: 700; color: var(--mira-navy); margin-bottom: 8px;">Registrar avance en bitácora</h4>
-          <textarea id="newNoteText" class="mira-input-search" rows="3" placeholder="Describe los avances, materiales utilizados o diagnóstico..." style="margin-bottom: 12px; resize: vertical;"></textarea>
-          <div style="display: flex; justify-content: flex-end;">
-            <button class="btn-cta-green" id="saveNoteBtn">Guardar nota en bitácora</button>
+          <!-- B. CUATRO MÉTRICAS OPERATIVAS -->
+          <div class="metrics-row-saas">
+            
+            <article class="saas-metric-card">
+              <div class="metric-icon-circle icon-total">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              </div>
+              <div class="metric-text-wrap">
+                <div class="metric-count-num" id="mTotal">-</div>
+                <div class="metric-label-title">Servicios asignados</div>
+                <div class="metric-sub-note">Total de solicitudes asignadas a ti</div>
+              </div>
+            </article>
+
+            <article class="saas-metric-card">
+              <div class="metric-icon-circle icon-pending">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="metric-text-wrap">
+                <div class="metric-count-num" id="mE">-</div>
+                <div class="metric-label-title">Pendientes</div>
+                <div class="metric-sub-note">Aún por iniciar</div>
+              </div>
+            </article>
+
+            <article class="saas-metric-card">
+              <div class="metric-icon-circle icon-active">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              </div>
+              <div class="metric-text-wrap">
+                <div class="metric-count-num" id="mA">-</div>
+                <div class="metric-label-title">En atención</div>
+                <div class="metric-sub-note">En proceso de servicio</div>
+              </div>
+            </article>
+
+            <article class="saas-metric-card">
+              <div class="metric-icon-circle icon-done">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+              <div class="metric-text-wrap">
+                <div class="metric-count-num" id="mT">-</div>
+                <div class="metric-label-title">Terminados</div>
+                <div class="metric-sub-note">Servicios concluidos</div>
+              </div>
+            </article>
+
           </div>
-        </div>
-      </div>
-    </section>
-  </main>
+
+          <!-- C. GRID OPERATIVO (70% IZQ / 30% DER) -->
+          <div class="dashboard-saas-grid">
+            
+            <!-- COLUMNA IZQUIERDA (70%) -->
+            <div class="col-main-left">
+              
+              <!-- 1. TABLA: SERVICIOS ASIGNADOS RECIENTES -->
+              <div class="mira-white-panel">
+                <div class="panel-inner-header">
+                  <div class="panel-title-group">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--mira-navy)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <div>
+                      <div class="panel-heading-title">Servicios asignados</div>
+                      <div class="panel-sub-text">Tus servicios asignados más recientes.</div>
+                    </div>
+                  </div>
+                  <button type="button" class="link-view-all" id="viewAllRequestsBtn">
+                    <span>Ver todos</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+
+                <div class="table-scroll-wrap">
+                  <table class="mira-saas-table">
+                    <thead>
+                      <tr>
+                        <th>FOLIO</th>
+                        <th>CLIENTE / EMPRESA</th>
+                        <th>SERVICIO / NECESIDAD</th>
+                        <th>ESTADO</th>
+                        <th>FECHA</th>
+                        <th style="text-align: right;">ACCIÓN</th>
+                      </tr>
+                    </thead>
+                    <tbody id="recentRequestsBody">
+                      <tr>
+                        <td colspan="6" style="text-align: center; padding: 36px; color: var(--mira-text-muted);">
+                          Cargando servicios asignados...
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- 2. CARD: SERVICIO EN CURSO -->
+              <div class="current-service-card" id="currentServicePanel">
+                <div class="current-service-header">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00875A" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                  <span>Servicio en curso</span>
+                </div>
+
+                <div class="current-service-dual" id="activeServiceDualContainer">
+                  <!-- Llenado dinámico en operador.js -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- COLUMNA DERECHA (30%) -->
+            <div class="col-side-right">
+              
+              <!-- 1. TARJETA: MI JORNADA DE HOY -->
+              <div class="today-schedule-card">
+                <div class="today-schedule-header">
+                  <div>
+                    <div class="panel-heading-title" style="font-size: 15px;">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--mira-navy)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                      <span>Mi jornada de hoy</span>
+                    </div>
+                    <div class="today-date-text" id="todayDateLabel">08 de septiembre de 2026</div>
+                  </div>
+                  <button type="button" class="link-view-all" onclick="window.switchView('requests')">
+                    <span>Ver agenda</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+
+                <div class="timeline-list" id="todayTimelineContainer">
+                  <!-- Llenado dinámico de servicios del día -->
+                </div>
+              </div>
+
+              <!-- 2. TARJETA: ACCIONES RÁPIDAS -->
+              <div class="quick-actions-card">
+                <div class="panel-heading-title" style="font-size: 15px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                  <span>Acciones rápidas</span>
+                </div>
+
+                <div class="quick-actions-list">
+                  
+                  <button type="button" class="quick-action-item" onclick="window.switchView('requests')" style="width: 100%; text-align: left;">
+                    <div class="action-icon-circle">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    </div>
+                    <div class="action-text-box">
+                      <div class="action-title">Mis servicios</div>
+                      <div class="action-subtitle">Consulta tus servicios asignados</div>
+                    </div>
+                    <div class="action-chevron">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                  </button>
+
+                  <button type="button" class="quick-action-item" onclick="window.goToNotes()" style="width: 100%; text-align: left;">
+                    <div class="action-icon-circle pencil">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    </div>
+                    <div class="action-text-box">
+                      <div class="action-title">Registrar avance</div>
+                      <div class="action-subtitle">Agrega una nota de trabajo</div>
+                    </div>
+                    <div class="action-chevron">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                  </button>
+
+                  <button type="button" class="quick-action-item" onclick="window.switchView('profile')" style="width: 100%; text-align: left;">
+                    <div class="action-icon-circle">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="action-text-box">
+                      <div class="action-title">Mi perfil</div>
+                      <div class="action-subtitle">Revisa tu información</div>
+                    </div>
+                    <div class="action-chevron">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                  </button>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- D. BENEFICIOS Y PILARES OPERATIVOS -->
+          <footer class="benefits-footer-strip">
+            <div class="benefit-item">
+              <div class="benefit-icon-round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00875A" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div class="benefit-text-box">
+                <div class="benefit-title">Trabajo seguro</div>
+                <div class="benefit-desc">Tu seguridad es primero</div>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="benefit-icon-round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+              </div>
+              <div class="benefit-text-box">
+                <div class="benefit-title">Servicio de calidad</div>
+                <div class="benefit-desc">Hacemos la diferencia</div>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="benefit-icon-round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              </div>
+              <div class="benefit-text-box">
+                <div class="benefit-title">Clientes en movimiento</div>
+                <div class="benefit-desc">Tu trabajo deja huella</div>
+              </div>
+            </div>
+
+            <div class="footer-logo-wrap">
+              <img src="assets/mira-logo.svg" alt="MIRA" class="footer-logo-img">
+              <span class="footer-logo-tagline">SOLUCIONES QUE MANTIENEN TU MUNDO</span>
+            </div>
+          </footer>
+
+        </section>
+
+        <!-- ===================================================
+             VISTA 2: MIS SERVICIOS (35% LISTA / 65% DETALLE)
+             =================================================== -->
+        <section id="requests" class="view-panel hidden">
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h2 style="font-size: 24px; font-weight: 800; color: var(--mira-navy);">Mis servicios</h2>
+              <p style="font-size: 13.5px; color: var(--mira-text-secondary);">Consulta y gestiona los trabajos técnicos asignados a tu supervisión.</p>
+            </div>
+            <button class="btn-refresh-saas" id="refreshRequestsBtn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              <span>Actualizar</span>
+            </button>
+          </div>
+
+          <div class="requests-saas-layout requests-workspace">
+            
+            <!-- Lista izquierda (35%) -->
+            <div class="requests-sidebar-list">
+              <div class="requests-list-controls">
+                <input 
+                  type="text" 
+                  id="requestSearchInput" 
+                  placeholder="Buscar por folio o necesidad..." 
+                  class="input-search-saas"
+                >
+                <select id="statusFilterSelect" class="select-status-saas">
+                  <option value="ALL">Todos los estados</option>
+                  <option value="A">En atención</option>
+                  <option value="E">Pendientes</option>
+                  <option value="T">Terminadas</option>
+                  <option value="C">Canceladas</option>
+                </select>
+                <div style="font-size: 11.5px; font-weight: 700; color: var(--mira-text-muted);" id="requestsCountLabel">
+                  0 servicios asignados
+                </div>
+              </div>
+
+              <div id="requestList" class="requests-items-scroll">
+                <div style="padding: 30px; text-align: center; color: var(--mira-text-muted);">
+                  Cargando servicios asignados...
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel de Detalle Derecho (65%) -->
+            <div class="request-detail-saas-card" id="requestDetailCard">
+              <div id="requestDetail">
+                <div style="text-align: center; padding: 70px 20px; color: var(--mira-text-muted);">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="1.5" style="margin-bottom: 12px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                  <h3 style="font-size: 20px; font-weight: 800; color: var(--mira-navy); margin-bottom: 6px;">Selecciona un servicio asignado</h3>
+                  <p style="font-size: 13.5px;">Haz clic en cualquier servicio de la lista para consultar su detalle técnico y bitácora de trabajo.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ===================================================
+             VISTA 3: MI PERFIL OPERADOR
+             =================================================== -->
+        <section id="profile" class="view-panel hidden">
+          <div class="profile-saas-card">
+            
+            <div class="profile-user-strip">
+              <div class="profile-avatar-large" id="profileBigAvatar">OP</div>
+              <div>
+                <h2 style="font-size: 22px; font-weight: 800; color: var(--mira-navy);" id="profileFullName">Operador MIRA</h2>
+                <span class="status-pill pill-a" style="margin-top: 4px;" id="profileRoleText">Operador</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="profile-data-row">
+                <span style="color: var(--mira-text-secondary); font-weight: 600;">Nombre completo</span>
+                <span style="font-weight: 700; color: var(--mira-navy);" id="profileRowName">-</span>
+              </div>
+
+              <div class="profile-data-row">
+                <span style="color: var(--mira-text-secondary); font-weight: 600;">Correo electrónico</span>
+                <span style="font-weight: 700; color: var(--mira-navy);" id="profileRowEmail">-</span>
+              </div>
+
+              <div class="profile-data-row">
+                <span style="color: var(--mira-text-secondary); font-weight: 600;">Rol en el sistema</span>
+                <span style="font-weight: 700; color: var(--mira-navy);">Operador Especialista</span>
+              </div>
+
+              <div class="profile-data-row">
+                <span style="color: var(--mira-text-secondary); font-weight: 600;">Estado de cuenta</span>
+                <span class="status-pill pill-t">Activo / Cuadrilla MIRA</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px; padding: 14px 18px; background: #F8FAFC; border-radius: var(--radius-sm); border: 1px solid #E2E8F0; font-size: 12.5px; color: var(--mira-text-secondary); line-height: 1.5;">
+              <strong>Nota informativa:</strong> Para reportar incidencias de equipo, cambios de cuadrilla o actualización de certificaciones técnicas, comunícate con la coordinación operativa MIRA.
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
 
   <!-- Scripts -->
   <script src="js/config.js"></script>
