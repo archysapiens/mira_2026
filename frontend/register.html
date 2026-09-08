@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crear Cuenta | MIRA Soluciones Integrales</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="loginPage">
+  <main class="loginCard registerCard">
+    
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
+      <a href="index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <img src="assets/mira-logo.svg" alt="MIRA" style="height: 38px; width: auto;">
+      </a>
+    </div>
+
+    <h1>Crea tu cuenta MIRA</h1>
+    <p>Monitorea tus solicitudes, cotizaciones y órdenes de servicio desde un solo lugar.</p>
+
+    <!-- Indicador contextual si viene de un folio creado -->
+    <div id="folioNotice" class="folioNoticeBox hidden">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+      <span>Folio de referencia: <strong id="folioRef"></strong></span>
+    </div>
+
+    <!-- Mensaje de éxito tras registrarse -->
+    <div id="registerSuccess" class="registerSuccessBox hidden">
+      <div class="successIconWrap">✓</div>
+      <h3>¡Tu cuenta MIRA ha sido creada correctamente!</h3>
+      <p>Ya puedes iniciar sesión con tu correo electrónico y contraseña para dar seguimiento a tus servicios.</p>
+      <a href="login.html" id="successLoginBtn" class="site-btn-green" style="display: inline-flex; justify-content: center; width: 100%; text-decoration: none; margin-top: 16px; padding: 12px 18px;">
+        <span>Iniciar sesión →</span>
+      </a>
+    </div>
+
+    <!-- Formulario de Registro CLIENT -->
+    <form class="form" id="registerForm" novalidate>
+      <label class="site-field-group">
+        <span>Nombre completo *</span>
+        <input id="fullName" type="text" autocomplete="name" placeholder="Tu nombre y apellido" required>
+        <span class="site-field-error" id="errorFullName"></span>
+      </label>
+
+      <label class="site-field-group">
+        <span>Correo electrónico *</span>
+        <input id="email" type="email" autocomplete="email" placeholder="correo@empresa.com" required>
+        <span class="site-field-error" id="errorEmail"></span>
+      </label>
+
+      <label class="site-field-group">
+        <span>Teléfono de contacto *</span>
+        <input id="phone" type="tel" autocomplete="tel" placeholder="(00) 0000-0000" required>
+        <span class="site-field-error" id="errorPhone"></span>
+      </label>
+
+      <label class="site-field-group">
+        <span>Empresa / Razón Social</span>
+        <input id="company" type="text" autocomplete="organization" placeholder="Nombre de tu empresa (opcional)">
+      </label>
+
+      <label class="site-field-group">
+        <span>Contraseña *</span>
+        <input id="password" type="password" autocomplete="new-password" placeholder="Mínimo 6 caracteres" minlength="6" required>
+        <span class="site-field-error" id="errorPassword"></span>
+      </label>
+
+      <label class="site-field-group">
+        <span>Confirmar contraseña *</span>
+        <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Repite tu contraseña" required>
+        <span class="site-field-error" id="errorConfirmPassword"></span>
+      </label>
+
+      <p id="registerError" class="error hidden" role="alert"></p>
+
+      <button type="submit" class="primary" id="btnSubmitRegister">
+        <span>Crear mi cuenta</span> →
+      </button>
+
+      <div style="margin-top: 14px; text-align: center; font-size: 13.5px; color: var(--mira-text-secondary);">
+        ¿Ya tienes una cuenta? <a href="login.html" id="loginLink" style="color: var(--mira-green-dark); font-weight: 700; text-decoration: none;">Iniciar sesión →</a>
+      </div>
+    </form>
+
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/register.js"></script>
+</body>
+</html>

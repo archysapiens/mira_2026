@@ -12,6 +12,20 @@
   
   <link rel="stylesheet" href="css/styles.css?v=3.0">
 
+  <!-- Enrutamiento y compatibilidad por rol para enlaces antiguos -->
+  <script src="js/auth.js"></script>
+  <script>
+    (function routePortalByRole() {
+      const session = window.getAuthSession ? window.getAuthSession() : null;
+      if (!session) {
+        window.location.replace("login.html");
+      } else {
+        const target = window.getRedirectUrlForRole(session.role);
+        window.location.replace(target);
+      }
+    })();
+  </script>
+
   <!-- Estilos embebidos de alta fidelidad para garantizar renderizado instantáneo y perfecto -->
   <style>
     :root {

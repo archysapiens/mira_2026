@@ -26,6 +26,18 @@ const api = {
       body: JSON.stringify({ email, password })
     }),
 
+  register: (data) =>
+    api.call("/auth/register", {
+      method: "POST",
+      body: JSON.stringify(data)
+    }),
+
+  createRequest: (data) =>
+    api.call("/requests", {
+      method: "POST",
+      body: JSON.stringify(data)
+    }),
+
   requests: () => api.call("/requests"),
 
   dashboard: () => api.call("/dashboard"),
@@ -44,6 +56,24 @@ const api = {
       body: JSON.stringify({ operatorId })
     }),
 
+  claimRequests: () =>
+    api.call("/requests/claim", {
+      method: "POST"
+    }),
+
+  requestEmailVerification: (email) =>
+    api.call("/auth/request-email-verification", {
+      method: "POST",
+      body: JSON.stringify({ email })
+    }),
+
+  verifyEmail: (email, code) =>
+    api.call("/auth/verify-email", {
+      method: "POST",
+      body: JSON.stringify({ email, code })
+    }),
+
   users: () => api.call("/users")
 };
+
 

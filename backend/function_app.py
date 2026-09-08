@@ -1,5 +1,5 @@
 import azure.functions as func
-import hashlib,json,jwt,os,pyodbc,uuid
+import hashlib,json,jwt,os,pyodbc,secrets,uuid
 from datetime import datetime,timedelta,timezone
 
 app=func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
@@ -26,6 +26,23 @@ def rows(cursor):
     return [dict(zip(cols,r)) for r in cursor.fetchall()]
 def options(req): return response({}) if req.method=="OPTIONS" else None
 
+def claim_requests_for_user(cur, user_id, email):
+    clean_email = email.lower().strip()
+    cur.execute("SELECT RequestId, Folio FROM mira.Requests WHERE ClientUserId IS NULL AND LOWER(LTRIM(RTRIM(Email)))=LOWER(LTRIM(RTRIM(?)))", clean_email)
+    unclaimed = cur.fetchall()
+    if not unclaimed:
+        return []
+    cur.execute("UPDATE mira.Requests SET ClientUserId=?, UpdatedAt=SYSUTCDATETIME() WHERE ClientUserId IS NULL AND LOWER(LTRIM(RTRIM(Email)))=LOWER(LTRIM(RTRIM(?)))", user_id, clean_email)
+    for r in unclaimed:
+        try:
+            cur.execute("INSERT mira.RequestActivities(RequestId,UserId,ActivityType,Description,IsVisibleToClient) VALUES(?,?,'REQUEST_CLAIMED','Solicitud pública vinculada a la cuenta del cliente.',1)", r.RequestId, user_id)
+        except Exception:
+            try:
+                cur.execute("INSERT mira.StatusHistory(RequestId,NewStatus,Comment,ChangedByUserId) VALUES(?,'E','Solicitud pública vinculada al cliente',?)", r.RequestId, user_id)
+            except Exception:
+                pass
+    return [r.Folio for r in unclaimed]
+
 @app.route(route="health",methods=["GET"])
 def health(req): return response({"service":"mira-api","status":"ok","utc":datetime.now(timezone.utc)})
 
@@ -34,9 +51,32 @@ def login(req):
     if (x:=options(req)):return x
     data=body(req);password=hashlib.sha256(str(data.get("password","")).encode()).hexdigest().upper()
     with conn() as cn:
-        row=cn.cursor().execute("SELECT u.UserId,u.Email,u.FullName,r.Code RoleCode FROM mira.Users u JOIN mira.Roles r ON r.RoleId=u.RoleId WHERE LOWER(u.Email)=LOWER(?) AND u.PasswordHash=? AND u.IsActive=1",data.get("email"),password).fetchone()
-    if not row:return response({"error":"Credenciales incorrectas"},401)
-    return response({"token":token_for(row),"user":{"id":row.UserId,"email":row.Email,"name":row.FullName,"role":row.RoleCode}})
+        cur=cn.cursor()
+        cur.execute("SELECT COL_LENGTH('mira.Users', 'EmailVerified')")
+        has_col = cur.fetchone()[0] is not None
+        sql=f"""
+            SELECT u.UserId, u.Email, u.FullName, u.IsActive, r.Code RoleCode,
+                   {'ISNULL(u.EmailVerified, 0)' if has_col else '0'} AS EmailVerified
+            FROM mira.Users u
+            JOIN mira.Roles r ON r.RoleId=u.RoleId
+            WHERE LOWER(u.Email)=LOWER(?) AND u.PasswordHash=? AND u.IsActive=1
+        """
+        row=cur.execute(sql, data.get("email"), password).fetchone()
+        if not row:return response({"error":"Credenciales incorrectas"},401)
+        # Solo si el usuario es CLIENT y tiene EmailVerified == 1 se permite auto-claim en login
+        is_verified = (int(getattr(row, "EmailVerified", 0) or 0) == 1)
+        if row.RoleCode=="CLIENT" and is_verified:
+            claim_requests_for_user(cur, row.UserId, row.Email)
+            cn.commit()
+    return response({"token":token_for(row),"user":{"id":row.UserId,"email":row.Email,"name":row.FullName,"role":row.RoleCode,"emailVerified":is_verified}})
+
+def check_007_schema(cur):
+    try:
+        cur.execute("SELECT COL_LENGTH('mira.Users', 'EmailVerified'), OBJECT_ID('mira.EmailVerificationTokens', 'U')")
+        row = cur.fetchone()
+        return bool(row and row[0] is not None and row[1] is not None)
+    except Exception:
+        return False
 
 @app.route(route="auth/register",methods=["POST","OPTIONS"])
 def register(req):
@@ -46,9 +86,111 @@ def register(req):
     uid=str(uuid.uuid4());pwd=hashlib.sha256(d["password"].encode()).hexdigest().upper()
     try:
         with conn() as cn:
-            cn.cursor().execute("INSERT mira.Users(UserId,Email,PasswordHash,FullName,Phone,Company,RoleId) SELECT ?,?,?,?,?,?,RoleId FROM mira.Roles WHERE Code='CLIENT'",uid,d["email"].lower(),pwd,d["fullName"],d.get("phone"),d.get("company"));cn.commit()
-        return response({"id":uid,"email":d["email"].lower()},201)
+            cur=cn.cursor()
+            # El registro crea la cuenta exclusivamente como CLIENT y con EmailVerified = 0
+            # NUNCA ejecuta claim en el registro
+            cur.execute("INSERT mira.Users(UserId,Email,PasswordHash,FullName,Phone,Company,RoleId) SELECT ?,?,?,?,?,?,RoleId FROM mira.Roles WHERE Code='CLIENT'",uid,d["email"].lower().strip(),pwd,d["fullName"],d.get("phone"),d.get("company"))
+            cn.commit()
+        return response({"id":uid,"email":d["email"].lower().strip(),"emailVerified":False},201)
     except pyodbc.IntegrityError:return response({"error":"El correo ya está registrado"},409)
+
+@app.route(route="auth/request-email-verification",methods=["POST","OPTIONS"])
+def request_email_verification(req):
+    if (x:=options(req)):return x
+    d=body(req);claim=auth(req);email=(d.get("email") or (claim["email"] if claim else "")).lower().strip()
+    if not email:return response({"error":"Correo requerido"},400)
+    
+    with conn() as cn:
+        cur=cn.cursor()
+        if not check_007_schema(cur):
+            return response({"error":"La infraestructura de verificación de correo no está disponible en la base de datos (migración 007 pendiente).","sent":False},503)
+        
+        row=cur.execute("SELECT UserId, IsActive FROM mira.Users WHERE LOWER(Email)=LOWER(?)",email).fetchone()
+        if not row:
+            return response({"error":"Usuario no encontrado","sent":False},404)
+        if not row.IsActive:
+            return response({"error":"Usuario inactivo","sent":False},403)
+            
+        code=str(secrets.randbelow(900000)+100000)
+        code_hash=hashlib.sha256(code.encode()).hexdigest().upper()
+        expires_at=datetime.now(timezone.utc)+timedelta(minutes=15)
+        is_dev_mode=os.getenv("MIRA_EMAIL_VERIFICATION_MODE","development")=="development"
+        
+        cur.execute("INSERT mira.EmailVerificationTokens(UserId,Email,CodeHash,ExpiresAt) VALUES(?,?,?,?)",row.UserId,email,code_hash,expires_at)
+        cn.commit()
+        
+    if is_dev_mode:print(f"[DEV EMAIL] Código de verificación para {email}: {code} (expira en 15m)")
+    return response({"sent":True,"expiresInMinutes":15,"message":"Código generado correctamente","devCode":code if is_dev_mode else None})
+
+@app.route(route="auth/verify-email",methods=["POST","OPTIONS"])
+def verify_email(req):
+    if (x:=options(req)):return x
+    d=body(req);claim=auth(req);email=(d.get("email") or (claim["email"] if claim else "")).lower().strip();code=str(d.get("code","")).strip()
+    if not email or not code:return response({"error":"Correo y código son obligatorios"},400)
+    code_hash=hashlib.sha256(code.encode()).hexdigest().upper()
+    with conn() as cn:
+        cur=cn.cursor()
+        if not check_007_schema(cur):
+            return response({"error":"La infraestructura de verificación de correo no está disponible en la base de datos (migración 007 pendiente).","verified":False},503)
+            
+        user_row=cur.execute("SELECT u.UserId,u.Email,u.FullName,u.IsActive,r.Code RoleCode FROM mira.Users u JOIN mira.Roles r ON r.RoleId=u.RoleId WHERE LOWER(u.Email)=LOWER(?)",email).fetchone()
+        if not user_row or not user_row.IsActive:
+            return response({"error":"Usuario no encontrado o inactivo"},404)
+        
+        # Validar el código contra EmailVerificationTokens (requiere coincidencia estricta de hash)
+        token_row=cur.execute("SELECT TOP 1 TokenId,CodeHash,ExpiresAt,Attempts,MaxAttempts FROM mira.EmailVerificationTokens WHERE LOWER(Email)=LOWER(?) AND IsUsed=0 ORDER BY CreatedAt DESC",email).fetchone()
+        if not token_row:
+            return response({"error":"No hay un código de verificación activo para este correo. Solicita uno nuevo."},400)
+        
+        if token_row.ExpiresAt < datetime.utcnow():
+        #if token_row.ExpiresAt < datetime.now(timezone.utc):
+            return response({"error":"El código de verificación ha expirado. Solicita uno nuevo."},400)
+            
+        if token_row.Attempts >= token_row.MaxAttempts:
+            return response({"error":"Has superado el número máximo de intentos permitidos. Solicita un nuevo código."},400)
+            
+        if token_row.CodeHash != code_hash:
+            cur.execute("UPDATE mira.EmailVerificationTokens SET Attempts=Attempts+1 WHERE TokenId=?", token_row.TokenId)
+            cn.commit()
+            return response({"error":"Código de verificación inválido."},400)
+        
+        # Código válido: marcar token usado y usuario verificado
+        cur.execute("UPDATE mira.EmailVerificationTokens SET IsUsed=1,UsedAt=SYSUTCDATETIME() WHERE TokenId=?",token_row.TokenId)
+        cur.execute("UPDATE mira.Users SET EmailVerified=1,EmailVerifiedAt=SYSUTCDATETIME() WHERE UserId=?",user_row.UserId)
+        
+        # Tras verificar el correo satisfactoriamente, vincular solicitudes huérfanas
+        claimed_folios=[]
+        if user_row.RoleCode=="CLIENT":
+            claimed_folios=claim_requests_for_user(cur,user_row.UserId,user_row.Email)
+        cn.commit()
+    return response({"verified":True,"emailVerified":True,"claimedCount":len(claimed_folios),"claimedFolios":claimed_folios,"message":"Correo verificado y solicitudes vinculadas."})
+
+@app.route(route="requests/claim",methods=["POST","OPTIONS"])
+def claim_requests_route(req):
+    if (x:=options(req)):return x
+    claim=auth(req,["CLIENT"])
+    if not claim:return response({"error":"No autorizado. Solo clientes pueden vincular solicitudes."},403)
+    user_id=claim["sub"]
+    with conn() as cn:
+        cur=cn.cursor()
+        # Validar en base de datos que el usuario tenga EmailVerified = 1
+        cur.execute("SELECT COL_LENGTH('mira.Users', 'EmailVerified')")
+        has_col = cur.fetchone()[0] is not None
+        sql=f"""
+            SELECT u.UserId, u.Email, u.IsActive,
+                   {'ISNULL(u.EmailVerified, 0)' if has_col else '0'} AS EmailVerified
+            FROM mira.Users u
+            WHERE u.UserId=? AND u.IsActive=1
+        """
+        user_row=cur.execute(sql, user_id).fetchone()
+        if not user_row:
+            return response({"error":"Usuario no encontrado o inactivo"},404)
+        is_verified = (int(getattr(user_row, "EmailVerified", 0) or 0) == 1)
+        if not is_verified:
+            return response({"error":"Debes verificar tu correo electrónico antes de vincular solicitudes públicas.", "emailVerified":False},403)
+        folios=claim_requests_for_user(cur,user_id,user_row.Email)
+        cn.commit()
+    return response({"claimedCount":len(folios),"claimedFolios":folios,"message":f"{len(folios)} solicitud(es) vinculada(s) con éxito."})
 
 @app.route(route="requests",methods=["GET","POST","OPTIONS"])
 def requests(req):
@@ -98,7 +240,7 @@ def requests(req):
     where="";params=[]
     if claim["role"]=="CLIENT":where="WHERE r.ClientUserId=?";params=[claim["sub"]]
     elif claim["role"]=="OPERATOR":where="WHERE r.AssignedOperatorId=?";params=[claim["sub"]]
-    sql=f"SELECT r.RequestId,r.Folio,r.ContactName,r.Company,r.Location,r.Need,r.Urgency,r.Status,r.CreatedAt,u.FullName OperatorName FROM mira.Requests r LEFT JOIN mira.Users u ON u.UserId=r.AssignedOperatorId {where} ORDER BY r.CreatedAt DESC"
+    sql=f"SELECT r.RequestId,r.Folio,r.ContactName,r.Company,r.Location,r.Need,r.Urgency,r.Description,r.Status,r.CreatedAt,u.FullName OperatorName FROM mira.Requests r LEFT JOIN mira.Users u ON u.UserId=r.AssignedOperatorId {where} ORDER BY r.CreatedAt DESC"
     with conn() as cn:return response(rows(cn.cursor().execute(sql,*params)))
 
 @app.route(route="requests/{request_id}/assign",methods=["PATCH","OPTIONS"])

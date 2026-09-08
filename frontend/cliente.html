@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portal Cliente | MIRA Soluciones Integrales</title>
+  
+  <!-- Tipografías Oficiales MIRA -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/styles.css?v=3.1">
+
+  <!-- Estilos del Dashboard SaaS MIRA Portal Cliente -->
+  <style>
+    :root {
+      --mira-navy: #062D3A;
+      --mira-navy-dark: #041E27;
+      --mira-navy-surface: #082F3D;
+      --mira-navy-hover: #0C3E4F;
+      --mira-green: #7AC143;
+      --mira-green-bright: #8CC63F;
+      --mira-green-dark: #00875A;
+      --mira-green-tint: #F0FDF4;
+      --mira-green-border: #BBF7D0;
+      --mira-bg: #F4F7F9;
+      --mira-bg-card: #FFFFFF;
+      --mira-text-main: #062D3A;
+      --mira-text-secondary: #56696D;
+      --mira-text-muted: #8E9FA2;
+      --mira-border: #E8ECEF;
+      --mira-border-light: #F1F5F9;
+      --sidebar-width: 250px;
+      --header-height: 72px;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(6, 45, 58, 0.04);
+      --shadow-md: 0 4px 12px rgba(6, 45, 58, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--mira-text-main);
+      background-color: var(--mira-bg);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+    button, input, select, textarea { font-family: inherit; font-size: 14px; }
+    button { cursor: pointer; border: none; background: none; transition: all 0.2s ease; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    a { text-decoration: none; color: inherit; }
+    .hidden { display: none !important; }
+
+    /* CONTENEDOR PRINCIPAL SAAS (SIDEBAR + MAIN) */
+    .mira-saas-layout {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* ===================================================
+       1. SIDEBAR LATERAL OSCURO
+       =================================================== */
+    .mira-sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--mira-navy);
+      color: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      z-index: 1000;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .sidebar-brand-box {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .sidebar-logo-img {
+      height: 44px;
+      width: auto;
+      display: block;
+      filter: brightness(0) invert(1);
+    }
+
+    .sidebar-tagline {
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      color: #8E9FA2;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 8px;
+      display: block;
+    }
+
+    .sidebar-nav {
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      color: #B0C4C8;
+      font-size: 13.5px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      text-align: left;
+      width: 100%;
+    }
+
+    .sidebar-link svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+
+    .sidebar-link:hover:not(:disabled) {
+      background: var(--mira-navy-hover);
+      color: #FFFFFF;
+    }
+
+    .sidebar-link.active {
+      background: var(--mira-navy-hover);
+      color: #FFFFFF;
+      font-weight: 700;
+      box-shadow: inset 3px 0 0 var(--mira-green);
+    }
+
+    .sidebar-link:disabled {
+      opacity: 0.65;
+      cursor: default;
+    }
+
+    .badge-chip {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.12);
+      color: #D2E2E5;
+      font-weight: 600;
+      margin-left: auto;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Caja de ayuda / soporte inferior */
+    .sidebar-help-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 16px 14px;
+      margin: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .help-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .help-icon-wrap {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(122, 193, 67, 0.15);
+      color: var(--mira-green-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .help-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .help-desc {
+      font-size: 11.5px;
+      color: #8E9FA2;
+    }
+
+    .btn-help-contact {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: background 0.2s;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .btn-help-contact:hover {
+      background: var(--mira-green-dark);
+      border-color: var(--mira-green-dark);
+    }
+
+    /* Marca final sidebar */
+    .sidebar-footer-brand {
+      padding: 14px 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-bar-accent {
+      width: 3px;
+      height: 24px;
+      background: var(--mira-green);
+      border-radius: 2px;
+    }
+
+    .footer-text-mira {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #8E9FA2;
+      line-height: 1.25;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ===================================================
+       2. CONTENEDOR DERECHO (HEADER + MAIN)
+       =================================================== */
+    .mira-main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--mira-bg);
+    }
+
+    /* HEADER SUPERIOR CLARO */
+    .mira-app-header {
+      height: var(--header-height);
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--mira-border);
+      padding: 0 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      box-shadow: 0 1px 4px rgba(6, 45, 58, 0.03);
+    }
+
+    .header-title-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn-drawer-toggle {
+      display: none;
+      padding: 8px;
+      border-radius: var(--radius-sm);
+      color: var(--mira-navy);
+    }
+
+    .header-main-heading {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--mira-navy);
+      line-height: 1.2;
+    }
+
+    .header-sub-heading {
+      font-size: 12.5px;
+      color: var(--mira-text-secondary);
+    }
+
+    .header-actions-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-bell-icon {
+      position: relative;
+      padding: 8px;
+      color: var(--mira-text-secondary);
+      border-radius: 50%;
+      transition: background 0.15s;
+    }
+
+    .btn-bell-icon:hover {
+      background: #F1F5F9;
+      color: var(--mira-navy);
+    }
+
+    .bell-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      background: #E05238;
+      border: 1.5px solid #FFFFFF;
+      border-radius: 50%;
+    }
+
+    .user-profile-capsule {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 12px 5px 5px;
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .user-profile-capsule:hover {
+      border-color: var(--mira-green);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .user-capsule-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--mira-navy-hover);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .user-capsule-info {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .user-capsule-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--mira-navy);
+      line-height: 1.2;
+      max-width: 140px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-capsule-role {
+      font-size: 10.5px;
+      color: var(--mira-text-secondary);
+    }
+
+    .btn-capsule-logout {
+      color: var(--mira-text-muted);
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      transition: color 0.15s;
+    }
+
+    .btn-capsule-logout:hover {
+      color: #9B2C1D;
+    }
+
+    /* CONTENIDO DE LA PÁGINA */
+    .mira-page-content {
+      padding: 30px 36px 60px;
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+    }
+
+    /* ===================================================
+       3. INICIO: HERO DE BIENVENIDA
+       =================================================== */
+    .client-hero-card {
+      background: linear-gradient(135deg, #FFFFFF 0%, #F5F9FD 60%, #EBF4FA 100%);
+      border: 1px solid #DCE6EF;
+      border-radius: var(--radius-lg);
+      padding: 32px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 26px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-text-col {
+      flex: 1;
+      max-width: 600px;
+      z-index: 2;
+    }
+
+    .hero-main-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--mira-navy);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .hero-name-accent {
+      color: #1E6091;
+    }
+
+    .hero-main-desc {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--mira-navy);
+      margin-bottom: 6px;
+    }
+
+    .hero-sub-desc {
+      font-size: 13.5px;
+      color: var(--mira-text-secondary);
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .btn-hero-quote {
+      background: var(--mira-green-dark);
+      color: #FFFFFF;
+      padding: 12px 22px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      box-shadow: 0 3px 10px rgba(0, 135, 90, 0.25);
+    }
+
+    .btn-hero-quote:hover {
+      background: #00704A;
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(0, 135, 90, 0.35);
+    }
+
+    .hero-visual-col {
+      flex-shrink: 0;
+      width: 320px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-building-img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      border: 2px solid #FFFFFF;
+      display: block;
+    }
+
+    .hero-building-badge {
+      position: absolute;
+      bottom: -10px;
+      right: 12px;
+      background: rgba(6, 45, 58, 0.9);
+      color: #FFFFFF;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 600;
+      border-left: 3px solid var(--mira-green-bright);
+      backdrop-filter: blur(4px);
+    }
+
+    /* ===================================================
+       4. INICIO: 4 MÉTRICAS REALES
+       =================================================== */
+    .metrics-row-saas {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .saas-metric-card {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .saas-metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .metric-icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-total { background: #EFF6FF; color: #2563EB; }
+    .icon-sent { background: #EFF6FF; color: #3B82F6; }
+    .icon-attended { background: #FEF3C7; color: #D97706; }
+    .icon-completed { background: #D1FAE5; color: #059669; }
+
+    .metric-text-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-count-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--mira-navy);
+      line-height: 1.1;
+    }
+
+    .metric-label-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--mira-navy);
+      margin-top: 2px;
+    }
+
+    .metric-sub-note {
+      font-size: 11.5px;
+      color: var(--mira-text-muted);
+    }
+
+    /* ===================================================
+       5. GRID 70% / 30%
+       =================================================== */
+    .dashboard-two-cols {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 28px;
+    }
+
+    .col-main-left {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      min-width: 0;
+    }
+
+    .col-side-right {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      min-width: 0;
+    }
+
+    /* TARJETA BLANCA GENÉRICA */
+    .mira-white-panel {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .panel-top-bar {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--mira-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .panel-heading-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--mira-navy);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .link-view-all {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1E6091;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.15s;
+    }
+
+    .link-view-all:hover {
+      color: var(--mira-green-dark);
+      text-decoration: underline;
+    }
+
+    /* TABLA DE SOLICITUDES RECIENTES */
+    .table-scroll-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .table-saas {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .table-saas th {
+      background: #F8FAFC;
+      padding: 12px 20px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: var(--mira-text-secondary);
+      border-bottom: 1px solid var(--mira-border);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .table-saas td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #F1F5F9;
+      font-size: 13px;
+      color: var(--mira-navy);
+      vertical-align: middle;
+    }
+
+    .table-saas tr:hover {
+      background-color: #F8FAFC;
+    }
+
+    .folio-saas-chip {
+      font-weight: 700;
+      background: #F1F5F9;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--mira-navy);
+      white-space: nowrap;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 11.5px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .pill-e { background: #FEF3C7; color: #B45309; }
+    .pill-a { background: #E0F2FE; color: #0369A1; }
+    .pill-t { background: #D1FAE5; color: #047857; }
+    .pill-c { background: #FEE2E2; color: #B91C1C; }
+
+    .btn-detail-small {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--mira-navy);
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-detail-small:hover {
+      background: var(--mira-navy);
+      color: #FFFFFF;
+      border-color: var(--mira-navy);
+    }
+
+    /* BLOQUE: ¿NECESITAS UN NUEVO SERVICIO? */
+    .banner-new-service {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .service-banner-top {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .service-banner-img {
+      width: 170px;
+      height: 120px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .service-banner-content {
+      flex: 1;
+    }
+
+    .service-banner-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--mira-navy);
+      margin-bottom: 6px;
+    }
+
+    .service-banner-text {
+      font-size: 13.5px;
+      color: var(--mira-text-secondary);
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .btn-outline-quote {
+      border: 1.5px solid var(--mira-green-dark);
+      color: var(--mira-green-dark);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-outline-quote:hover {
+      background: var(--mira-green-dark);
+      color: #FFFFFF;
+    }
+
+    .service-categories-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--mira-border);
+    }
+
+    .category-mini-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .category-mini-icon {
+      color: #1E6091;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .category-mini-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--mira-navy);
+      line-height: 1.2;
+    }
+
+    .category-mini-desc {
+      font-size: 11.5px;
+      color: var(--mira-text-muted);
+    }
+
+    /* TARJETA DE VERIFICACIÓN DE CORREO LATERAL */
+    .verification-card-sidebar {
+      background: var(--mira-green-tint);
+      border: 1px solid var(--mira-green-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .verification-card-sidebar.unverified {
+      background: #FFFBEB;
+      border-color: #FDE68A;
+    }
+
+    .verify-badge-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .verify-badge-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #D1FAE5;
+      color: #059669;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .verification-card-sidebar.unverified .verify-badge-icon {
+      background: #FEF3C7;
+      color: #D97706;
+    }
+
+    .verify-card-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #065F46;
+    }
+
+    .verification-card-sidebar.unverified .verify-card-title {
+      color: #92400E;
+    }
+
+    .verify-card-desc {
+      font-size: 12.5px;
+      color: #047857;
+      line-height: 1.45;
+      margin-bottom: 14px;
+    }
+
+    .verification-card-sidebar.unverified .verify-card-desc {
+      color: #78350F;
+    }
+
+    .btn-verify-card-action {
+      background: #FFFFFF;
+      border: 1px solid #A7F3D0;
+      color: #065F46;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .btn-verify-card-action:hover {
+      background: #065F46;
+      color: #FFFFFF;
+    }
+
+    .btn-unverified-send {
+      background: var(--mira-navy);
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-unverified-send:hover:not(:disabled) {
+      background: var(--mira-navy-hover);
+    }
+
+    .otp-side-input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #FCD34D;
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-align: center;
+      margin-bottom: 8px;
+      background: #FFFFFF;
+    }
+
+    .otp-side-feedback {
+      font-size: 12px;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    /* TARJETA DE ACCIONES RÁPIDAS */
+    .quick-actions-card {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .quick-actions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .quick-action-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid #F1F5F9;
+      transition: all 0.15s ease;
+      background: #FFFFFF;
+    }
+
+    .quick-action-item:hover {
+      border-color: #CBD5E1;
+      background: #F8FAFC;
+      transform: translateX(2px);
+    }
+
+    .action-icon-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #EFF6FF;
+      color: #2563EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .action-text-box {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .action-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--mira-navy);
+      line-height: 1.2;
+    }
+
+    .action-subtitle {
+      font-size: 11px;
+      color: var(--mira-text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .action-chevron {
+      color: #94A3B8;
+    }
+
+    /* ===================================================
+       6. BENEFICIOS CORPORATIVOS (FOOTER STRIP)
+       =================================================== */
+    .benefits-footer-strip {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .benefit-icon-round {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #F1F5F9;
+      color: var(--mira-navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .benefit-text-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .benefit-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--mira-navy);
+    }
+
+    .benefit-desc {
+      font-size: 11px;
+      color: var(--mira-text-muted);
+    }
+
+    .footer-logo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .footer-logo-img {
+      height: 28px;
+      width: auto;
+    }
+
+    .footer-logo-tagline {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--mira-text-muted);
+      text-transform: uppercase;
+    }
+
+    /* ===================================================
+       7. VISTA MIS SOLICITUDES (35% / 65%)
+       =================================================== */
+    .requests-saas-layout {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .requests-sidebar-list {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .requests-list-controls {
+      padding: 14px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--mira-border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .input-search-saas {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      background: #FFFFFF;
+      outline: none;
+    }
+
+    .input-search-saas:focus {
+      border-color: var(--mira-green);
+      box-shadow: 0 0 0 2px rgba(122, 193, 67, 0.15);
+    }
+
+    .select-status-saas {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--mira-navy);
+      background: #FFFFFF;
+      outline: none;
+    }
+
+    .requests-items-scroll {
+      max-height: 620px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .request-list-card {
+      padding: 14px 16px;
+      border-bottom: 1px solid #F1F5F9;
+      text-align: left;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: background 0.15s;
+    }
+
+    .request-list-card:hover {
+      background: #F8FAFC;
+    }
+
+    .request-list-card.active {
+      background: #F0FDF4;
+      border-left: 4px solid var(--mira-green);
+      padding-left: 12px;
+    }
+
+    .request-detail-saas-card {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 28px 30px;
+      box-shadow: var(--shadow-sm);
+      min-height: 540px;
+    }
+
+    /* Tracker visual */
+    .saas-tracker-card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin: 18px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .saas-tracker-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #94A3B8;
+    }
+
+    .saas-tracker-step.done {
+      color: #047857;
+    }
+
+    .saas-tracker-step.current {
+      color: var(--mira-navy);
+    }
+
+    .tracker-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #E2E8F0;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .saas-tracker-step.done .tracker-dot {
+      background: var(--mira-green);
+    }
+
+    .saas-tracker-step.current .tracker-dot {
+      background: var(--mira-navy);
+    }
+
+    .detail-grid-saas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .prop-card-saas {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+    }
+
+    .prop-card-saas.full-width {
+      grid-column: 1 / -1;
+      background: #FFFFFF;
+    }
+
+    .prop-label-saas {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--mira-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 3px;
+    }
+
+    .prop-val-saas {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--mira-navy);
+    }
+
+    /* ===================================================
+       8. VISTA MI PERFIL Y DOCUMENTOS
+       =================================================== */
+    .profile-saas-card {
+      background: #FFFFFF;
+      border: 1px solid var(--mira-border);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      max-width: 680px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .profile-user-strip {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--mira-border);
+      margin-bottom: 20px;
+    }
+
+    .profile-avatar-large {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: var(--mira-navy);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      border: 2px solid var(--mira-green);
+    }
+
+    .profile-data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #F1F5F9;
+      font-size: 13.5px;
+    }
+
+    /* OVERLAY / BACKDROP PARA MÓVIL */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 999;
+      backdrop-filter: blur(2px);
+    }
+
+    /* ===================================================
+       9. RESPONSIVE
+       =================================================== */
+    @media (max-width: 1100px) {
+      .dashboard-two-cols {
+        grid-template-columns: 1fr;
+      }
+      .col-side-right {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .metrics-row-saas {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .requests-saas-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .mira-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+      }
+      .mira-sidebar.open {
+        transform: translateX(0);
+      }
+      .sidebar-backdrop.active {
+        display: block;
+      }
+      .btn-drawer-toggle {
+        display: flex;
+      }
+      .mira-app-header {
+        padding: 0 16px;
+      }
+      .mira-page-content {
+        padding: 20px 16px 40px;
+      }
+      .client-hero-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px 20px;
+      }
+      .hero-visual-col {
+        width: 100%;
+      }
+      .hero-building-img {
+        height: 160px;
+      }
+      .col-side-right {
+        grid-template-columns: 1fr;
+      }
+      .service-categories-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-sub-heading {
+        display: none;
+      }
+      .user-capsule-info {
+        display: none;
+      }
+      .user-profile-capsule {
+        padding: 4px 6px;
+        gap: 6px;
+      }
+      .header-actions-box {
+        gap: 8px;
+      }
+      .mira-app-header {
+        padding: 0 12px;
+      }
+      .metrics-row-saas {
+        grid-template-columns: 1fr;
+      }
+      .service-banner-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .service-banner-img {
+        width: 100%;
+        height: 140px;
+      }
+      .benefits-footer-strip {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .footer-logo-wrap {
+        align-items: flex-start;
+      }
+    }
+  </style>
+
+  <!-- Protección de Interfaz Inmediata en Head -->
+  <script src="js/auth.js"></script>
+  <script>
+    try {
+      window.protectPage("CLIENT");
+    } catch (e) {
+      // Redirección en curso
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Backdrop para navegación móvil -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="mira-saas-layout">
+
+    <!-- ===================================================
+         1. SIDEBAR LATERAL OSCURO
+         =================================================== -->
+    <aside class="mira-sidebar" id="appSidebar">
+      
+      <!-- Logo MIRA con Tagline Oficial -->
+      <div class="sidebar-brand-box">
+        <a href="cliente.html" style="display: block;">
+          <img src="assets/mira-logo.svg" alt="MIRA" class="sidebar-logo-img">
+          <span class="sidebar-tagline">SOLUCIONES QUE MANTIENEN TU MUNDO</span>
+        </a>
+      </div>
+
+      <!-- Menú de Navegación -->
+      <nav class="sidebar-nav mira-nav-links" id="sidebarNav">
+        
+        <button class="sidebar-link active" data-view="summary" id="navSummaryBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Inicio</span>
+        </button>
+
+        <button class="sidebar-link" data-view="requests" id="navRequestsBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>Mis solicitudes</span>
+        </button>
+
+        <button class="sidebar-link" disabled title="Próximamente disponible">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="6" y1="8" x2="10" y2="8"></line><line x1="6" y1="12" x2="8" y2="12"></line><line x1="6" y1="16" x2="12" y2="16"></line><line x1="16" y1="8" x2="18" y2="8"></line><line x1="16" y1="12" x2="18" y2="12"></line><line x1="16" y1="16" x2="18" y2="16"></line></svg>
+          <span>Cotizaciones</span>
+          <span class="badge-chip">Próximamente</span>
+        </button>
+
+        <button class="sidebar-link" disabled title="Próximamente disponible">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M9 14l2 2 4-4"></path></svg>
+          <span>Órdenes de servicio</span>
+          <span class="badge-chip">Próximamente</span>
+        </button>
+
+        <button class="sidebar-link" data-view="documents" id="navDocumentsBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          <span>Documentos</span>
+          <span class="badge-chip">Próximamente</span>
+        </button>
+
+        <button class="sidebar-link" data-view="profile" id="navProfileBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Mi perfil</span>
+        </button>
+
+      </nav>
+
+      <!-- Tarjeta inferior de soporte -->
+      <div class="sidebar-help-card">
+        <div class="help-header">
+          <div class="help-icon-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+          </div>
+          <div>
+            <div class="help-title">¿Necesitas ayuda?</div>
+            <div class="help-desc">Estamos aquí para apoyarte</div>
+          </div>
+        </div>
+        <a href="mailto:contacto@mira.com" class="btn-help-contact">Contactar soporte</a>
+      </div>
+
+      <!-- Pie de marca sidebar -->
+      <div class="sidebar-footer-brand">
+        <div class="footer-bar-accent"></div>
+        <span class="footer-text-mira">Un mundo<br>en movimiento</span>
+      </div>
+
+    </aside>
+
+    <!-- ===================================================
+         2. CONTENEDOR DERECHO (HEADER + CONTENIDO)
+         =================================================== -->
+    <div class="mira-main-wrapper">
+      
+      <!-- HEADER SUPERIOR CLARO -->
+      <header class="mira-app-header">
+        <div class="header-title-box">
+          <button class="btn-drawer-toggle" id="btnToggleDrawer" aria-label="Abrir menú de navegación">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div>
+            <h1 class="header-main-heading">Portal Cliente</h1>
+            <p class="header-sub-heading">Consulta y da seguimiento a tus servicios</p>
+          </div>
+        </div>
+
+        <div class="header-actions-box">
+          <!-- Campana de Notificación -->
+          <button class="btn-bell-icon" title="Notificaciones" onclick="window.switchView('requests')">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <span class="bell-dot"></span>
+          </button>
+
+          <!-- Píldora de Identidad Usuario -->
+          <div class="user-profile-capsule" id="userCapsule">
+            <div class="user-capsule-avatar" id="userAvatar">C</div>
+            <div class="user-capsule-info">
+              <span class="user-capsule-name" id="userName">Cliente</span>
+              <span class="user-capsule-role" id="userRoleBadge">Cliente</span>
+            </div>
+            <button class="btn-capsule-logout" id="logout" title="Cerrar sesión">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENIDO DE LA PÁGINA -->
+      <main class="mira-page-content" id="dashboard-operations">
+        
+        <!-- Notificación Global flotante -->
+        <div id="globalNotification" class="notification-toast hidden"></div>
+
+        <!-- ===================================================
+             VISTA 1: INICIO / DASHBOARD
+             =================================================== -->
+        <section id="summary" class="view-panel">
+          
+          <!-- A. HERO DE BIENVENIDA -->
+          <div class="client-hero-card">
+            <div class="hero-text-col">
+              <h2 class="hero-main-title">
+                Hola, <span class="hero-name-accent" id="clientGreetingName">Cliente</span> 👋
+              </h2>
+              <div class="hero-main-desc">Consulta y da seguimiento a tus servicios MIRA.</div>
+              <p class="hero-sub-desc">
+                Nos encargamos de mantener en movimiento lo que más te importa.
+              </p>
+              <a href="index.html#inicio" class="btn-hero-quote" id="heroQuoteBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Cotizar servicio</span>
+              </a>
+            </div>
+
+            <div class="hero-visual-col">
+              <img src="assets/mira_building_hero.jpg" alt="Instalaciones MIRA" class="hero-building-img">
+              <div class="hero-building-badge">
+                Instalaciones que hacen crecer tu mañana
+              </div>
+            </div>
+          </div>
+
+          <!-- B. CUATRO MÉTRICAS REALES -->
+          <div class="metrics-row-saas">
+            
+            <article class="saas-metric-card">
+              <div class="metric-icon-circle icon-total">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              </div>
+              <div class="metric-text-wrap">
+                <div class="metric-count-num" id="mTotal">-</div>
+                <div class="metric-label-title">Total solicitudes</div>
+                <div class="metric-sub-note">Todas tus solicitudes</div>
+              </div>
+            </article>
+
+            <article class="saas-metric-card">
+              <div class="metric-icon-circle icon-sent">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </div>
+              <div class="metric-text-wrap">
+                <div class="metric-count-num" id="mE">-</div>
+                <div class="metric-label-title">Enviadas</div>
+                <div class="metric-sub-note">En revisión inicial</div>
+              </div>
+            </article>
+
+            <article class="saas-metric-card">
+              <div class="metric-icon-circle icon-attended">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+              </div>
+              <div class="metric-text-wrap">
+                <div class="metric-count-num" id="mA">-</div>
+                <div class="metric-label-title">En atención</div>
+                <div class="metric-sub-note">En proceso de servicio</div>
+              </div>
+            </article>
+
+            <article class="saas-metric-card">
+              <div class="metric-icon-circle icon-completed">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+              <div class="metric-text-wrap">
+                <div class="metric-count-num" id="mT">-</div>
+                <div class="metric-label-title">Terminadas</div>
+                <div class="metric-sub-note">Servicios completados</div>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- C. GRID PRINCIPAL (70% IZQUIERDA / 30% DERECHA) -->
+          <div class="dashboard-two-cols">
+            
+            <!-- COLUMNA IZQUIERDA (70%) -->
+            <div class="col-main-left">
+              
+              <!-- 1. SOLICITUDES RECIENTES -->
+              <div class="mira-white-panel">
+                <div class="panel-top-bar">
+                  <div class="panel-heading-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#062D3A" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Solicitudes recientes</span>
+                  </div>
+                  <button class="link-view-all" id="viewAllRequestsBtn">
+                    <span>Ver todas</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  </button>
+                </div>
+
+                <div class="table-scroll-wrap">
+                  <table class="table-saas">
+                    <thead>
+                      <tr>
+                        <th>FOLIO</th>
+                        <th>SERVICIO / NECESIDAD</th>
+                        <th>ESTADO</th>
+                        <th>FECHA</th>
+                        <th style="text-align: right;">ACCIÓN</th>
+                      </tr>
+                    </thead>
+                    <tbody id="recentRequestsBody">
+                      <tr>
+                        <td colspan="5" style="text-align: center; padding: 36px; color: var(--mira-text-muted);">
+                          Cargando tus solicitudes...
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- 2. TARJETA: ¿NECESITAS UN NUEVO SERVICIO? -->
+              <div class="banner-new-service">
+                <div class="service-banner-top">
+                  <img src="assets/mira_customer_service.jpg" alt="Atención MIRA" class="service-banner-img">
+                  <div class="service-banner-content">
+                    <h3 class="service-banner-title">¿Necesitas un nuevo servicio?</h3>
+                    <p class="service-banner-text">
+                      Cuéntanos lo que necesitas y te ayudaremos a encontrar la mejor solución integral para tus instalaciones.
+                    </p>
+                    <a href="index.html#inicio" class="btn-outline-quote">
+                      <span>Cotizar servicio</span>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- 3 Categorías principales MIRA -->
+                <div class="service-categories-strip">
+                  <div class="category-mini-item">
+                    <div class="category-mini-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    </div>
+                    <div>
+                      <div class="category-mini-name">Instalación</div>
+                      <div class="category-mini-desc">Equipos y sistemas</div>
+                    </div>
+                  </div>
+
+                  <div class="category-mini-item">
+                    <div class="category-mini-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                    </div>
+                    <div>
+                      <div class="category-mini-name">Mantenimiento</div>
+                      <div class="category-mini-desc">Preventivo y correctivo</div>
+                    </div>
+                  </div>
+
+                  <div class="category-mini-item">
+                    <div class="category-mini-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="2"></line><line x1="15" y1="22" x2="15" y2="2"></line></svg>
+                    </div>
+                    <div>
+                      <div class="category-mini-name">Servicios generales</div>
+                      <div class="category-mini-desc">Soluciones a tu medida</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- COLUMNA DERECHA (30%) -->
+            <div class="col-side-right">
+              
+              <!-- 1A. TARJETA: ESTADO VERIFICADO (Si EmailVerified=1) -->
+              <div id="emailVerifiedCard" class="verification-card-sidebar">
+                <div class="verify-badge-header">
+                  <div class="verify-badge-icon">✓</div>
+                  <div class="verify-card-title">Correo verificado</div>
+                </div>
+                <p class="verify-card-desc">
+                  Tu dirección de correo está verificada.<br><br>
+                  ¡Gracias! Ahora puedes ver todas tus solicitudes, incluyendo las realizadas antes de crear tu cuenta.
+                </p>
+                <button type="button" class="btn-verify-card-action" onclick="window.switchView('profile')">
+                  <span>Ver mi perfil</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              </div>
+
+              <!-- 1B. TARJETA: BANNER DE VERIFICACIÓN PENDIENTE (Si EmailVerified=0) -->
+              <div id="emailVerificationBanner" class="verification-card-sidebar unverified hidden">
+                <div class="verify-badge-header">
+                  <div class="verify-badge-icon">!</div>
+                  <div class="verify-card-title" id="verificationTitle">Verifica tu correo</div>
+                </div>
+                <p class="verify-card-desc" id="verificationDescription">
+                  Verifica tu dirección de correo para vincular solicitudes realizadas antes de crear tu cuenta.
+                </p>
+
+                <!-- Paso 1: Enviar código -->
+                <div id="otpStep1">
+                  <button type="button" class="btn-unverified-send" id="btnRequestOtp">
+                    <span>Enviar código</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                  </button>
+                </div>
+
+                <!-- Paso 2: Formulario OTP 6 dígitos -->
+                <div id="otpStep2" class="hidden" style="margin-top: 10px;">
+                  <form id="otpForm" onsubmit="return false;">
+                    <label for="otpCodeInput" style="font-size: 11px; font-weight: 700; color: #78350F; display: block; margin-bottom: 4px;">
+                      Código de verificación (6 dígitos)
+                    </label>
+                    <input 
+                      type="text" 
+                      id="otpCodeInput" 
+                      maxlength="6" 
+                      pattern="[0-9]{6}" 
+                      inputmode="numeric" 
+                      placeholder="000000" 
+                      class="otp-side-input"
+                      autocomplete="one-time-code"
+                    >
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                      <button type="button" class="btn-unverified-send" id="btnVerifyOtp" style="flex: 1;">
+                        <span>Verificar correo</span>
+                      </button>
+                      <button type="button" class="btn-verify-card-action" id="btnResendOtp" style="padding: 8px 10px;">
+                        <span>Reenviar</span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <!-- Feedback inline -->
+                <div id="otpFeedback" class="otp-side-feedback hidden"></div>
+              </div>
+
+              <!-- 2. TARJETA: ACCIONES RÁPIDAS -->
+              <div class="quick-actions-card">
+                <div class="panel-heading-title" style="font-size: 15px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                  <span>Acciones rápidas</span>
+                </div>
+
+                <div class="quick-actions-list">
+                  
+                  <a href="index.html#inicio" class="quick-action-item">
+                    <div class="action-icon-circle">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </div>
+                    <div class="action-text-box">
+                      <div class="action-title">Cotizar servicio</div>
+                      <div class="action-subtitle">Solicita un nuevo servicio</div>
+                    </div>
+                    <div class="action-chevron">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                  </a>
+
+                  <button type="button" class="quick-action-item" onclick="window.switchView('requests')" style="width: 100%; text-align: left;">
+                    <div class="action-icon-circle">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    </div>
+                    <div class="action-text-box">
+                      <div class="action-title">Mis solicitudes</div>
+                      <div class="action-subtitle">Consulta el estado de tus servicios</div>
+                    </div>
+                    <div class="action-chevron">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                  </button>
+
+                  <button type="button" class="quick-action-item" onclick="window.switchView('profile')" style="width: 100%; text-align: left;">
+                    <div class="action-icon-circle">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="action-text-box">
+                      <div class="action-title">Mi perfil</div>
+                      <div class="action-subtitle">Revisa tu información</div>
+                    </div>
+                    <div class="action-chevron">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                  </button>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- D. FOOTER STRIP: BENEFICIOS CORPORATIVOS MIRA -->
+          <footer class="benefits-footer-strip">
+            
+            <div class="benefit-item">
+              <div class="benefit-icon-round" style="color: #059669; background: #D1FAE5;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <div class="benefit-text-box">
+                <span class="benefit-title">Atención profesional</span>
+                <span class="benefit-desc">Equipo especializado</span>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="benefit-icon-round" style="color: #2563EB; background: #EFF6FF;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="benefit-text-box">
+                <span class="benefit-title">Seguimiento en tiempo real</span>
+                <span class="benefit-desc">Consulta el avance de tus solicitudes</span>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="benefit-icon-round" style="color: #059669; background: #D1FAE5;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div class="benefit-text-box">
+                <span class="benefit-title">Soluciones confiables</span>
+                <span class="benefit-desc">Calidad y seguridad</span>
+              </div>
+            </div>
+
+            <div class="footer-logo-wrap">
+              <img src="assets/mira-logo.svg" alt="MIRA" class="footer-logo-img">
+              <span class="footer-logo-tagline">SOLUCIONES QUE MANTIENEN TU MUNDO</span>
+            </div>
+
+          </footer>
+
+        </section>
+
+        <!-- ===================================================
+             VISTA 2: MIS SOLICITUDES (35% LISTA / 65% DETALLE)
+             =================================================== -->
+        <section id="requests" class="view-panel hidden">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h2 style="font-size: 24px; font-weight: 800; color: var(--mira-navy);">Mis Solicitudes</h2>
+              <p style="font-size: 13.5px; color: var(--mira-text-secondary); margin-top: 2px;">
+                Consulta el estado técnico, avance y asignación de cada servicio.
+              </p>
+            </div>
+            <button class="btn-detail-small" id="refreshRequestsBtn" style="padding: 8px 16px;">
+              <span>🔄 Actualizar</span>
+            </button>
+          </div>
+
+          <div class="requests-saas-layout requests-workspace">
+            
+            <!-- Lista izquierda (35%) -->
+            <div class="requests-sidebar-list">
+              <div class="requests-list-controls">
+                <input 
+                  type="text" 
+                  id="requestSearchInput" 
+                  placeholder="Buscar por folio o necesidad..." 
+                  class="input-search-saas"
+                >
+                <select id="statusFilterSelect" class="select-status-saas">
+                  <option value="ALL">Todos los estados</option>
+                  <option value="E">Enviadas</option>
+                  <option value="A">En atención</option>
+                  <option value="T">Terminadas</option>
+                  <option value="C">Canceladas</option>
+                </select>
+                <div style="font-size: 11.5px; font-weight: 700; color: var(--mira-text-muted);" id="requestsCountLabel">
+                  0 solicitudes
+                </div>
+              </div>
+
+              <div id="requestList" class="requests-items-scroll">
+                <div style="padding: 30px; text-align: center; color: var(--mira-text-muted);">
+                  Cargando solicitudes...
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel de Detalle Derecho (65%) -->
+            <div class="request-detail-saas-card" id="requestDetailCard">
+              <div id="requestDetail">
+                <div style="text-align: center; padding: 70px 20px; color: var(--mira-text-muted);">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="1.5" style="margin-bottom: 12px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                  <h3 style="font-size: 20px; font-weight: 800; color: var(--mira-navy); margin-bottom: 6px;">Selecciona una solicitud</h3>
+                  <p style="font-size: 13.5px;">Haz clic en cualquier solicitud de la lista para consultar su detalle técnico y seguimiento.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ===================================================
+             VISTA 3: DOCUMENTOS (PRÓXIMAMENTE)
+             =================================================== -->
+        <section id="documents" class="view-panel hidden">
+          <div class="mira-white-panel" style="padding: 60px 30px; text-align: center; max-width: 720px; margin: 0 auto;">
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <span class="badge-chip" style="background: #EFF6FF; color: #2563EB; display: inline-block; margin-bottom: 12px;">Próximamente disponible</span>
+            <h2 style="font-size: 24px; font-weight: 800; color: var(--mira-navy); margin-bottom: 8px;">Documentos y Comprobantes</h2>
+            <p style="font-size: 14px; color: var(--mira-text-secondary); max-width: 480px; margin: 0 auto 24px; line-height: 1.6;">
+              Aquí podrás consultar y descargar tus reportes fotográficos de servicio, cotizaciones formalizadas, actas de entrega y comprobantes técnicos emitidos por MIRA Soluciones Integrales.
+            </p>
+            <button class="btn-hero-quote" onclick="window.switchView('requests')">
+              <span>Ir a Mis solicitudes</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- ===================================================
+             VISTA 4: MI PERFIL
+             =================================================== -->
+        <section id="profile" class="view-panel hidden">
+          <div class="profile-saas-card">
+            
+            <div class="profile-user-strip">
+              <div class="profile-avatar-large" id="profileBigAvatar">C</div>
+              <div>
+                <h2 style="font-size: 22px; font-weight: 800; color: var(--mira-navy);" id="profileFullName">Cliente</h2>
+                <span class="status-pill pill-a" style="margin-top: 4px;" id="profileRoleText">Cliente</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="profile-data-row">
+                <span style="color: var(--mira-text-secondary); font-weight: 600;">Nombre completo</span>
+                <span style="font-weight: 700; color: var(--mira-navy);" id="profileRowName">-</span>
+              </div>
+
+              <div class="profile-data-row">
+                <span style="color: var(--mira-text-secondary); font-weight: 600;">Correo electrónico</span>
+                <span style="font-weight: 700; color: var(--mira-navy);" id="profileRowEmail">-</span>
+              </div>
+
+              <div class="profile-data-row">
+                <span style="color: var(--mira-text-secondary); font-weight: 600;">Rol en el sistema</span>
+                <span style="font-weight: 700; color: var(--mira-navy);">Cliente</span>
+              </div>
+
+              <div class="profile-data-row">
+                <span style="color: var(--mira-text-secondary); font-weight: 600;">Estado del correo</span>
+                <div id="profileVerificationStatus">
+                  <!-- Llenado dinámico -->
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px; padding: 14px 18px; background: #F8FAFC; border-radius: var(--radius-sm); border: 1px solid #E2E8F0; font-size: 12.5px; color: var(--mira-text-secondary); line-height: 1.5;">
+              <strong>Nota informativa:</strong> Para actualizar tus datos fiscales, dirección de facturación o cambiar el nombre titular de tu cuenta, comunícate con tu asesor MIRA asignado o vía la mesa de atención.
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/portal-common.js"></script>
+  <script src="js/cliente.js"></script>
+</body>
+</html>

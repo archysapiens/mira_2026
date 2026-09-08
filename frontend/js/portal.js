@@ -211,6 +211,15 @@ if (viewAllRequestsBtn) {
 
 async function loadDashboardAndRequests() {
   try {
+    // Si el usuario es CLIENT, sincronizar solicitudes públicas huérfanas
+    if (userRole === "CLIENT") {
+      try {
+        await api.claimRequests();
+      } catch (e) {
+        console.debug("Claim check:", e.message);
+      }
+    }
+
     const [dashboardData, requestsData] = await Promise.all([
       api.dashboard().catch(err => ({ counts: {} })),
       api.requests().catch(err => [])

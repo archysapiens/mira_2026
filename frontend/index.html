@@ -3,22 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MIRA · Soluciones integrales</title>
-  <meta name="description" content="Mantenimiento, limpieza, sanitización y construcción con seguimiento por folio y cobertura nacional.">
+  <title>MIRA · Soluciones integrales | Mantenimiento, Limpieza, Sanitización y Construcción</title>
+  <meta name="description" content="MIRA integra mantenimiento, limpieza especializada, sanitización y construcción con seguimiento por folio y cobertura nacional.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=2.2">
 </head>
 <body class="site-public">
 
   <a class="site-skip" href="#inicio">Saltar al contenido</a>
 
+  <!-- ==========================================================================
+       HEADER CORPORATIVO STICKY
+       ========================================================================== -->
   <header class="site-header" id="siteHeader">
     <div class="site-header-inner">
-      <a class="site-brand" href="#inicio">
-        <img src="assets/mira.png" alt="MIRA" class="site-logo" width="56" height="56">
+      <a class="site-brand" href="#inicio" aria-label="MIRA - Ir al inicio">
+        <img src="assets/mira.png" alt="MIRA Logo" class="site-logo" width="48" height="48">
         <span class="site-brand-text">
           <span class="site-brand-name">MIRA</span>
           <span class="site-brand-tag">Soluciones integrales</span>
@@ -38,16 +40,16 @@
         <span class="site-nav-toggle-bar" aria-hidden="true"></span>
       </button>
 
-      <nav class="site-nav" id="siteNav" aria-label="Principal">
+      <nav class="site-nav" id="siteNav" aria-label="Navegación principal">
         <ul class="site-nav-list">
-          <li><a href="#inicio">Inicio</a></li>
-          <li><a href="#servicios">Servicios</a></li>
-          <li><a href="#nosotros">Nosotros</a></li>
-          <li><a href="#portafolio">Portafolio</a></li>
-          <li><a href="#contacto">Contacto</a></li>
-          <li><a href="#faqs">FAQ's</a></li>
-          <li><a href="#donde">¿Dónde?</a></li>
-          <li><a href="#seguimiento">Seguimiento</a></li>
+          <li><a class="site-nav-link" href="#inicio">Inicio</a></li>
+          <li><a class="site-nav-link" href="#servicios">Servicios</a></li>
+          <li><a class="site-nav-link" href="#nosotros">Nosotros</a></li>
+          <li><a class="site-nav-link" href="#portafolio">Portafolio</a></li>
+          <li><a class="site-nav-link" href="#contacto">Contacto</a></li>
+          <li><a class="site-nav-link" href="#faqs">FAQ's</a></li>
+          <li><a class="site-nav-link" href="#donde">¿Dónde?</a></li>
+          <li><a class="site-nav-link" href="#seguimiento">Seguimiento</a></li>
         </ul>
       </nav>
 
@@ -60,453 +62,1367 @@
 
   <main>
 
+    <!-- ==========================================================================
+         HERO SECTION (#inicio)
+         ========================================================================== -->
     <section class="site-hero" id="inicio">
-      <div class="site-hero-overlay" aria-hidden="true"></div>
+      <div class="site-hero-bg-overlay" aria-hidden="true"></div>
       <div class="site-wrap site-hero-content">
-        <p class="site-eyebrow">Mantenimiento · Limpieza · Sanitización · Construcción</p>
+        <div class="site-hero-badge">
+          <span class="site-hero-pulse" aria-hidden="true"></span>
+          <span class="site-eyebrow">MANTENIMIENTO · LIMPIEZA · SANITIZACIÓN · CONSTRUCCIÓN</span>
+        </div>
+
         <h1 class="site-hero-title">
           Resolvemos lo complejo.<br>
-          <span>Cuidamos cada detalle.</span>
+          <span class="text-accent-green">Cuidamos cada detalle.</span>
         </h1>
+
         <p class="site-hero-lead">
           Un solo equipo para diagnosticar, ejecutar y dar seguimiento a servicios críticos, con seguridad, orden y cobertura nacional.
         </p>
+
         <div class="site-hero-actions">
-          <a class="site-btn-green site-btn-lg" href="#cotizar">Recibir propuesta</a>
-          <a class="site-btn-outline site-btn-lg" href="#proceso">Conocer el proceso</a>
+          <a class="site-btn-green site-btn-lg" href="#cotizar">
+            <span>Recibir propuesta</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a class="site-btn-outline site-btn-lg" href="#servicios">
+            <span>Conocer nuestros servicios</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </a>
         </div>
+
         <dl class="site-kpis">
-          <div>
+          <div class="site-kpi-item">
             <dt class="site-kpi-value">+20</dt>
-            <dd>Años de experiencia</dd>
+            <dd class="site-kpi-label">Años de experiencia</dd>
           </div>
-          <div>
+          <div class="site-kpi-item">
             <dt class="site-kpi-value">24/7</dt>
-            <dd>Atención</dd>
+            <dd class="site-kpi-label">Atención</dd>
           </div>
-          <div>
+          <div class="site-kpi-item">
             <dt class="site-kpi-value">Nacional</dt>
-            <dd>Cobertura</dd>
+            <dd class="site-kpi-label">Cobertura</dd>
           </div>
         </dl>
       </div>
     </section>
 
+    <!-- FRANJA DE PILARES OPERATIVOS -->
     <div class="site-pillars" aria-hidden="true">
-      <span>Una sola coordinación</span>
-      <span>Personal especializado</span>
-      <span>Seguimiento por folio</span>
-      <span>Atención personalizada</span>
+      <div class="site-pillar-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>Una sola coordinación</span>
+      </div>
+      <div class="site-pillar-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>Personal especializado</span>
+      </div>
+      <div class="site-pillar-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>Seguimiento por folio</span>
+      </div>
+      <div class="site-pillar-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>Atención personalizada</span>
+      </div>
     </div>
 
+    <!-- ==========================================================================
+         SECCIÓN SERVICIOS (#servicios)
+         ========================================================================== -->
     <section class="site-section" id="servicios">
       <div class="site-wrap">
         <header class="site-section-head">
-          <p class="site-eyebrow">Servicios</p>
-          <h2>Soluciones integrales para cada necesidad</h2>
+          <p class="site-section-eyebrow">Servicios</p>
+          <h2 class="site-section-title">Soluciones integrales para cada necesidad</h2>
           <p class="site-section-lead">Categorías de trabajo con las que operamos. El catálogo detallado se conectará al inventario de servicios del sistema.</p>
         </header>
 
         <div class="site-services-grid" id="servicesGrid" data-source="static">
+          <!-- 1. Mantenimiento -->
           <article class="site-card" data-service-code="MAINTENANCE">
-            <div class="site-card-icon" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            <div class="site-card-top">
+              <div class="site-card-icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+              </div>
+              <span class="site-card-tag">Operación</span>
             </div>
-            <h3>Mantenimiento</h3>
-            <p>Conservación de instalaciones, estructuras y sistemas para continuidad operativa.</p>
-            <a class="site-card-cta" href="#cotizar">Solicitar servicio</a>
+            <h3 class="site-card-title">Mantenimiento</h3>
+            <p class="site-card-desc">Conservación de instalaciones, estructuras y sistemas para garantizar la continuidad operativa y preventiva de tus inmuebles.</p>
+            <a class="site-card-cta" href="#cotizar">
+              <span>Solicitar servicio</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
           </article>
 
+          <!-- 2. Limpieza especializada -->
           <article class="site-card" data-service-code="CLEANING">
-            <div class="site-card-icon" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+            <div class="site-card-top">
+              <div class="site-card-icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/>
+                </svg>
+              </div>
+              <span class="site-card-tag">Especialidad</span>
             </div>
-            <h3>Limpieza especializada</h3>
-            <p>Intervenciones en espacios industriales y de alto volumen, con control de proceso.</p>
-            <a class="site-card-cta" href="#cotizar">Solicitar servicio</a>
+            <h3 class="site-card-title">Limpieza especializada</h3>
+            <p class="site-card-desc">Intervenciones técnicas en espacios industriales, corporativos y de alto volumen, con protocolos rigurosos de control y calidad.</p>
+            <a class="site-card-cta" href="#cotizar">
+              <span>Solicitar servicio</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
           </article>
 
+          <!-- 3. Sanitización -->
           <article class="site-card" data-service-code="SANITY">
-            <div class="site-card-icon" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div class="site-card-top">
+              <div class="site-card-icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+              <span class="site-card-tag">Bioseguridad</span>
             </div>
-            <h3>Sanitización</h3>
-            <p>Condiciones sanitarias para instalaciones que requieren higiene y control ambiental.</p>
-            <a class="site-card-cta" href="#cotizar">Solicitar servicio</a>
+            <h3 class="site-card-title">Sanitización</h3>
+            <p class="site-card-desc">Condiciones sanitarias de alta exigencia para instalaciones que requieren higiene certificada, desinfección y control ambiental seguro.</p>
+            <a class="site-card-cta" href="#cotizar">
+              <span>Solicitar servicio</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
           </article>
 
+          <!-- 4. Construcción -->
           <article class="site-card" data-service-code="CONSTRUCTION">
-            <div class="site-card-icon" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="10" width="18" height="11" rx="1"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/></svg>
+            <div class="site-card-top">
+              <div class="site-card-icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="10" width="18" height="11" rx="1"/>
+                  <path d="M7 10V7a5 5 0 0 1 10 0v3"/>
+                </svg>
+              </div>
+              <span class="site-card-tag">Infraestructura</span>
             </div>
-            <h3>Construcción</h3>
-            <p>Obras y adecuaciones con coordinación única desde el diagnóstico hasta el cierre.</p>
-            <a class="site-card-cta" href="#cotizar">Solicitar servicio</a>
+            <h3 class="site-card-title">Construcción</h3>
+            <p class="site-card-desc">Obras, adecuaciones y remodelaciones con coordinación única desde el diagnóstico inicial y presupuestación hasta la entrega final.</p>
+            <a class="site-card-cta" href="#cotizar">
+              <span>Solicitar servicio</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
           </article>
 
-          <article class="site-card" data-service-code="INDUSTRIAL">
-            <div class="site-card-icon" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 20h20M4 20V10l6 4V10l6 4V4l4 2v14"/></svg>
+          <!-- 5. Servicios industriales -->
+          <article class="site-card site-card-highlight" data-service-code="INDUSTRIAL">
+            <div class="site-card-top">
+              <div class="site-card-icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 20h20M4 20V10l6 4V10l6 4V4l4 2v14"/>
+                </svg>
+              </div>
+              <span class="site-card-tag site-tag-accent">Industria</span>
             </div>
-            <h3>Servicios industriales</h3>
-            <p>Proyectos en planta y campo donde el detalle técnico y la seguridad son críticos.</p>
-            <a class="site-card-cta" href="#cotizar">Solicitar servicio</a>
+            <h3 class="site-card-title">Servicios industriales</h3>
+            <p class="site-card-desc">Proyectos en planta y campo donde el detalle técnico, la seguridad ocupacional y el cumplimiento de tiempos son factores críticos.</p>
+            <a class="site-card-cta" href="#cotizar">
+              <span>Solicitar servicio</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- ==========================================================================
+         SECCIÓN NOSOTROS (#nosotros)
+         ========================================================================== -->
     <section class="site-section site-section-alt" id="nosotros">
       <div class="site-wrap site-about-grid">
-        <div>
-          <p class="site-eyebrow">Nosotros</p>
-          <h2>Quiénes somos</h2>
+        <div class="site-about-content">
+          <p class="site-section-eyebrow">Nosotros</p>
+          <h2 class="site-section-title">Quiénes somos</h2>
           <p class="site-section-lead">
             MIRA integra mantenimiento, limpieza, sanitización y construcción en un solo equipo de coordinación. El objetivo es resolver lo complejo sin perder el control de cada detalle.
           </p>
+
           <ul class="site-about-list">
-            <li>
-              <strong>Experiencia</strong>
-              Más de dos décadas atendiendo proyectos que exigen orden, seguridad y seguimiento.
+            <li class="site-about-item">
+              <div class="site-about-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div>
+                <strong>Experiencia</strong>
+                <p>Más de dos décadas atendiendo proyectos que exigen orden, seguridad y seguimiento continuo.</p>
+              </div>
             </li>
-            <li>
-              <strong>Calidad</strong>
-              Cada servicio se documenta y se da seguimiento por folio, de la solicitud al cierre.
+
+            <li class="site-about-item">
+              <div class="site-about-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <div>
+                <strong>Calidad</strong>
+                <p>Cada servicio se documenta y se da seguimiento por folio, de la solicitud inicial al cierre.</p>
+              </div>
             </li>
-            <li>
-              <strong>Seguridad</strong>
-              Operamos con disciplina de campo en entornos industriales y de alta exigencia.
+
+            <li class="site-about-item">
+              <div class="site-about-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div>
+                <strong>Seguridad</strong>
+                <p>Operamos con disciplina de campo en entornos industriales y de alta exigencia operativa.</p>
+              </div>
             </li>
-            <li>
-              <strong>Cumplimiento</strong>
-              Planificamos y ejecutamos con respeto a plazos, alcance y condiciones del sitio.
+
+            <li class="site-about-item">
+              <div class="site-about-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div>
+                <strong>Cumplimiento</strong>
+                <p>Planificamos y ejecutamos con estricto respeto a plazos, alcances y condiciones de cada sitio.</p>
+              </div>
             </li>
-            <li>
-              <strong>Atención integral</strong>
-              Un interlocutor para diagnosticar, proponer, ejecutar y dar seguimiento.
+
+            <li class="site-about-item">
+              <div class="site-about-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div>
+                <strong>Atención integral</strong>
+                <p>Un solo interlocutor para diagnosticar, proponer, coordinar la ejecución y dar seguimiento.</p>
+              </div>
             </li>
           </ul>
         </div>
-        <aside class="site-about-panel" aria-label="Enfoque de operación">
-          <img src="assets/mira.png" alt="" class="site-about-mark" width="88" height="88">
-          <p class="site-about-panel-kicker">Enfoque</p>
-          <p class="site-about-panel-title">Diagnóstico, ejecución y seguimiento</p>
-          <p>No fragmentamos el servicio entre áreas desconectadas. Coordinamos el proyecto para que el cliente tenga visibilidad y un avance claro.</p>
+
+        <aside class="site-about-panel" aria-label="Enfoque de operación MIRA">
+          <div class="site-about-panel-inner">
+            <img src="assets/mira.png" alt="MIRA Identidad" class="site-about-mark" width="80" height="80">
+            <span class="site-about-panel-kicker">Modelo Operativo</span>
+            <h3 class="site-about-panel-title">Diagnóstico, ejecución y seguimiento</h3>
+            <p class="site-about-panel-desc">No fragmentamos el servicio entre áreas desconectadas. Coordinamos el proyecto integral para que el cliente cuente con visibilidad total, orden técnico y un avance claro en cada etapa.</p>
+            
+            <div class="site-about-panel-badges">
+              <div class="site-about-badge">
+                <span class="badge-num">+20</span>
+                <span class="badge-txt">Años de solidez</span>
+              </div>
+              <div class="site-about-badge">
+                <span class="badge-num">100%</span>
+                <span class="badge-txt">Trazabilidad</span>
+              </div>
+              <div class="site-about-badge">
+                <span class="badge-num">24/7</span>
+                <span class="badge-txt">Disponibilidad</span>
+              </div>
+            </div>
+          </div>
         </aside>
       </div>
     </section>
 
-    <section class="site-section" id="portafolio">
+    <!-- ==========================================================================
+         SECCIÓN PORTAFOLIO (#portafolio)
+         ========================================================================== -->
+    <section class="site-section site-section-navy" id="portafolio">
       <div class="site-wrap">
-        <header class="site-section-head">
-          <p class="site-eyebrow">Portafolio</p>
-          <h2>Tipos de trabajo que atendemos</h2>
-          <p class="site-section-lead">Galería de referencia visual. Las fotografías de obra se incorporarán cuando estén disponibles. No se muestran clientes ni proyectos nominados.</p>
+        <header class="site-section-head site-section-head-light">
+          <p class="site-section-eyebrow text-accent-green">Portafolio</p>
+          <h2 class="site-section-title text-white">Especialidades técnicas y proyectos MIRA</h2>
+          <p class="site-section-lead">Experiencia comprobada en intervenciones críticas, mantenimiento preventivo y obras especializadas con control y seguimiento por folio.</p>
         </header>
 
-        <div class="site-portfolio-grid" data-source="placeholders">
-          <article class="site-folio site-folio-a">
-            <span>Instalaciones industriales</span>
+        <div class="site-portfolio-grid" data-source="mira-projects">
+          <!-- Item 1: Silos -->
+          <article class="site-folio site-folio-item">
+            <div class="site-folio-backdrop site-folio-bg-1" aria-hidden="true"></div>
+            <div class="site-folio-content">
+              <span class="site-folio-tag">Industrial & Agroindustria</span>
+              <h3 class="site-folio-title">Limpieza y mantenimiento de silos</h3>
+              <p class="site-folio-desc">Sanitización profunda, remoción de incrustaciones y mantenimiento técnico en silos de almacenamiento.</p>
+            </div>
           </article>
-          <article class="site-folio site-folio-b">
-            <span>Mantenimiento de estructuras</span>
+
+          <!-- Item 2: Recubrimientos -->
+          <article class="site-folio site-folio-item">
+            <div class="site-folio-backdrop site-folio-bg-2" aria-hidden="true"></div>
+            <div class="site-folio-content">
+              <span class="site-folio-tag">Grado Sanitario & Pisos</span>
+              <h3 class="site-folio-title">Recubrimientos epóxicos</h3>
+              <p class="site-folio-desc">Sistemas de protección y sellado epóxico para industria alimentaria, farmacéutica y cuartos limpios.</p>
+            </div>
           </article>
-          <article class="site-folio site-folio-c">
-            <span>Limpieza de alto volumen</span>
+
+          <!-- Item 3: Estructuras y Naves -->
+          <article class="site-folio site-folio-item">
+            <div class="site-folio-backdrop site-folio-bg-3" aria-hidden="true"></div>
+            <div class="site-folio-content">
+              <span class="site-folio-tag">Infraestructura</span>
+              <h3 class="site-folio-title">Mantenimiento de silos y naves</h3>
+              <p class="site-folio-desc">Conservación de estructuras metálicas, techumbres industriales y cubiertas de alta resistencia.</p>
+            </div>
           </article>
-          <article class="site-folio site-folio-d">
-            <span>Sanitización de espacios</span>
+
+          <!-- Item 4: Sanidad -->
+          <article class="site-folio site-folio-item">
+            <div class="site-folio-backdrop site-folio-bg-4" aria-hidden="true"></div>
+            <div class="site-folio-content">
+              <span class="site-folio-tag">Bioseguridad</span>
+              <h3 class="site-folio-title">Sanidad y limpieza técnica</h3>
+              <p class="site-folio-desc">Desinfección de grado hospitalario, nebulización e inocuidad en instalaciones de alta exigencia.</p>
+            </div>
           </article>
-          <article class="site-folio site-folio-e">
-            <span>Adecuaciones y obra</span>
+
+          <!-- Item 5: Cisternas -->
+          <article class="site-folio site-folio-item">
+            <div class="site-folio-backdrop site-folio-bg-5" aria-hidden="true"></div>
+            <div class="site-folio-content">
+              <span class="site-folio-tag">Sistemas Hídricos</span>
+              <h3 class="site-folio-title">Limpieza de cisternas y tanques</h3>
+              <p class="site-folio-desc">Lavado, desinfección y sellado preventivo de depósitos de agua potable y cárcamos industriales.</p>
+            </div>
           </article>
-          <article class="site-folio site-folio-f">
-            <span>Seguimiento en campo</span>
+
+          <!-- Item 6: Silos de Harina -->
+          <article class="site-folio site-folio-item">
+            <div class="site-folio-backdrop site-folio-bg-6" aria-hidden="true"></div>
+            <div class="site-folio-content">
+              <span class="site-folio-tag">Sector Alimentario</span>
+              <h3 class="site-folio-title">Silos de harina y granos</h3>
+              <p class="site-folio-desc">Mantenimiento higiénico en tolvas y tolveras para prevenir contaminación y mermas en producción.</p>
+            </div>
+          </article>
+
+          <!-- Item 7: Techos -->
+          <article class="site-folio site-folio-item">
+            <div class="site-folio-backdrop site-folio-bg-7" aria-hidden="true"></div>
+            <div class="site-folio-content">
+              <span class="site-folio-tag">Cubiertas & Impermeabilización</span>
+              <h3 class="site-folio-title">Limpieza y mantenimiento de techos</h3>
+              <p class="site-folio-desc">Desazolve de bajadas pluviales, impermeabilización industrial y sellado de juntas en techos.</p>
+            </div>
+          </article>
+
+          <!-- Item 8: Supervisión y Obra -->
+          <article class="site-folio site-folio-item">
+            <div class="site-folio-backdrop site-folio-bg-8" aria-hidden="true"></div>
+            <div class="site-folio-content">
+              <span class="site-folio-tag">Control de Calidad</span>
+              <h3 class="site-folio-title">Supervisión y control en campo</h3>
+              <p class="site-folio-desc">Bitácora digitalizada, supervisión de seguridad industrial y trazabilidad completa de la orden de servicio.</p>
+            </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="site-section site-section-navy" id="proceso">
+    <!-- ==========================================================================
+         SECCIÓN PROCESO (#proceso)
+         ========================================================================== -->
+    <section class="site-section site-section-alt" id="proceso">
       <div class="site-wrap">
-        <header class="site-section-head site-section-head-light">
-          <p class="site-eyebrow">Proceso</p>
-          <h2>De la necesidad al seguimiento</h2>
+        <header class="site-section-head">
+          <p class="site-section-eyebrow">Proceso</p>
+          <h2 class="site-section-title">De la necesidad al seguimiento</h2>
+          <p class="site-section-lead">Una metodología estructurada y transparente para garantizar resultados sin sorpresas.</p>
         </header>
+
         <ol class="site-process">
-          <li>
-            <span class="site-step-num">1</span>
-            <h3>Cuéntanos tu necesidad</h3>
-            <p>Describe el sitio, el servicio y el plazo. Puedes hacerlo desde esta página.</p>
+          <li class="site-process-step">
+            <div class="site-process-header">
+              <span class="site-step-num">1</span>
+              <span class="site-step-line" aria-hidden="true"></span>
+            </div>
+            <h3 class="site-step-title">Cuéntanos tu necesidad</h3>
+            <p class="site-step-desc">Describe el sitio, el servicio requerido y el plazo estimado. Puedes hacerlo desde esta misma página.</p>
           </li>
-          <li>
-            <span class="site-step-num">2</span>
-            <h3>Evaluamos el proyecto</h3>
-            <p>Revisamos alcance, urgencia y condiciones para preparar una respuesta clara.</p>
+
+          <li class="site-process-step">
+            <div class="site-process-header">
+              <span class="site-step-num">2</span>
+              <span class="site-step-line" aria-hidden="true"></span>
+            </div>
+            <h3 class="site-step-title">Evaluamos el proyecto</h3>
+            <p class="site-step-desc">Revisamos alcance, urgencia, insumos y condiciones de sitio para preparar una respuesta técnica precisa.</p>
           </li>
-          <li>
-            <span class="site-step-num">3</span>
-            <h3>Preparamos propuesta</h3>
-            <p>Recibes una cotización versionada, con posibilidad de aceptar o solicitar ajustes.</p>
+
+          <li class="site-process-step">
+            <div class="site-process-header">
+              <span class="site-step-num">3</span>
+              <span class="site-step-line" aria-hidden="true"></span>
+            </div>
+            <h3 class="site-step-title">Preparamos propuesta</h3>
+            <p class="site-step-desc">Recibes una cotización formal y versionada, con opción de aceptarla de inmediato o solicitar ajustes.</p>
           </li>
-          <li>
-            <span class="site-step-num">4</span>
-            <h3>Ejecutamos</h3>
-            <p>Coordinamos al equipo en campo con una orden de servicio vinculada a tu folio.</p>
+
+          <li class="site-process-step">
+            <div class="site-process-header">
+              <span class="site-step-num">4</span>
+              <span class="site-step-line" aria-hidden="true"></span>
+            </div>
+            <h3 class="site-step-title">Ejecutamos</h3>
+            <p class="site-step-desc">Coordinamos al equipo especializado en campo bajo una orden de servicio vinculada estrictamente a tu folio.</p>
           </li>
-          <li>
-            <span class="site-step-num">5</span>
-            <h3>Damos seguimiento</h3>
-            <p>Consultas el avance de tu solicitud y conservas el historial del servicio.</p>
+
+          <li class="site-process-step">
+            <div class="site-process-header">
+              <span class="site-step-num">5</span>
+            </div>
+            <h3 class="site-step-title">Damos seguimiento</h3>
+            <p class="site-step-desc">Consultas el avance de tu solicitud en tiempo real y conservas el historial completo para auditorías futuras.</p>
           </li>
         </ol>
       </div>
     </section>
 
+    <!-- ==========================================================================
+         SECCIÓN COTIZAR (#cotizar) - WIZARD CORPORATIVO DE 4 PASOS
+         ========================================================================== -->
     <section class="site-section" id="cotizar">
       <div class="site-wrap">
         <header class="site-section-head">
-          <p class="site-eyebrow">Cotizar servicio</p>
-          <h2>Cuéntanos qué necesitas y prepara tu solicitud de servicio.</h2>
-          <p class="site-section-lead">El funnel de cuatro pasos se conectará a la API en una fase posterior. Esta sección deja lista la estructura visual y de formulario.</p>
+          <p class="site-section-eyebrow">Cotizar servicio</p>
+          <h2 class="site-section-title">Cuéntanos sobre tu proyecto</h2>
+          <p class="site-section-lead">Selecciona los servicios específicos requeridos y reúne la información técnica para coordinar a tu especialista.</p>
         </header>
 
-        <ol class="site-quote-steps" aria-label="Pasos de la solicitud">
-          <li class="is-current"><span>1</span> Necesidad</li>
-          <li><span>2</span> Servicios</li>
-          <li><span>3</span> Proyecto</li>
-          <li><span>4</span> Contacto</li>
-        </ol>
-
-        <form class="site-panel site-quote-form" id="quoteForm" data-api-connected="false" novalidate>
-          <fieldset class="site-quote-step" data-step="1">
-            <legend>1. Necesidad</legend>
-            <p class="site-field-hint">Indica el tipo de inmueble o contexto del servicio.</p>
-            <div class="site-choice-grid">
-              <label class="site-choice"><input type="radio" name="needType" value="HOTEL"> Hotel</label>
-              <label class="site-choice"><input type="radio" name="needType" value="RESIDENCE"> Residencia</label>
-              <label class="site-choice"><input type="radio" name="needType" value="COMPANY"> Empresa</label>
-              <label class="site-choice"><input type="radio" name="needType" value="OTHER"> Otro</label>
+        <!-- Contenedor Split del Cotizador -->
+        <div class="site-quote-card">
+          
+          <!-- PANEL LATERAL IZQUIERDO AZUL PETRÓLEO -->
+          <aside class="site-quote-aside" aria-label="Información de cotización">
+            <div class="site-quote-aside-top">
+              <div class="site-quote-aside-brand">
+                <img src="assets/mira.png" alt="MIRA" class="site-quote-aside-logo" width="44" height="44">
+                <span class="site-quote-aside-brandname">MIRA</span>
+              </div>
+              <span class="site-quote-aside-kicker">SOLICITUD GUIADA</span>
+              <h3 class="site-quote-aside-title">Cuéntanos<br>sobre tu<br>proyecto</h3>
+              <p class="site-quote-aside-desc">En menos de 2 minutos reúne la información para asignarte al especialista correcto.</p>
             </div>
-          </fieldset>
 
-          <fieldset class="site-quote-step" data-step="2">
-            <legend>2. Servicios</legend>
-            <p class="site-field-hint">Selección provisional. El listado vivo vendrá de <code>GET /api/services</code>.</p>
-            <div class="site-choice-grid" id="quoteServiceChoices" data-source="static">
-              <label class="site-choice"><input type="checkbox" name="serviceIds" value="static-maintenance" disabled> Mantenimiento</label>
-              <label class="site-choice"><input type="checkbox" name="serviceIds" value="static-cleaning" disabled> Limpieza especializada</label>
-              <label class="site-choice"><input type="checkbox" name="serviceIds" value="static-sanity" disabled> Sanitización</label>
-              <label class="site-choice"><input type="checkbox" name="serviceIds" value="static-construction" disabled> Construcción</label>
+            <div class="site-quote-aside-bottom">
+              <div class="site-quote-aside-feature">
+                <span class="pulse-dot-green" aria-hidden="true"></span>
+                <span>Atención nacional</span>
+              </div>
             </div>
-          </fieldset>
+          </aside>
 
-          <fieldset class="site-quote-step" data-step="3">
-            <legend>3. Proyecto</legend>
-            <div class="site-form-grid">
-              <label>Ubicación
-                <input type="text" name="location" autocomplete="address-level2" disabled placeholder="Ciudad o sitio del servicio">
-              </label>
-              <label>Fecha requerida
-                <input type="date" name="requestedDate" disabled>
-              </label>
-              <label class="site-span-2">Descripción de la necesidad
-                <textarea name="description" rows="3" disabled placeholder="Describe el alcance, el sitio y lo que se debe resolver."></textarea>
-              </label>
-              <label class="site-span-2">Comentarios
-                <textarea name="comments" rows="2" disabled placeholder="Indicaciones adicionales (opcional)."></textarea>
-              </label>
+          <!-- PANEL DERECHO BLANCO PARA EL WIZARD -->
+          <div class="site-quote-main">
+            
+            <!-- Progreso Superior (Stepper de 4 Etapas) -->
+            <nav class="site-wizard-stepper" id="quoteStepper" aria-label="Progreso de la solicitud">
+              <div class="site-stepper-item is-active" data-step-target="1" role="button" tabindex="0" aria-current="step">
+                <div class="site-stepper-circle">
+                  <span class="step-num">1</span>
+                  <svg class="step-check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <span class="site-stepper-label">Necesidad</span>
+              </div>
+              
+              <div class="site-stepper-line" aria-hidden="true"></div>
+
+              <div class="site-stepper-item" data-step-target="2" role="button" tabindex="0">
+                <div class="site-stepper-circle">
+                  <span class="step-num">2</span>
+                  <svg class="step-check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <span class="site-stepper-label">Servicios</span>
+              </div>
+
+              <div class="site-stepper-line" aria-hidden="true"></div>
+
+              <div class="site-stepper-item" data-step-target="3" role="button" tabindex="0">
+                <div class="site-stepper-circle">
+                  <span class="step-num">3</span>
+                  <svg class="step-check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <span class="site-stepper-label">Proyecto</span>
+              </div>
+
+              <div class="site-stepper-line" aria-hidden="true"></div>
+
+              <div class="site-stepper-item" data-step-target="4" role="button" tabindex="0">
+                <div class="site-stepper-circle">
+                  <span class="step-num">4</span>
+                  <svg class="step-check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <span class="site-stepper-label">Contacto</span>
+              </div>
+            </nav>
+
+            <form class="site-wizard-form" id="quoteForm" data-api-connected="false" novalidate>
+              
+              <!-- ==========================================================
+                   PASO 1: NECESIDAD
+                   ========================================================== -->
+              <fieldset class="site-quote-step is-visible" data-step="1">
+                <legend class="site-step-legend">Tipo de Necesidad</legend>
+                <p class="site-field-hint">Indica el tipo de inmueble o contexto principal para el servicio:</p>
+                
+                <div class="site-choice-grid">
+                  <label class="site-choice">
+                    <input type="radio" name="needType" value="HOTEL" checked>
+                    <div class="site-choice-body">
+                      <span class="site-choice-title">Hotel / Hospedaje</span>
+                      <span class="site-choice-desc">Instalaciones hoteleras y centros turísticos</span>
+                    </div>
+                  </label>
+
+                  <label class="site-choice">
+                    <input type="radio" name="needType" value="RESIDENCE">
+                    <div class="site-choice-body">
+                      <span class="site-choice-title">Residencia / Condominio</span>
+                      <span class="site-choice-desc">Complejos habitacionales y residenciales</span>
+                    </div>
+                  </label>
+
+                  <label class="site-choice">
+                    <input type="radio" name="needType" value="COMPANY">
+                    <div class="site-choice-body">
+                      <span class="site-choice-title">Empresa / Corporativo</span>
+                      <span class="site-choice-desc">Oficinas, centros logísticos e industrias</span>
+                    </div>
+                  </label>
+
+                  <label class="site-choice">
+                    <input type="radio" name="needType" value="OTHER">
+                    <div class="site-choice-body">
+                      <span class="site-choice-title">Otro Inmueble</span>
+                      <span class="site-choice-desc">Espacios comerciales o proyectos especiales</span>
+                    </div>
+                  </label>
+                </div>
+
+                <!-- Footer del Paso 1 -->
+                <div class="site-wizard-footer">
+                  <div class="site-wizard-footer-left"></div>
+                  <div class="site-wizard-footer-center"></div>
+                  <div class="site-wizard-footer-right">
+                    <button class="site-btn-green btn-step-next" type="button" data-to-step="2">
+                      <span>Continuar</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ==========================================================
+                   PASO 2: SERVICIOS (CATÁLOGO COMPLETO Y SELECCIÓN MÚLTIPLE)
+                   ========================================================== -->
+              <fieldset class="site-quote-step" data-step="2">
+                <legend class="site-step-legend">Selecciona los servicios que necesitas</legend>
+                <p class="site-field-hint">Puedes elegir uno o varios.</p>
+
+                <!-- Barra de Búsqueda -->
+                <div class="site-service-search-box">
+                  <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <input type="text" id="serviceSearchInput" placeholder="Buscar servicio..." autocomplete="off" aria-label="Buscar servicio">
+                  <button type="button" id="serviceSearchClear" class="search-clear-btn hidden" aria-label="Limpiar búsqueda">✕</button>
+                </div>
+
+                <!-- Filtros / Chips de Categoría -->
+                <div class="site-service-filters" id="serviceFilterChips" role="tablist" aria-label="Filtrar por categoría">
+                  <button type="button" class="filter-chip is-active" data-category="all" role="tab" aria-selected="true">Todos</button>
+                  <button type="button" class="filter-chip" data-category="industrial" role="tab" aria-selected="false">Industrial</button>
+                  <button type="button" class="filter-chip" data-category="construccion" role="tab" aria-selected="false">Construcción</button>
+                  <button type="button" class="filter-chip" data-category="comercial" role="tab" aria-selected="false">Comercial</button>
+                  <button type="button" class="filter-chip" data-category="residencial" role="tab" aria-selected="false">Residencial</button>
+                  <button type="button" class="filter-chip" data-category="sanidad" role="tab" aria-selected="false">Sanidad</button>
+                  <button type="button" class="filter-chip" data-category="ingenieria" role="tab" aria-selected="false">Ingeniería</button>
+                </div>
+
+                <!-- Contenedor del Catálogo Dinámico con Scroll Interno -->
+                <div class="site-service-catalog-wrap">
+                  <div class="site-service-catalog" id="quoteServiceCatalog" role="group" aria-label="Catálogo de servicios disponibles">
+                    <!-- Tarjeta 1: Silos -->
+                    <div class="site-service-card" data-service-code="SILOS_CLEAN" role="checkbox" aria-checked="false" tabindex="0" aria-label="Limpieza y sanitización de silos (INDUSTRIAL)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18H6z"/><path d="M6 9h12"/><path d="M6 15h12"/><path d="M12 3v18"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Limpieza y sanitización de silos">Limpieza y sanitización de silos</span>
+                          <span class="site-service-tag">INDUSTRIAL</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 2: Sanidad técnica -->
+                    <div class="site-service-card" data-service-code="SANITY_TECH" role="checkbox" aria-checked="false" tabindex="0" aria-label="Sanidad y limpieza técnica (SANIDAD)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Sanidad y limpieza técnica">Sanidad y limpieza técnica</span>
+                          <span class="site-service-tag">SANIDAD</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 3: Estructuras -->
+                    <div class="site-service-card" data-service-code="METAL_STRUCT" role="checkbox" aria-checked="false" tabindex="0" aria-label="Estructuras metálicas y naves (CONSTRUCCIÓN)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35z"/><path d="M6 18h12v4H6z"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Estructuras metálicas y naves">Estructuras metálicas y naves</span>
+                          <span class="site-service-tag">CONSTRUCCIÓN</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 4: Hoteles -->
+                    <div class="site-service-card" data-service-code="HOTEL_SERV" role="checkbox" aria-checked="false" tabindex="0" aria-label="Servicios para hoteles (COMERCIAL)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Servicios para hoteles">Servicios para hoteles</span>
+                          <span class="site-service-tag">COMERCIAL</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 5: Residencial -->
+                    <div class="site-service-card" data-service-code="RESID_SERV" role="checkbox" aria-checked="false" tabindex="0" aria-label="Servicios residenciales (RESIDENCIAL)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Servicios residenciales">Servicios residenciales</span>
+                          <span class="site-service-tag">RESIDENCIAL</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 6: Tablaroca -->
+                    <div class="site-service-card" data-service-code="DRYWALL" role="checkbox" aria-checked="false" tabindex="0" aria-label="Tablaroca y acabados (CONSTRUCCIÓN)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Tablaroca y acabados">Tablaroca y acabados</span>
+                          <span class="site-service-tag">CONSTRUCCIÓN</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 7: Pintura -->
+                    <div class="site-service-card" data-service-code="PAINTING" role="checkbox" aria-checked="false" tabindex="0" aria-label="Pintura profesional (CONSTRUCCIÓN)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.37 2.63 14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4.37-4.37a2.12 2.12 0 1 0-3-3Z"/><path d="M9 8c-2 3-4 3.5-7 4l8 8c.5-3 1-5 4-7"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Pintura profesional">Pintura profesional</span>
+                          <span class="site-service-tag">CONSTRUCCIÓN</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 8: Aluminio -->
+                    <div class="site-service-card" data-service-code="ALUM_GLASS" role="checkbox" aria-checked="false" tabindex="0" aria-label="Aluminio y cristales (CONSTRUCCIÓN)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Aluminio y cristales">Aluminio y cristales</span>
+                          <span class="site-service-tag">CONSTRUCCIÓN</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 9: Carpintería -->
+                    <div class="site-service-card" data-service-code="CARP_IRON" role="checkbox" aria-checked="false" tabindex="0" aria-label="Carpintería y herrería (CONSTRUCCIÓN)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Carpintería y herrería">Carpintería y herrería</span>
+                          <span class="site-service-tag">CONSTRUCCIÓN</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 10: Fumigación -->
+                    <div class="site-service-card" data-service-code="PEST_CTRL" role="checkbox" aria-checked="false" tabindex="0" aria-label="Fumigación y control de plagas (SANIDAD)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Fumigación y control de plagas">Fumigación y control de plagas</span>
+                          <span class="site-service-tag">SANIDAD</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 11: DRO -->
+                    <div class="site-service-card" data-service-code="DRO_PLANS" role="checkbox" aria-checked="false" tabindex="0" aria-label="Planos, cálculo y trámites DRO (INGENIERÍA)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Planos, cálculo y trámites DRO">Planos, cálculo y trámites DRO</span>
+                          <span class="site-service-tag">INGENIERÍA</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 12: Seguridad industrial -->
+                    <div class="site-service-card" data-service-code="SAFETY_TRAIN" role="checkbox" aria-checked="false" tabindex="0" aria-label="Capacitación y seguridad industrial (INDUSTRIAL)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Capacitación y seguridad industrial">Capacitación y seguridad industrial</span>
+                          <span class="site-service-tag">INDUSTRIAL</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 13: Recubrimientos -->
+                    <div class="site-service-card" data-service-code="EPOXY_COAT" role="checkbox" aria-checked="false" tabindex="0" aria-label="Recubrimientos epóxicos (INDUSTRIAL)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Recubrimientos epóxicos">Recubrimientos epóxicos</span>
+                          <span class="site-service-tag">INDUSTRIAL</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 14: Techos -->
+                    <div class="site-service-card" data-service-code="ROOF_MAINT" role="checkbox" aria-checked="false" tabindex="0" aria-label="Mantenimiento de techos y cubiertas (INDUSTRIAL)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 12a11.05 11.05 0 0 0-22 0zm-5 7a3 3 0 0 1-6 0v-7"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Mantenimiento de techos y cubiertas">Mantenimiento de techos y cubiertas</span>
+                          <span class="site-service-tag">INDUSTRIAL</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+
+                    <!-- Tarjeta 15: Cisternas -->
+                    <div class="site-service-card" data-service-code="CISTERN_CLEAN" role="checkbox" aria-checked="false" tabindex="0" aria-label="Limpieza de cisternas y tanques (SANIDAD)">
+                      <div class="site-service-card-left">
+                        <div class="site-service-icon-wrap" aria-hidden="true">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                        </div>
+                        <div class="site-service-info">
+                          <span class="site-service-name" title="Limpieza de cisternas y tanques">Limpieza de cisternas y tanques</span>
+                          <span class="site-service-tag">SANIDAD</span>
+                        </div>
+                      </div>
+                      <div class="site-service-check-indicator" aria-hidden="true">
+                        <span class="icon-plus">+</span>
+                        <svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="serviceSearchEmpty" class="site-catalog-empty hidden">
+                    <p>No se encontraron servicios que coincidan con la búsqueda.</p>
+                  </div>
+                </div>
+
+                <!-- Footer Sticky del Paso 2 -->
+                <div class="site-wizard-footer">
+                  <div class="site-wizard-footer-left">
+                    <button class="site-btn-ghost btn-step-prev" type="button" data-to-step="1">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                      <span>Atrás</span>
+                    </button>
+                  </div>
+                  <div class="site-wizard-footer-center">
+                    <span class="site-counter-badge" id="selectedServicesCounter">0 seleccionados</span>
+                  </div>
+                  <div class="site-wizard-footer-right">
+                    <button class="site-btn-green btn-step-next" id="btnContinueServices" type="button" data-to-step="3" disabled>
+                      <span>Continuar</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ==========================================================
+                   PASO 3: PROYECTO
+                   ========================================================== -->
+              <fieldset class="site-quote-step" data-step="3">
+                <legend class="site-step-legend">Datos del Proyecto</legend>
+                <p class="site-field-hint">Detalla la ubicación y las condiciones del servicio:</p>
+
+                <div class="site-form-grid">
+                  <label class="site-field-group">
+                    <span>Estado *</span>
+                    <select id="quoteState" name="state" required aria-required="true">
+                      <option value="">Selecciona un estado</option>
+                    </select>
+                    <span class="site-field-error" id="errorQuoteState" aria-live="polite"></span>
+                  </label>
+
+                  <label class="site-field-group">
+                    <span>Municipio / Alcaldía *</span>
+                    <select id="quoteMunicipality" name="municipality" disabled required aria-required="true">
+                      <option value="">Selecciona un municipio</option>
+                    </select>
+                    <span class="site-field-error" id="errorQuoteMunicipality" aria-live="polite"></span>
+                  </label>
+
+                  <label class="site-span-2 site-field-group">
+                    <span>Dirección / referencias *</span>
+                    <input type="text" id="quoteAddress" name="address" autocomplete="street-address" placeholder="Calle, número, colonia, referencias de acceso..." required aria-required="true">
+                    <span class="site-field-error" id="errorQuoteAddress" aria-live="polite"></span>
+                  </label>
+
+                  <label class="site-field-group">
+                    <span>Fecha estimada requerida *</span>
+                    <input type="date" id="quoteRequestedDate" name="requestedDate" required aria-required="true">
+                    <span class="site-field-error" id="errorQuoteRequestedDate" aria-live="polite"></span>
+                  </label>
+
+                  <div class="site-field-placeholder" aria-hidden="true"></div>
+
+                  <label class="site-span-2 site-field-group">
+                    <span>Descripción detallada de la necesidad *</span>
+                    <textarea id="quoteDescription" name="description" rows="3" placeholder="Describe el alcance, el problema a resolver y las características de las instalaciones." required aria-required="true"></textarea>
+                    <span class="site-field-error" id="errorQuoteDescription" aria-live="polite"></span>
+                  </label>
+
+                  <label class="site-span-2 site-field-group">
+                    <span>Comentarios adicionales</span>
+                    <textarea id="quoteComments" name="comments" rows="2" placeholder="Horarios de acceso, restricciones de seguridad o notas especiales (opcional)."></textarea>
+                  </label>
+                </div>
+
+                <!-- Footer del Paso 3 -->
+                <div class="site-wizard-footer">
+                  <div class="site-wizard-footer-left">
+                    <button class="site-btn-ghost btn-step-prev" type="button" data-to-step="2">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                      <span>Atrás</span>
+                    </button>
+                  </div>
+                  <div class="site-wizard-footer-center"></div>
+                  <div class="site-wizard-footer-right">
+                    <button class="site-btn-green btn-step-next" id="btnContinueProject" type="button" data-to-step="4">
+                      <span>Continuar</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ==========================================================
+                   PASO 4: CONTACTO
+                   ========================================================== -->
+              <fieldset class="site-quote-step" data-step="4">
+                <legend class="site-step-legend">Datos de Contacto</legend>
+                <p class="site-field-hint">Ingresa tus datos para enviarte la propuesta formal:</p>
+
+                <div class="site-form-grid">
+                  <label class="site-field-group">
+                    <span>Nombre completo *</span>
+                    <input type="text" id="quoteContactName" name="contactName" autocomplete="name" placeholder="Tu nombre y apellido" required aria-required="true">
+                    <span class="site-field-error" id="errorContactName" aria-live="polite"></span>
+                  </label>
+
+                  <label class="site-field-group">
+                    <span>Teléfono de contacto *</span>
+                    <input type="tel" id="quoteContactPhone" name="phone" autocomplete="tel" placeholder="(00) 0000-0000" required aria-required="true">
+                    <span class="site-field-error" id="errorContactPhone" aria-live="polite"></span>
+                  </label>
+
+                  <label class="site-field-group">
+                    <span>Empresa o Razón Social</span>
+                    <input type="text" id="quoteContactCompany" name="company" autocomplete="organization" placeholder="Nombre de tu empresa (opcional)">
+                  </label>
+
+                  <label class="site-field-group">
+                    <span>Correo electrónico *</span>
+                    <input type="email" id="quoteContactEmail" name="email" autocomplete="email" placeholder="correo@empresa.com" required aria-required="true">
+                    <span class="site-field-error" id="errorContactEmail" aria-live="polite"></span>
+                  </label>
+                </div>
+
+                <div class="site-form-note-box" id="quoteStep4NoteBox">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                  <p class="site-form-note" id="quoteFormNote" role="status">
+                    Revisa tus datos antes de enviar. Te proporcionaremos un folio oficial para dar seguimiento a tu solicitud.
+                  </p>
+                </div>
+
+                <!-- Caja de error de envío (si falla la API) -->
+                <div class="site-submission-error-box hidden" id="quoteSubmissionError" role="alert">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9B2C1D" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                  <div>
+                    <strong id="quoteSubmissionErrorTitle">No pudimos enviar tu solicitud en este momento.</strong>
+                    <p id="quoteSubmissionErrorMsg">Tus datos permanecen en el formulario. Intenta nuevamente.</p>
+                  </div>
+                </div>
+
+                <!-- Footer del Paso 4 -->
+                <div class="site-wizard-footer">
+                  <div class="site-wizard-footer-left">
+                    <button class="site-btn-ghost btn-step-prev" type="button" data-to-step="3">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                      <span>Atrás</span>
+                    </button>
+                  </div>
+                  <div class="site-wizard-footer-center">
+                    <span class="site-no-auth-hint">No necesitas iniciar sesión para enviar tu solicitud.</span>
+                  </div>
+                  <div class="site-wizard-footer-right">
+                    <button class="site-btn-green" id="btnSubmitQuote" type="submit">
+                      <span>Enviar solicitud</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </fieldset>
+
+            </form>
+
+            <!-- ==========================================================
+                 PANTALLA DE CONFIRMACIÓN DE ÉXITO (POST-ENVÍO CON FOLIO)
+                 ========================================================== -->
+            <div class="site-quote-success hidden" id="quoteSuccessScreen" role="region" aria-label="Confirmación de solicitud">
+              <div class="site-success-card">
+                
+                <div class="site-success-icon-wrap" aria-hidden="true">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+
+                <h3 class="site-success-title">¡Solicitud enviada!</h3>
+                <p class="site-success-lead">Hemos recibido correctamente tu solicitud de cotización.</p>
+
+                <div class="site-folio-box">
+                  <span class="site-folio-label">TU FOLIO DE SEGUIMIENTO</span>
+                  <div class="site-folio-badge" id="confirmationFolio">MIRA-2026-000000</div>
+                  <p class="site-folio-hint">Conserva este folio para futuras consultas y seguimiento de tu servicio.</p>
+                </div>
+
+                <div class="site-success-email-notice">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg>
+                  <p>Te enviaremos información y avances de seguimiento al correo: <strong id="confirmationEmail">correo@cliente.com</strong></p>
+                </div>
+
+                <hr class="site-success-divider">
+
+                <div class="site-success-register-cta">
+                  <h4 class="site-register-cta-title">Da seguimiento desde tu cuenta MIRA</h4>
+                  <p class="site-register-cta-desc">
+                    Crea una cuenta para consultar tus solicitudes, cotizaciones, documentos y órdenes de servicio desde un solo lugar.
+                  </p>
+
+                  <div class="site-success-actions">
+                    <a href="register.html" id="btnGoToRegister" class="site-btn-green site-btn-lg">
+                      <span>Crear mi cuenta</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+
+                    <p class="site-login-cta-text">
+                      ¿Ya tienes cuenta? <a href="login.html" id="linkGoToLogin" class="site-link-accent">Iniciar sesión</a>
+                    </p>
+
+                    <button type="button" id="btnResetWizard" class="site-btn-ghost site-btn-sm" style="margin-top: 8px;">
+                      <span>Volver al inicio</span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
             </div>
-          </fieldset>
-
-          <fieldset class="site-quote-step" data-step="4">
-            <legend>4. Contacto</legend>
-            <div class="site-form-grid">
-              <label>Nombre
-                <input type="text" name="contactName" autocomplete="name" disabled>
-              </label>
-              <label>Teléfono
-                <input type="tel" name="phone" autocomplete="tel" disabled>
-              </label>
-              <label>Empresa
-                <input type="text" name="company" autocomplete="organization" disabled>
-              </label>
-              <label>Correo
-                <input type="email" name="email" autocomplete="email" disabled>
-              </label>
-            </div>
-          </fieldset>
-
-          <p class="site-form-note" id="quoteFormNote" role="status">
-            El envío a <code>POST /api/requests</code> se habilitará cuando el funnel quede conectado. No se genera folio desde esta vista todavía.
-          </p>
-          <button class="site-btn-green" type="button" disabled>Enviar solicitud</button>
-        </form>
+          </div>
+        </div>
       </div>
     </section>
 
+    <!-- ==========================================================================
+         SECCIÓN CONTACTO (#contacto)
+         ========================================================================== -->
     <section class="site-section site-section-alt" id="contacto">
       <div class="site-wrap site-contact-grid">
-        <div>
-          <p class="site-eyebrow">Contacto</p>
-          <h2>Hablemos de tu proyecto</h2>
+        <div class="site-contact-info">
+          <p class="site-section-eyebrow">Contacto</p>
+          <h2 class="site-section-title">Hablemos de tu proyecto</h2>
           <p class="site-section-lead">Contáctanos para conocer la cobertura disponible y el tipo de intervención que requiere tu sitio.</p>
+
           <div class="site-contact-facts">
-            <p><strong>Cobertura</strong> Nacional · consulta disponibilidad</p>
-            <p><strong>Atención</strong> 24/7 para proyectos en curso</p>
-            <p><strong>Portal</strong> Seguimiento con folio MIRA</p>
+            <div class="site-fact-card">
+              <div class="site-fact-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div>
+                <strong>Atención 24/7</strong>
+                <p>Respuesta inmediata para proyectos en curso y coordinación continua.</p>
+              </div>
+            </div>
+
+            <div class="site-fact-card">
+              <div class="site-fact-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+              </div>
+              <div>
+                <strong>Cobertura Nacional</strong>
+                <p>Capacidad operativa en diversas entidades y zonas metropolitanas de México.</p>
+              </div>
+            </div>
+
+            <div class="site-fact-card">
+              <div class="site-fact-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7AC143" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div>
+                <strong>Portal con Folio MIRA</strong>
+                <p>Seguimiento transparente y trazabilidad digital de cada orden de servicio.</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <form class="site-panel" id="contactForm" data-api-connected="false">
-          <label>Nombre
-            <input type="text" name="name" autocomplete="name" required>
-          </label>
-          <label>Correo
-            <input type="email" name="email" autocomplete="email" required>
-          </label>
-          <label>Teléfono
-            <input type="tel" name="phone" autocomplete="tel">
-          </label>
-          <label>Empresa
-            <input type="text" name="company" autocomplete="organization">
-          </label>
-          <label>Mensaje
-            <textarea name="message" rows="4" required></textarea>
-          </label>
-          <p class="site-form-note hidden" id="contactFormNote" role="status"></p>
-          <button class="site-btn-green" type="submit">Enviar mensaje</button>
-        </form>
+        <div class="site-contact-form-wrap">
+          <form class="site-panel site-contact-form" id="contactForm" data-api-connected="false">
+            <h3 class="site-form-title">Envíanos un mensaje</h3>
+            <p class="site-form-subtitle">Completa el formulario y un asesor se pondrá en contacto a la brevedad.</p>
+
+            <label>
+              <span>Nombre completo *</span>
+              <input type="text" name="name" autocomplete="name" required placeholder="Tu nombre">
+            </label>
+
+            <label>
+              <span>Correo electrónico *</span>
+              <input type="email" name="email" autocomplete="email" required placeholder="tu@empresa.com">
+            </label>
+
+            <div class="site-form-row">
+              <label>
+                <span>Teléfono</span>
+                <input type="tel" name="phone" autocomplete="tel" placeholder="(00) 0000-0000">
+              </label>
+
+              <label>
+                <span>Empresa</span>
+                <input type="text" name="company" autocomplete="organization" placeholder="Nombre de tu empresa">
+              </label>
+            </div>
+
+            <label>
+              <span>Mensaje o consulta *</span>
+              <textarea name="message" rows="4" required placeholder="Describe tu requerimiento o dudas sobre el servicio..."></textarea>
+            </label>
+
+            <div class="site-alert site-alert-info hidden" id="contactFormNote" role="status"></div>
+
+            <button class="site-btn-green site-btn-full" type="submit">
+              <span>Enviar mensaje</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </form>
+        </div>
       </div>
     </section>
 
+    <!-- ==========================================================================
+         SECCIÓN FAQ'S (#faqs)
+         ========================================================================== -->
     <section class="site-section" id="faqs">
       <div class="site-wrap site-narrow">
-        <header class="site-section-head">
-          <p class="site-eyebrow">FAQ's</p>
-          <h2>Preguntas frecuentes</h2>
+        <header class="site-section-head text-center">
+          <p class="site-section-eyebrow">FAQ's</p>
+          <h2 class="site-section-title">Preguntas frecuentes</h2>
+          <p class="site-section-lead">Todo lo que necesitas saber sobre la coordinación, cotización y operación con MIRA.</p>
         </header>
 
         <div class="site-faq-list">
+          <!-- Pregunta 1 -->
           <div class="site-faq-item">
             <h3>
               <button type="button" id="faqBtn1" aria-expanded="false" aria-controls="faqPanel1">
-                ¿Qué tipo de servicios realiza MIRA?
-                <span aria-hidden="true"></span>
+                <span>¿Qué tipo de servicios realiza MIRA?</span>
+                <span class="site-faq-chevron" aria-hidden="true"></span>
               </button>
             </h3>
-            <div id="faqPanel1" role="region" aria-labelledby="faqBtn1" hidden>
-              <p>Mantenimiento, limpieza especializada, sanitización, construcción y servicios industriales. El alcance se define con cada solicitud.</p>
+            <div id="faqPanel1" class="site-faq-panel" role="region" aria-labelledby="faqBtn1" hidden>
+              <p>Mantenimiento, limpieza especializada, sanitización, construcción y servicios industriales. El alcance se define y personaliza con cada solicitud de proyecto.</p>
             </div>
           </div>
+
+          <!-- Pregunta 2 -->
           <div class="site-faq-item">
             <h3>
               <button type="button" id="faqBtn2" aria-expanded="false" aria-controls="faqPanel2">
-                ¿En qué zonas ofrecen servicio?
-                <span aria-hidden="true"></span>
+                <span>¿En qué zonas ofrecen servicio?</span>
+                <span class="site-faq-chevron" aria-hidden="true"></span>
               </button>
             </h3>
-            <div id="faqPanel2" role="region" aria-labelledby="faqBtn2" hidden>
-              <p>Operamos con cobertura nacional. La disponibilidad se confirma al evaluar cada proyecto.</p>
+            <div id="faqPanel2" class="site-faq-panel" role="region" aria-labelledby="faqBtn2" hidden>
+              <p>Operamos con cobertura nacional. La disponibilidad, tiempos de despliegue y logística se confirman al evaluar técnicamente cada proyecto.</p>
             </div>
           </div>
+
+          <!-- Pregunta 3 -->
           <div class="site-faq-item">
             <h3>
               <button type="button" id="faqBtn3" aria-expanded="false" aria-controls="faqPanel3">
-                ¿Cómo solicito una cotización?
-                <span aria-hidden="true"></span>
+                <span>¿Cómo solicito una cotización?</span>
+                <span class="site-faq-chevron" aria-hidden="true"></span>
               </button>
             </h3>
-            <div id="faqPanel3" role="region" aria-labelledby="faqBtn3" hidden>
-              <p>Usa Cotizar servicio en esta página. Cuando el funnel esté conectado, recibirás un folio MIRA para dar seguimiento.</p>
+            <div id="faqPanel3" class="site-faq-panel" role="region" aria-labelledby="faqBtn3" hidden>
+              <p>Usa la sección Cotizar servicio en esta página. Cuando el funnel esté conectado al backend, recibirás un folio MIRA para dar seguimiento puntual a tu presupuesto.</p>
             </div>
           </div>
+
+          <!-- Pregunta 4 -->
           <div class="site-faq-item">
             <h3>
               <button type="button" id="faqBtn4" aria-expanded="false" aria-controls="faqPanel4">
-                ¿Cómo puedo dar seguimiento a mi solicitud?
-                <span aria-hidden="true"></span>
+                <span>¿Cómo puedo dar seguimiento a mi solicitud?</span>
+                <span class="site-faq-chevron" aria-hidden="true"></span>
               </button>
             </h3>
-            <div id="faqPanel4" role="region" aria-labelledby="faqBtn4" hidden>
-              <p>Con tu folio y correo, desde la sección Seguimiento, o iniciando sesión en el portal si ya tienes cuenta de cliente.</p>
+            <div id="faqPanel4" class="site-faq-panel" role="region" aria-labelledby="faqBtn4" hidden>
+              <p>Con tu folio y correo electrónico registrado, directamente desde la sección Seguimiento de esta página, o iniciando sesión en el portal si ya cuentas con acceso de cliente.</p>
             </div>
           </div>
+
+          <!-- Pregunta 5 -->
           <div class="site-faq-item">
             <h3>
               <button type="button" id="faqBtn5" aria-expanded="false" aria-controls="faqPanel5">
-                ¿Puedo adjuntar documentos posteriormente?
-                <span aria-hidden="true"></span>
+                <span>¿Puedo adjuntar documentos posteriormente?</span>
+                <span class="site-faq-chevron" aria-hidden="true"></span>
               </button>
             </h3>
-            <div id="faqPanel5" role="region" aria-labelledby="faqBtn5" hidden>
-              <p>Sí. Los archivos (imágenes, PDF, Word y video) se asociarán a la solicitud cuando el módulo de adjuntos esté habilitado. No se almacenan en la base de datos como binarios.</p>
+            <div id="faqPanel5" class="site-faq-panel" role="region" aria-labelledby="faqBtn5" hidden>
+              <p>Sí. Los archivos (imágenes, planos, PDF, Word y video) se asociarán a la solicitud cuando el módulo de adjuntos esté habilitado. No se almacenan en la base de datos como binarios pesados, garantizando un rendimiento óptimo.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- ==========================================================================
+         SECCIÓN ¿DÓNDE? (#donde)
+         ========================================================================== -->
     <section class="site-section site-section-alt" id="donde">
       <div class="site-wrap site-where-grid">
-        <div>
-          <p class="site-eyebrow">¿Dónde?</p>
-          <h2>Cobertura nacional</h2>
-          <p class="site-section-lead">Consulta disponibilidad para tu ubicación. No publicamos sucursales ni listados de ciudades específicas en esta versión.</p>
-          <a class="site-btn-green" href="#cotizar">Consultar un proyecto</a>
+        <div class="site-where-content">
+          <p class="site-section-eyebrow">¿Dónde?</p>
+          <h2 class="site-section-title">Cobertura nacional</h2>
+          <p class="site-section-lead">Cobertura nacional. Consulta disponibilidad para tu proyecto.</p>
+          <p class="site-where-desc">Desplegamos personal especializado, supervisión técnica y equipamiento en múltiples zonas estratégicas de la República Mexicana para atender las necesidades críticas de tu inmueble o planta.</p>
+          <div class="site-where-actions">
+            <a class="site-btn-green" href="#cotizar">
+              <span>Consultar un proyecto</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
+
         <div class="site-map-card" aria-hidden="true">
-          <svg class="site-mexico" viewBox="0 0 200 140" role="img" aria-label="Representación abstracta de cobertura en México">
-            <title>Cobertura nacional</title>
+          <div class="site-map-badge">Cobertura Estratégica</div>
+          <svg class="site-mexico" viewBox="0 0 240 160" role="img" aria-label="Representación abstracta de cobertura nacional en México">
             <defs>
-              <linearGradient id="mxFill" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#082F3D"/>
+              <linearGradient id="mxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#062D3A"/>
+                <stop offset="60%" stop-color="#082F3D"/>
                 <stop offset="100%" stop-color="#7AC143"/>
               </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
             </defs>
-            <path fill="url(#mxFill)" opacity="0.9" d="M28 58 L48 42 L70 38 L92 28 L118 32 L132 22 L148 30 L162 48 L170 62 L158 72 L168 88 L150 96 L138 110 L112 118 L88 112 L70 98 L52 102 L38 88 L22 78 Z"/>
-            <circle cx="96" cy="72" r="5" fill="#8CC63F"/>
-            <circle cx="128" cy="54" r="3.5" fill="#F5F3EB"/>
-            <circle cx="72" cy="80" r="3.5" fill="#F5F3EB"/>
-            <circle cx="110" cy="96" r="3" fill="#F5F3EB"/>
+
+            <!-- Silueta estilizada de México -->
+            <path fill="url(#mxGradient)" opacity="0.95" d="M30 65 L50 48 L76 42 L102 30 L132 35 L148 24 L168 34 L185 54 L194 70 L180 82 L192 100 L172 110 L158 126 L128 135 L100 128 L80 112 L58 116 L42 100 L24 88 Z" stroke="rgba(122, 193, 67, 0.4)" stroke-width="1.5"/>
+
+            <!-- Líneas de interconexión logística -->
+            <line x1="60" y1="75" x2="110" y2="82" stroke="rgba(255,255,255,0.25)" stroke-dasharray="3 3"/>
+            <line x1="110" y1="82" x2="145" y2="60" stroke="rgba(255,255,255,0.25)" stroke-dasharray="3 3"/>
+            <line x1="110" y1="82" x2="125" y2="110" stroke="rgba(255,255,255,0.25)" stroke-dasharray="3 3"/>
+            <line x1="125" y1="110" x2="175" y2="95" stroke="rgba(255,255,255,0.25)" stroke-dasharray="3 3"/>
+
+            <!-- Hub CDMX / Centro -->
+            <circle cx="110" cy="82" r="7" fill="#8CC63F" filter="url(#glow)"/>
+            <circle cx="110" cy="82" r="3" fill="#FFFFFF"/>
+
+            <!-- Hub Norte / Monterrey -->
+            <circle cx="145" cy="60" r="5" fill="#7AC143"/>
+            <circle cx="145" cy="60" r="2.5" fill="#FFFFFF"/>
+
+            <!-- Hub Occidente / GDL -->
+            <circle cx="85" cy="90" r="5" fill="#7AC143"/>
+            <circle cx="85" cy="90" r="2.5" fill="#FFFFFF"/>
+
+            <!-- Hub Noroeste / Tijuana -->
+            <circle cx="45" cy="55" r="4.5" fill="#F5F3EB"/>
+
+            <!-- Hub Sureste / Mérida -->
+            <circle cx="175" cy="95" r="5" fill="#8CC63F"/>
+            <circle cx="175" cy="95" r="2.5" fill="#FFFFFF"/>
+
+            <!-- Hub Bajío -->
+            <circle cx="125" cy="110" r="4.5" fill="#F5F3EB"/>
           </svg>
-          <p>Representación esquemática · no es un mapa operativo</p>
+          <p class="site-map-caption">Representación esquemática de conectividad y cobertura operativa.</p>
         </div>
       </div>
     </section>
 
+    <!-- ==========================================================================
+         SECCIÓN SEGUIMIENTO (#seguimiento)
+         ========================================================================== -->
     <section class="site-section" id="seguimiento">
       <div class="site-wrap site-narrow">
-        <header class="site-section-head">
-          <p class="site-eyebrow">Seguimiento</p>
-          <h2>Consulta tu solicitud</h2>
-          <p class="site-section-lead">Esta consulta pública se conectará a la API. Mientras tanto no se muestran resultados ni folios de demostración.</p>
+        <header class="site-section-head text-center">
+          <p class="site-section-eyebrow">Seguimiento</p>
+          <h2 class="site-section-title">Consulta tu solicitud</h2>
+          <p class="site-section-lead">Ingresa tu folio asignado y el correo electrónico con el que registraste el servicio para conocer el estatus en tiempo real.</p>
         </header>
 
-        <form class="site-panel" id="trackingForm" data-api-connected="false">
-          <label>Folio
-            <input type="text" name="folio" autocomplete="off" placeholder="MIRA-AAAA-000000" required>
+        <form class="site-panel site-tracking-form" id="trackingForm" data-api-connected="false">
+          <div class="site-tracking-header">
+            <div class="site-tracking-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#062D3A" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <div>
+              <h3 class="site-tracking-title">Búsqueda directa por Folio</h3>
+              <p class="site-tracking-desc">Formato estándar MIRA (ej. MIRA-2026-000001)</p>
+            </div>
+          </div>
+
+          <label>
+            <span>Folio MIRA *</span>
+            <input type="text" name="folio" autocomplete="off" placeholder="MIRA-2026-000001" required>
           </label>
-          <label>Correo
-            <input type="email" name="email" autocomplete="email" required>
+
+          <label>
+            <span>Correo registrado *</span>
+            <input type="email" name="email" autocomplete="email" placeholder="correo@empresa.com" required>
           </label>
-          <p class="site-form-note hidden" id="trackingFormNote" role="status"></p>
-          <button class="site-btn-green" type="submit">Consultar solicitud</button>
+
+          <div class="site-alert site-alert-info hidden" id="trackingFormNote" role="status"></div>
+
+          <button class="site-btn-green site-btn-full" type="submit">
+            <span>Consultar solicitud</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
         </form>
       </div>
     </section>
 
   </main>
 
+  <!-- ==========================================================================
+       FOOTER CORPORATIVO
+       ========================================================================== -->
   <footer class="site-footer">
     <div class="site-wrap site-footer-grid">
       <div class="site-footer-brand">
-        <img src="assets/mira.png" alt="MIRA" width="48" height="48">
-        <p>Mantenimiento, limpieza, sanitización y construcción con seguimiento real.</p>
+        <a class="site-footer-logo-link" href="#inicio">
+          <img src="assets/mira.png" alt="MIRA" width="52" height="52">
+          <span class="site-footer-brand-name">MIRA</span>
+        </a>
+        <p class="site-footer-brand-desc">Mantenimiento, limpieza especializada, sanitización y construcción con seguimiento real por folio y cobertura nacional.</p>
+        <div class="site-footer-pill">
+          <span class="pulse-dot-green" aria-hidden="true"></span>
+          <span>Operación y monitoreo continuo</span>
+        </div>
       </div>
-      <nav aria-label="Enlaces rápidos">
-        <p>Enlaces</p>
-        <ul>
+
+      <nav class="site-footer-col" aria-label="Enlaces rápidos de navegación">
+        <p class="site-footer-heading">Enlaces rápidos</p>
+        <ul class="site-footer-links">
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#servicios">Servicios</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
@@ -515,26 +1431,40 @@
           <li><a href="login.html">Iniciar sesión</a></li>
         </ul>
       </nav>
-      <nav aria-label="Servicios">
-        <p>Servicios</p>
-        <ul>
+
+      <nav class="site-footer-col" aria-label="Catálogo de servicios">
+        <p class="site-footer-heading">Servicios</p>
+        <ul class="site-footer-links">
           <li><a href="#servicios">Mantenimiento</a></li>
           <li><a href="#servicios">Limpieza especializada</a></li>
           <li><a href="#servicios">Sanitización</a></li>
           <li><a href="#servicios">Construcción</a></li>
+          <li><a href="#servicios">Servicios industriales</a></li>
         </ul>
       </nav>
-      <div>
-        <p>Legal</p>
-        <ul>
-          <li><a href="#contacto">Contacto</a></li>
-          <li><span>Aviso de privacidad (próximamente)</span></li>
+
+      <div class="site-footer-col">
+        <p class="site-footer-heading">Atención y Legal</p>
+        <ul class="site-footer-links">
+          <li><a href="#contacto">Contacto directo</a></li>
+          <li><a href="#seguimiento">Consulta de folios</a></li>
+          <li><a href="#faqs">Preguntas frecuentes</a></li>
+          <li><span class="site-footer-muted">Aviso de privacidad (próximamente)</span></li>
         </ul>
       </div>
     </div>
-    <p class="site-copyright">© <span id="footerYear"></span> MIRA. Todos los derechos reservados.</p>
+
+    <div class="site-footer-bottom">
+      <div class="site-wrap site-footer-bottom-inner">
+        <p class="site-copyright">© <span id="footerYear"></span> MIRA · Soluciones Integrales. Todos los derechos reservados.</p>
+        <p class="site-copyright-sub">Sistema de gestión y seguimiento operativo.</p>
+      </div>
+    </div>
   </footer>
 
-  <script src="js/site.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/mexico-locations.js?v=2.3"></script>
+  <script src="js/site.js?v=2.4"></script>
 </body>
 </html>
