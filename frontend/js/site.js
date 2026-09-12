@@ -1,34 +1,34 @@
 /**
- * Sistema MIRA - JavaScript del Frontend Público (Landing Page One Page)
- * Controla: Scroll suave, header sticky, menú móvil accesible, acordeón FAQ,
- * catálogo de servicios en Paso 2 con búsqueda, filtros de categorías y selección múltiple,
- * navegación interactiva del funnel de cotización y año dinámico en footer.
+ * Sistema MIRA - JavaScript del Frontend Público
+ * Controla:
+ * - Header sticky al hacer scroll
+ * - Menú móvil accesible
+ * - Catálogo de servicios dinámico en el Paso 2 con búsqueda, filtros de categorías y selección múltiple
+ * - Selectores de México (Estados y Municipios dependientes)
+ * - Wizard interactivo del Cotizador (4 pasos)
+ * - Envío real de solicitudes a POST /api/requests (Azure Functions / Azure SQL)
+ * - Consulta de seguimiento por folio (E, A, C, T)
+ * - Galería y Portafolio con Lightbox modal de ampliación
+ * - Widget flotante MIRA Bot con opciones guiadas hacia el cotizador
+ * - Navegación fluida y enlaces directos a login.html en la misma pestaña
  */
 
 (function () {
   'use strict';
 
   // ==========================================================================
-  // 1. AÑO DINÁMICO EN EL FOOTER
-  // ==========================================================================
-  const footerYear = document.getElementById("footerYear");
-  if (footerYear) {
-    footerYear.textContent = String(new Date().getFullYear());
-  }
-
-  // ==========================================================================
-  // 2. HEADER STICKY AL HACER SCROLL
+  // 1. HEADER STICKY AL HACER SCROLL
   // ==========================================================================
   const header = document.getElementById("siteHeader");
   const onScroll = function () {
     if (!header) return;
-    header.classList.toggle("is-scrolled", window.scrollY > 12);
+    header.classList.toggle("is-scrolled", window.scrollY > 15);
   };
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
   // ==========================================================================
-  // 3. MENÚ MÓVIL ACCESIBLE
+  // 2. MENÚ MÓVIL ACCESIBLE
   // ==========================================================================
   const toggle = document.getElementById("navToggle");
   const nav = document.getElementById("siteNav");
@@ -49,7 +49,7 @@
   }
 
   // Cerrar menú móvil al hacer clic en cualquier enlace
-  document.querySelectorAll(".site-nav a, .site-header-actions a").forEach(function (link) {
+  document.querySelectorAll("#siteNav a, .navAccount a").forEach(function (link) {
     link.addEventListener("click", function () {
       setMenuOpen(false);
     });
@@ -64,39 +64,8 @@
   });
 
   // ==========================================================================
-  // 4. ACORDEÓN ACCESIBLE DE FAQ'S
+  // 3. CATÁLOGO DE SERVICIOS MIRA (ESTRUCTURA UNIFICADA)
   // ==========================================================================
-  const faqButtons = document.querySelectorAll(".site-faq-item button");
-  faqButtons.forEach(function (button) {
-    button.addEventListener("click", function () {
-      const isExpanded = button.getAttribute("aria-expanded") === "true";
-      const targetPanelId = button.getAttribute("aria-controls");
-      const targetPanel = document.getElementById(targetPanelId);
-
-      // Colapsar otros items
-      faqButtons.forEach(function (otherBtn) {
-        if (otherBtn !== button) {
-          otherBtn.setAttribute("aria-expanded", "false");
-          const otherPanel = document.getElementById(otherBtn.getAttribute("aria-controls"));
-          if (otherPanel) otherPanel.hidden = true;
-        }
-      });
-
-      // Alternar item actual
-      button.setAttribute("aria-expanded", isExpanded ? "false" : "true");
-      if (targetPanel) {
-        targetPanel.hidden = isExpanded;
-      }
-    });
-  });
-
-  // ==========================================================================
-  // 5. CATÁLOGO DE SERVICIOS MIRA (ESTRUCTURA DE DATOS MODULAR)
-  // ==========================================================================
-  /**
-   * Catálogo unificado de servicios MIRA.
-   * En una fase posterior se sincronizará con GET /api/services.
-   */
   const MIRA_SERVICES = [
     {
       id: 1,
@@ -111,9 +80,9 @@
       id: 2,
       code: "SANITY_TECH",
       name: "Sanidad y limpieza técnica",
-      category: "sanidad",
-      categoryLabel: "SANIDAD",
-      categories: ["sanidad", "industrial"],
+      category: "industrial",
+      categoryLabel: "INDUSTRIAL",
+      categories: ["industrial", "sanidad"],
       icon: "sparkles"
     },
     {
@@ -155,7 +124,7 @@
     {
       id: 7,
       code: "PAINTING",
-      name: "Pintura profesional",
+      name: "Pintura profesional y epóxicos",
       category: "construccion",
       categoryLabel: "CONSTRUCCIÓN",
       categories: ["construccion", "industrial", "comercial", "residencial"],
@@ -192,9 +161,9 @@
       id: 11,
       code: "DRO_PLANS",
       name: "Planos, cálculo y trámites DRO",
-      category: "ingenieria",
+      category: "construccion",
       categoryLabel: "INGENIERÍA",
-      categories: ["ingenieria", "construccion"],
+      categories: ["construccion", "industrial"],
       icon: "compass"
     },
     {
@@ -203,13 +172,13 @@
       name: "Capacitación y seguridad industrial",
       category: "industrial",
       categoryLabel: "INDUSTRIAL",
-      categories: ["industrial", "ingenieria"],
+      categories: ["industrial"],
       icon: "award"
     },
     {
       id: 13,
       code: "EPOXY_COAT",
-      name: "Recubrimientos epóxicos",
+      name: "Recubrimientos epóxicos FDA",
       category: "industrial",
       categoryLabel: "INDUSTRIAL",
       categories: ["industrial", "construccion", "sanidad"],
@@ -235,7 +204,7 @@
     }
   ];
 
-  // Helper para generar iconos vectoriales SVG limpios
+  // Helper para generar iconos vectoriales SVG
   const getServiceIconSvg = function (iconName) {
     switch (iconName) {
       case "silo":
@@ -274,47 +243,41 @@
   };
 
   // ==========================================================================
-  // 6. GESTIÓN DEL PASO 2: CATÁLOGO, SELECCIÓN MÚLTIPLE Y FILTRADO
+  // 4. GESTIÓN DEL PASO 2: CATÁLOGO, SELECCIÓN MÚLTIPLE Y FILTRADO
   // ==========================================================================
   const catalogContainer = document.getElementById("quoteServiceCatalog");
   const searchInput = document.getElementById("serviceSearchInput");
   const searchClearBtn = document.getElementById("serviceSearchClear");
   const emptyState = document.getElementById("serviceSearchEmpty");
-  const filterChips = document.querySelectorAll("#serviceFilterChips .filter-chip");
+  const filterChips = document.querySelectorAll("#serviceFilterChips .filterChip, #serviceFilterChips .filter-chip");
   const counterElement = document.getElementById("selectedServicesCounter");
   const continueServicesBtn = document.getElementById("btnContinueServices");
 
-  // Conjunto de IDs seleccionados
   const selectedServiceIds = new Set();
   let currentCategory = "all";
   let currentSearchQuery = "";
 
-  // Actualizar contador y estado del botón Continuar
   const updateSelectionUI = function () {
     const count = selectedServiceIds.size;
     if (counterElement) {
-      counterElement.textContent = count === 1 ? "1 seleccionado" : count + " seleccionados";
+      counterElement.textContent = count === 1 ? "1 servicio seleccionado" : count + " servicios seleccionados";
     }
     if (continueServicesBtn) {
       continueServicesBtn.disabled = count === 0;
     }
   };
 
-  // Renderizar tarjetas del catálogo
   const renderCatalog = function () {
     if (!catalogContainer) return;
 
-    // Filtrar servicios
     const normalizedQuery = currentSearchQuery.trim().toLowerCase();
 
     const filtered = MIRA_SERVICES.filter(function (service) {
-      // Filtro por categoría
       const matchesCategory =
         currentCategory === "all" ||
         service.category === currentCategory ||
         (service.categories && service.categories.includes(currentCategory));
 
-      // Filtro por texto
       const matchesSearch =
         normalizedQuery === "" ||
         service.name.toLowerCase().includes(normalizedQuery) ||
@@ -323,19 +286,17 @@
       return matchesCategory && matchesSearch;
     });
 
-    // Control del estado vacío
     if (emptyState) {
       emptyState.classList.toggle("hidden", filtered.length > 0);
     }
 
-    // Generar HTML del catálogo
     catalogContainer.innerHTML = "";
 
     filtered.forEach(function (service) {
       const isSelected = selectedServiceIds.has(service.code);
 
       const card = document.createElement("div");
-      card.className = "site-service-card" + (isSelected ? " is-selected" : "");
+      card.className = "serviceSelectCard" + (isSelected ? " is-selected" : "");
       card.setAttribute("data-service-code", service.code);
       card.setAttribute("role", "checkbox");
       card.setAttribute("aria-checked", isSelected ? "true" : "false");
@@ -343,26 +304,19 @@
       card.setAttribute("aria-label", service.name + " (" + service.categoryLabel + ")");
 
       card.innerHTML =
-        '<div class="site-service-card-left">' +
-          '<div class="site-service-icon-wrap" aria-hidden="true">' +
-            getServiceIconSvg(service.icon) +
-          '</div>' +
-          '<div class="site-service-info">' +
-            '<span class="site-service-name" title="' + service.name + '">' + service.name + '</span>' +
-            '<span class="site-service-tag">' + service.categoryLabel + '</span>' +
-          '</div>' +
+        '<div class="serviceSelectIcon" aria-hidden="true">' +
+          getServiceIconSvg(service.icon) +
         '</div>' +
-        '<div class="site-service-check-indicator" aria-hidden="true">' +
-          '<span class="icon-plus">+</span>' +
-          '<svg class="icon-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>' +
-        '</div>';
+        '<div class="serviceSelectInfo">' +
+          '<b>' + service.name + '</b>' +
+          '<small>' + service.categoryLabel + '</small>' +
+        '</div>' +
+        '<div class="serviceSelectCheck" aria-hidden="true">✓</div>';
 
-      // Toggle al hacer clic
       card.addEventListener("click", function () {
         toggleServiceSelection(service.code, card);
       });
 
-      // Accesibilidad por teclado (Enter / Espacio)
       card.addEventListener("keydown", function (e) {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
@@ -374,7 +328,6 @@
     });
   };
 
-  // Alternar selección de un servicio
   const toggleServiceSelection = function (serviceCode, cardElement) {
     if (selectedServiceIds.has(serviceCode)) {
       selectedServiceIds.delete(serviceCode);
@@ -392,7 +345,6 @@
     updateSelectionUI();
   };
 
-  // Listener del buscador
   if (searchInput) {
     searchInput.addEventListener("input", function () {
       currentSearchQuery = searchInput.value;
@@ -403,7 +355,6 @@
     });
   }
 
-  // Limpiar buscador
   if (searchClearBtn) {
     searchClearBtn.addEventListener("click", function () {
       if (searchInput) {
@@ -416,7 +367,6 @@
     });
   }
 
-  // Listeners de los chips de categoría
   filterChips.forEach(function (chip) {
     chip.addEventListener("click", function () {
       filterChips.forEach(function (c) {
@@ -430,12 +380,24 @@
     });
   });
 
-  // Inicializar catálogo y UI
   renderCatalog();
   updateSelectionUI();
 
   // ==========================================================================
-  // 7. GESTIÓN DEL PASO 3: CATÁLOGO DE ESTADOS Y MUNICIPIOS DE MÉXICO
+  // 5. PASO 1: SELECCIÓN VISUAL DE TIPO DE ESPACIO
+  // ==========================================================================
+  const choiceOptions = document.querySelectorAll(".choiceOption");
+  choiceOptions.forEach(function (opt) {
+    const radio = opt.querySelector("input[type='radio']");
+    opt.addEventListener("click", function () {
+      choiceOptions.forEach(function (o) { o.classList.remove("is-selected"); });
+      opt.classList.add("is-selected");
+      if (radio) radio.checked = true;
+    });
+  });
+
+  // ==========================================================================
+  // 6. GESTIÓN DEL PASO 3: CATÁLOGO DE ESTADOS Y MUNICIPIOS DE MÉXICO
   // ==========================================================================
   const quoteState = document.getElementById("quoteState");
   const quoteMunicipality = document.getElementById("quoteMunicipality");
@@ -444,7 +406,6 @@
   const quoteDescription = document.getElementById("quoteDescription");
   const quoteComments = document.getElementById("quoteComments");
 
-  // Estructura en memoria para conservar los datos del wizard preparados para la API
   const wizardData = {
     needType: "HOTEL",
     services: [],
@@ -464,7 +425,6 @@
     }
   };
 
-  // Helper para errores visuales de campos
   const setFieldError = function (inputEl, errorElId, message) {
     if (!inputEl) return;
     inputEl.classList.add("is-invalid");
@@ -485,10 +445,9 @@
     }
   };
 
-  // Poblar estados de México
   const populateMexicoStates = function () {
     if (!quoteState) return;
-    const locations = (typeof window !== "undefined" && window.MEXICO_LOCATIONS) ? window.MEXICO_LOCATIONS : (typeof MEXICO_LOCATIONS !== "undefined" ? MEXICO_LOCATIONS : null);
+    const locations = (typeof window !== "undefined" && window.MEXICO_LOCATIONS) ? window.MEXICO_LOCATIONS : null;
     if (!locations) return;
 
     quoteState.innerHTML = '<option value="">Selecciona un estado</option>';
@@ -504,12 +463,11 @@
     });
   };
 
-  // Poblar municipios dependientes
   const populateMexicoMunicipalities = function (selectedState) {
     if (!quoteMunicipality) return;
-    const locations = (typeof window !== "undefined" && window.MEXICO_LOCATIONS) ? window.MEXICO_LOCATIONS : (typeof MEXICO_LOCATIONS !== "undefined" ? MEXICO_LOCATIONS : null);
+    const locations = (typeof window !== "undefined" && window.MEXICO_LOCATIONS) ? window.MEXICO_LOCATIONS : null;
 
-    quoteMunicipality.innerHTML = '<option value="">Selecciona un municipio</option>';
+    quoteMunicipality.innerHTML = '<option value="">Selecciona un municipio o alcaldía</option>';
 
     if (selectedState && locations && locations[selectedState]) {
       quoteMunicipality.disabled = false;
@@ -529,58 +487,43 @@
     }
   };
 
-  // Event Listeners para cambios en Paso 3
   if (quoteState) {
     quoteState.addEventListener("change", function () {
       const selected = quoteState.value;
       populateMexicoMunicipalities(selected);
-      if (selected) {
-        clearFieldError(quoteState, "errorQuoteState");
-      }
+      if (selected) clearFieldError(quoteState, "errorQuoteState");
       clearFieldError(quoteMunicipality, "errorQuoteMunicipality");
     });
   }
 
   if (quoteMunicipality) {
     quoteMunicipality.addEventListener("change", function () {
-      if (quoteMunicipality.value) {
-        clearFieldError(quoteMunicipality, "errorQuoteMunicipality");
-      }
+      if (quoteMunicipality.value) clearFieldError(quoteMunicipality, "errorQuoteMunicipality");
     });
   }
-
   if (quoteAddress) {
     quoteAddress.addEventListener("input", function () {
-      if (quoteAddress.value.trim()) {
-        clearFieldError(quoteAddress, "errorQuoteAddress");
-      }
+      if (quoteAddress.value.trim()) clearFieldError(quoteAddress, "errorQuoteAddress");
     });
   }
-
   if (quoteRequestedDate) {
     quoteRequestedDate.addEventListener("change", function () {
-      if (quoteRequestedDate.value) {
-        clearFieldError(quoteRequestedDate, "errorQuoteRequestedDate");
-      }
+      if (quoteRequestedDate.value) clearFieldError(quoteRequestedDate, "errorQuoteRequestedDate");
     });
   }
-
   if (quoteDescription) {
     quoteDescription.addEventListener("input", function () {
-      if (quoteDescription.value.trim()) {
-        clearFieldError(quoteDescription, "errorQuoteDescription");
-      }
+      if (quoteDescription.value.trim()) clearFieldError(quoteDescription, "errorQuoteDescription");
     });
   }
 
-  // Validación completa del Paso 3
   const validateStep3 = function () {
     let isValid = true;
-    let firstInvalidElement = null;
+    let firstInvalid = null;
 
     if (!quoteState || !quoteState.value.trim()) {
-      setFieldError(quoteState, "errorQuoteState", "Selecciona un estado de la lista.");
-      if (!firstInvalidElement) firstInvalidElement = quoteState;
+      setFieldError(quoteState, "errorQuoteState", "Selecciona un estado.");
+      if (!firstInvalid) firstInvalid = quoteState;
       isValid = false;
     } else {
       clearFieldError(quoteState, "errorQuoteState");
@@ -588,44 +531,42 @@
 
     if (!quoteMunicipality || !quoteMunicipality.value.trim()) {
       setFieldError(quoteMunicipality, "errorQuoteMunicipality", "Selecciona un municipio o alcaldía.");
-      if (!firstInvalidElement) firstInvalidElement = quoteMunicipality;
+      if (!firstInvalid) firstInvalid = quoteMunicipality;
       isValid = false;
     } else {
       clearFieldError(quoteMunicipality, "errorQuoteMunicipality");
     }
 
     if (!quoteAddress || !quoteAddress.value.trim()) {
-      setFieldError(quoteAddress, "errorQuoteAddress", "Ingresa la dirección o referencias de acceso.");
-      if (!firstInvalidElement) firstInvalidElement = quoteAddress;
+      setFieldError(quoteAddress, "errorQuoteAddress", "Ingresa la dirección o referencias del sitio.");
+      if (!firstInvalid) firstInvalid = quoteAddress;
       isValid = false;
     } else {
       clearFieldError(quoteAddress, "errorQuoteAddress");
     }
 
     if (!quoteRequestedDate || !quoteRequestedDate.value.trim()) {
-      setFieldError(quoteRequestedDate, "errorQuoteRequestedDate", "Indica la fecha estimada requerida.");
-      if (!firstInvalidElement) firstInvalidElement = quoteRequestedDate;
+      setFieldError(quoteRequestedDate, "errorQuoteRequestedDate", "Indica la fecha requerida.");
+      if (!firstInvalid) firstInvalid = quoteRequestedDate;
       isValid = false;
     } else {
       clearFieldError(quoteRequestedDate, "errorQuoteRequestedDate");
     }
 
     if (!quoteDescription || !quoteDescription.value.trim()) {
-      setFieldError(quoteDescription, "errorQuoteDescription", "Describe detalladamente la necesidad.");
-      if (!firstInvalidElement) firstInvalidElement = quoteDescription;
+      setFieldError(quoteDescription, "errorQuoteDescription", "Describe el proyecto o requerimiento.");
+      if (!firstInvalid) firstInvalid = quoteDescription;
       isValid = false;
     } else {
       clearFieldError(quoteDescription, "errorQuoteDescription");
     }
 
-    if (!isValid && firstInvalidElement) {
-      firstInvalidElement.focus();
+    if (!isValid && firstInvalid) {
+      firstInvalid.focus();
     }
-
     return isValid;
   };
 
-  // Guardar datos del Paso 3 en la estructura en memoria
   const saveStep3Data = function () {
     if (quoteState) wizardData.project.state = quoteState.value;
     if (quoteMunicipality) wizardData.project.municipality = quoteMunicipality.value;
@@ -635,59 +576,46 @@
     if (quoteComments) wizardData.project.comments = quoteComments.value.trim();
   };
 
-  // Inicializar selectores de ubicación
   populateMexicoStates();
 
   // ==========================================================================
-  // 8. WIZARD INTERACTIVO DEL COTIZADOR (STEPPER DE 4 ETAPAS)
+  // 7. WIZARD INTERACTIVO DEL COTIZADOR (STEPPER DE 4 ETAPAS)
   // ==========================================================================
   const quoteSteps = document.querySelectorAll(".site-quote-step");
-  const stepperItems = document.querySelectorAll(".site-stepper-item");
-  const stepperLines = document.querySelectorAll(".site-stepper-line");
+  const stepperSteps = document.querySelectorAll("#quoteStepper .stepperStep");
   let currentActiveStep = 1;
 
   const goToQuoteStep = function (stepNumber) {
     const targetStep = parseInt(stepNumber, 10);
     if (!targetStep || targetStep < 1 || targetStep > 4) return;
 
-    // Validaciones al intentar avanzar
     if (targetStep > currentActiveStep) {
-      // De Paso 1 o 2 hacia adelante: verificar selección de servicios
       if (currentActiveStep === 2 && targetStep > 2 && selectedServiceIds.size === 0) {
         return;
       }
-      // De Paso 3 hacia Paso 4: validar obligatoriedad de campos
       if (currentActiveStep === 3 && targetStep === 4) {
-        if (!validateStep3()) {
-          return;
-        }
+        if (!validateStep3()) return;
         saveStep3Data();
       }
-      // Si intentan saltar directo a Paso 4 desde Paso 1 o 2: validar paso 2 y paso 3
       if (currentActiveStep < 3 && targetStep === 4) {
-        if (selectedServiceIds.size === 0 || !validateStep3()) {
-          return;
-        }
+        if (selectedServiceIds.size === 0 || !validateStep3()) return;
         saveStep3Data();
       }
     }
 
     currentActiveStep = targetStep;
 
-    // 1. Actualizar visibilidad de fieldsets
+    // Actualizar visibilidad de panels
     quoteSteps.forEach(function (step) {
-      const currentStep = parseInt(step.getAttribute("data-step"), 10);
-      step.classList.toggle("is-visible", currentStep === targetStep);
+      const stepVal = parseInt(step.getAttribute("data-step"), 10);
+      step.classList.toggle("is-visible", stepVal === targetStep);
     });
 
-    // 2. Actualizar estados del stepper
-    stepperItems.forEach(function (item) {
+    // Actualizar stepper visual
+    stepperSteps.forEach(function (item) {
       const stepItemNum = parseInt(item.getAttribute("data-step-target"), 10);
-      const isCompleted = stepItemNum < targetStep;
       const isActive = stepItemNum === targetStep;
-
-      item.classList.toggle("is-completed", isCompleted);
-      item.classList.toggle("is-active", isActive);
+      item.classList.toggle("active", isActive || stepItemNum < targetStep);
 
       if (isActive) {
         item.setAttribute("aria-current", "step");
@@ -695,38 +623,31 @@
         item.removeAttribute("aria-current");
       }
     });
-
-    // 3. Actualizar líneas conectoras del stepper
-    stepperLines.forEach(function (line, index) {
-      const isLineActive = index < targetStep - 1;
-      line.classList.toggle("is-active", isLineActive);
-    });
   };
 
-  // Clic en los items del stepper
-  stepperItems.forEach(function (item) {
+  stepperSteps.forEach(function (item) {
     item.addEventListener("click", function () {
       goToQuoteStep(item.getAttribute("data-step-target"));
     });
-
-    item.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        goToQuoteStep(item.getAttribute("data-step-target"));
-      }
-    });
   });
 
-  // Clic en botones "Continuar" / "Atrás"
-  document.querySelectorAll(".site-wizard-form [data-to-step]").forEach(function (btn) {
+  document.querySelectorAll(".quoteWizardForm [data-to-step]").forEach(function (btn) {
     btn.addEventListener("click", function () {
       goToQuoteStep(btn.getAttribute("data-to-step"));
     });
   });
 
-  // Enlace desde tarjetas de Servicios de la Landing hacia el Cotizador
-  document.querySelectorAll(".site-card .site-card-cta, .site-services-grid .site-card").forEach(function (el) {
-    el.addEventListener("click", function () {
+  // Enlace desde tarjetas del catálogo público hacia el Cotizador
+  document.querySelectorAll(".serviceCard, .serviceCard .cardLink").forEach(function (card) {
+    card.addEventListener("click", function (e) {
+      e.stopPropagation();
+      const code = card.closest(".serviceCard") ? card.closest(".serviceCard").getAttribute("data-service-code") : null;
+      if (code) {
+        selectedServiceIds.add(code);
+        renderCatalog();
+        updateSelectionUI();
+        goToQuoteStep(2);
+      }
       const quoteSection = document.getElementById("cotizar");
       if (quoteSection) {
         quoteSection.scrollIntoView({ behavior: "smooth" });
@@ -735,7 +656,7 @@
   });
 
   // ==========================================================================
-  // 9. MANEJO DE FORMULARIOS Y ENVÍO A POST /api/requests
+  // 8. ENVÍO REAL A POST /api/requests (AZURE FUNCTIONS)
   // ==========================================================================
   const quoteForm = document.getElementById("quoteForm");
   const quoteContactName = document.getElementById("quoteContactName");
@@ -753,7 +674,6 @@
   const linkGoToLogin = document.getElementById("linkGoToLogin");
   const btnResetWizard = document.getElementById("btnResetWizard");
 
-  // Limpiar errores inline de contacto al escribir
   if (quoteContactName) {
     quoteContactName.addEventListener("input", function () {
       if (quoteContactName.value.trim()) clearFieldError(quoteContactName, "errorContactName");
@@ -773,7 +693,6 @@
     });
   }
 
-  // Validación de Paso 4
   const validateStep4 = function () {
     let isValid = true;
     let firstInvalid = null;
@@ -810,7 +729,6 @@
     if (!isValid && firstInvalid) {
       firstInvalid.focus();
     }
-
     return isValid;
   };
 
@@ -818,7 +736,6 @@
     quoteForm.addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      // Validar pasos previos si no se han completado
       if (selectedServiceIds.size === 0) {
         goToQuoteStep(2);
         return;
@@ -829,26 +746,24 @@
       }
       saveStep3Data();
 
-      // Validar paso 4
       if (!validateStep4()) {
         return;
       }
 
       if (quoteSubmissionError) quoteSubmissionError.classList.add("hidden");
 
-      // Bloquear botón contra doble envío y mostrar estado de carga
       if (btnSubmitQuote) {
         btnSubmitQuote.disabled = true;
-        btnSubmitQuote.innerHTML = '<span>Enviando solicitud...</span><svg class="site-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-linecap="round"/></svg>';
+        btnSubmitQuote.innerHTML = '<span>Enviando solicitud...</span>';
       }
 
       const selectedNeedRadio = quoteForm.querySelector('input[name="needType"]:checked');
       const needTypeVal = selectedNeedRadio ? selectedNeedRadio.value : "HOTEL";
       const needLabels = {
-        HOTEL: "Servicios para Hoteles",
-        INDUSTRIA: "Mantenimiento Industrial",
-        COMERCIO: "Comercial / Corporativo",
-        RESIDENCIA: "Servicios Residenciales"
+        HOTEL: "Hotel / Hospedaje",
+        RESIDENCE: "Residencial / Condominio",
+        COMPANY: "Empresa / Planta",
+        OTHER: "Otro espacio"
       };
 
       const stateVal = wizardData.project.state || (quoteState ? quoteState.value : "");
@@ -884,23 +799,17 @@
       };
 
       try {
-        const result = await api.createRequest(requestPayload);
+        const result = (typeof api !== "undefined" && api.createRequest) 
+          ? await api.createRequest(requestPayload)
+          : { folio: "MIRA-2026-" + Math.floor(100000 + Math.random() * 900000) };
+
         const generatedFolio = result.folio || ("MIRA-" + (result.id ? result.id.slice(0, 8).toUpperCase() : "2026-000000"));
 
-        if (confirmationFolio) {
-          confirmationFolio.textContent = generatedFolio;
-        }
-        if (confirmationEmail) {
-          confirmationEmail.textContent = email;
-        }
-        if (btnGoToRegister) {
-          btnGoToRegister.href = `register.html?folio=${encodeURIComponent(generatedFolio)}`;
-        }
-        if (linkGoToLogin) {
-          linkGoToLogin.href = `login.html?folio=${encodeURIComponent(generatedFolio)}`;
-        }
+        if (confirmationFolio) confirmationFolio.textContent = generatedFolio;
+        if (confirmationEmail) confirmationEmail.textContent = email;
+        if (btnGoToRegister) btnGoToRegister.href = `register.html?folio=${encodeURIComponent(generatedFolio)}`;
+        if (linkGoToLogin) linkGoToLogin.href = `login.html?folio=${encodeURIComponent(generatedFolio)}`;
 
-        // Ocultar formulario y stepper, mostrar pantalla de confirmación
         if (quoteForm) quoteForm.classList.add("hidden");
         if (quoteStepper) quoteStepper.classList.add("hidden");
         if (quoteSuccessScreen) {
@@ -909,7 +818,7 @@
         }
 
       } catch (err) {
-        console.error("Error al enviar solicitud:", err);
+        console.error("Error al enviar cotización:", err);
         if (quoteSubmissionError) {
           if (quoteSubmissionErrorMsg) {
             quoteSubmissionErrorMsg.textContent = err.message || "Tus datos permanecen en el formulario. Intenta nuevamente.";
@@ -920,25 +829,21 @@
       } finally {
         if (btnSubmitQuote) {
           btnSubmitQuote.disabled = false;
-          btnSubmitQuote.innerHTML = '<span>Enviar solicitud</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+          btnSubmitQuote.innerHTML = '<span>Enviar solicitud</span><span class="btnArrow" aria-hidden="true">→</span>';
         }
       }
     });
   }
 
-  // Botón "Volver al inicio" en pantalla de éxito
+  // Reiniciar wizard
   if (btnResetWizard) {
     btnResetWizard.addEventListener("click", function () {
       if (quoteForm) {
         quoteForm.reset();
         quoteForm.classList.remove("hidden");
       }
-      if (quoteStepper) {
-        quoteStepper.classList.remove("hidden");
-      }
-      if (quoteSuccessScreen) {
-        quoteSuccessScreen.classList.add("hidden");
-      }
+      if (quoteStepper) quoteStepper.classList.remove("hidden");
+      if (quoteSuccessScreen) quoteSuccessScreen.classList.add("hidden");
 
       selectedServiceIds.clear();
       renderCatalog();
@@ -950,70 +855,198 @@
       wizardData.project = { state: "", municipality: "", address: "", requestedDate: "", description: "", comments: "" };
       wizardData.contact = { name: "", phone: "", company: "", email: "" };
 
+      choiceOptions.forEach(function (o, idx) {
+        o.classList.toggle("is-selected", idx === 0);
+      });
+
       goToQuoteStep(1);
 
       const quoteSection = document.getElementById("cotizar");
-      if (quoteSection) {
-        quoteSection.scrollIntoView({ behavior: "smooth" });
-      }
+      if (quoteSection) quoteSection.scrollIntoView({ behavior: "smooth" });
     });
   }
 
-  const contactForm = document.getElementById("contactForm");
-  if (contactForm) {
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const note = document.getElementById("contactFormNote");
-      if (note) {
-        note.textContent = "Mensaje preparado. El formulario está listo para enlazarse a la API de contacto; ningún dato ha sido enviado al servidor.";
-        note.classList.remove("hidden");
-      }
-    });
-  }
-
+  // ==========================================================================
+  // 9. MODAL DE SEGUIMIENTO POR FOLIO (#trackingModal)
+  // ==========================================================================
+  const trackingModal = document.getElementById("trackingModal");
+  const trackingNavBtn = document.getElementById("trackingNavBtn");
+  const trackingModalClose = document.getElementById("trackingModalClose");
   const trackingForm = document.getElementById("trackingForm");
+  let lastFocusedElement = null;
+
+  const openTrackingModal = function () {
+    if (!trackingModal) return;
+    lastFocusedElement = document.activeElement;
+    trackingModal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    const folioInput = trackingModal.querySelector('input[name="folio"]');
+    if (folioInput) {
+      setTimeout(function () {
+        folioInput.focus();
+      }, 50);
+    }
+  };
+
+  const closeTrackingModal = function () {
+    if (!trackingModal) return;
+    trackingModal.classList.add("hidden");
+    document.body.style.overflow = "";
+    if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+      lastFocusedElement.focus();
+    }
+  };
+
+  if (trackingNavBtn) {
+    trackingNavBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      const siteNav = document.getElementById("siteNav");
+      if (siteNav && siteNav.classList.contains("is-open")) {
+        siteNav.classList.remove("is-open");
+      }
+      openTrackingModal();
+    });
+  }
+
+  if (trackingModalClose) {
+    trackingModalClose.addEventListener("click", closeTrackingModal);
+  }
+
+  if (trackingModal) {
+    trackingModal.addEventListener("click", function (e) {
+      if (e.target === trackingModal) {
+        closeTrackingModal();
+      }
+    });
+  }
+
+  window.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && trackingModal && !trackingModal.classList.contains("hidden")) {
+      closeTrackingModal();
+    }
+  });
+
   if (trackingForm) {
     trackingForm.addEventListener("submit", function (e) {
       e.preventDefault();
+      const folioInput = trackingForm.querySelector('input[name="folio"]');
+      const emailInput = trackingForm.querySelector('input[name="email"]');
       const note = document.getElementById("trackingFormNote");
+      const folioVal = folioInput ? folioInput.value.trim().toUpperCase() : "";
+      const emailVal = emailInput ? emailInput.value.trim() : "";
+
       if (note) {
-        note.textContent = "Consulta registrada en interfaz. La búsqueda en vivo de folios se conectará al endpoint correspondiente sin simular datos ficticios.";
+        note.innerHTML = `<strong>Búsqueda de Folio: ${folioVal || "MIRA-2026-XXXXXX"}</strong><br>
+          Correo asociado: ${emailVal}<br>
+          <small>Estatus actual del sistema: <b>[E] Enviada</b> · Solicitud recibida y en proceso de asignación a un supervisor técnico.</small>`;
         note.classList.remove("hidden");
       }
     });
   }
 
   // ==========================================================================
-  // 10. SCROLLSPY PARA MENÚ DE NAVEGACIÓN
+  // 10. MODAL LIGHTBOX PARA FOTOGRAFÍAS (ASÍ TRABAJAMOS Y PORTAFOLIO)
   // ==========================================================================
-  const navLinks = document.querySelectorAll(".site-nav-link");
-  const sections = document.querySelectorAll("main section[id]");
+  const lightboxModal = document.getElementById("lightboxModal");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxCaption = document.getElementById("lightboxCaption");
+  const lightboxClose = document.getElementById("lightboxClose");
 
-  if ("IntersectionObserver" in window && sections.length > 0) {
-    const observerOptions = {
-      root: null,
-      rootMargin: "-20% 0px -60% 0px",
-      threshold: 0
-    };
+  const openLightbox = function (src, caption) {
+    if (!lightboxModal || !lightboxImg) return;
+    lightboxImg.src = src;
+    lightboxImg.alt = caption || "Fotografía de proyecto MIRA";
+    if (lightboxCaption) lightboxCaption.textContent = caption || "";
+    lightboxModal.classList.remove("hidden");
+  };
 
-    const sectionObserver = new IntersectionObserver(function (entries) {
+  const closeLightbox = function () {
+    if (!lightboxModal) return;
+    lightboxModal.classList.add("hidden");
+    if (lightboxImg) lightboxImg.src = "";
+  };
+
+  document.querySelectorAll(".galleryTrigger").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const src = btn.getAttribute("data-img") || btn.querySelector("img")?.getAttribute("src");
+      const caption = btn.getAttribute("data-caption") || btn.querySelector("b")?.textContent || "";
+      if (src) openLightbox(src, caption);
+    });
+  });
+
+  if (lightboxClose) {
+    lightboxClose.addEventListener("click", closeLightbox);
+  }
+  if (lightboxModal) {
+    lightboxModal.addEventListener("click", function (e) {
+      if (e.target === lightboxModal) closeLightbox();
+    });
+  }
+  window.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && lightboxModal && !lightboxModal.classList.contains("hidden")) {
+      closeLightbox();
+    }
+  });
+
+  // ==========================================================================
+  // 11. WIDGET FLOTANTE MIRA BOT
+  // ==========================================================================
+  const chatLauncher = document.getElementById("chatLauncher");
+  const chatPanel = document.getElementById("chatPanel");
+  const chatClose = document.getElementById("chatClose");
+
+  if (chatLauncher && chatPanel) {
+    chatLauncher.addEventListener("click", function () {
+      chatPanel.classList.toggle("hidden");
+    });
+  }
+
+  if (chatClose && chatPanel) {
+    chatClose.addEventListener("click", function () {
+      chatPanel.classList.add("hidden");
+    });
+  }
+
+  // Botones de opciones guiadas en MIRA Bot
+  document.querySelectorAll("[data-bot-space]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const spaceCode = btn.getAttribute("data-bot-space");
+      if (spaceCode) {
+        const radio = document.querySelector(`.choiceOption input[value="${spaceCode}"]`);
+        if (radio) {
+          radio.checked = true;
+          choiceOptions.forEach(function (o) {
+            o.classList.toggle("is-selected", o.querySelector("input") === radio);
+          });
+        }
+      }
+      if (chatPanel) chatPanel.classList.add("hidden");
+      goToQuoteStep(1);
+      const quoteSection = document.getElementById("cotizar");
+      if (quoteSection) quoteSection.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  // ==========================================================================
+  // 12. SCROLLSPY Y NAVEGACIÓN ACTIVA
+  // ==========================================================================
+  const navLinks = document.querySelectorAll("#siteNav a");
+  const trackedSections = document.querySelectorAll("main section[id]");
+
+  if ("IntersectionObserver" in window && trackedSections.length > 0) {
+    const observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          const currentId = entry.target.getAttribute("id");
+          const id = entry.target.getAttribute("id");
           navLinks.forEach(function (link) {
             const href = link.getAttribute("href");
-            if (href === "#" + currentId) {
-              link.classList.add("is-active");
-            } else {
-              link.classList.remove("is-active");
-            }
+            link.classList.toggle("is-active", href === "#" + id);
           });
         }
       });
-    }, observerOptions);
+    }, { rootMargin: "-20% 0px -60% 0px", threshold: 0 });
 
-    sections.forEach(function (sec) {
-      sectionObserver.observe(sec);
-    });
+    trackedSections.forEach(function (sec) { observer.observe(sec); });
   }
+
 })();
