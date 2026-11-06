@@ -53,8 +53,8 @@ export const StatusUpdateSelector: React.FC<StatusUpdateSelectorProps> = ({
         </span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full min-w-0">
+        <div className="min-w-0">
           <label htmlFor="statusSelect" className="sr-only">Nuevo estado</label>
           <select
             id="statusSelect"
@@ -63,7 +63,7 @@ export const StatusUpdateSelector: React.FC<StatusUpdateSelectorProps> = ({
               setSelectedStatus(e.target.value as RequestStatus);
               setErrorMsg(null);
             }}
-            className="w-full px-3 py-2 text-xs bg-white border border-[#E8ECEF] rounded-lg focus:outline-none focus:border-[#7AC143] font-medium text-[#062D3A]"
+            className="w-full min-w-0 px-3 py-1.5 text-xs bg-white border border-[#E8ECEF] rounded-lg focus:outline-none focus:border-[#7AC143] font-medium text-[#062D3A]"
           >
             {availableStatuses.map((st) => (
               <option key={st} value={st}>
@@ -73,7 +73,7 @@ export const StatusUpdateSelector: React.FC<StatusUpdateSelectorProps> = ({
           </select>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <label htmlFor="statusComment" className="sr-only">Comentario opcional</label>
           <input
             id="statusComment"
@@ -81,7 +81,7 @@ export const StatusUpdateSelector: React.FC<StatusUpdateSelectorProps> = ({
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="Motivo o comentario del cambio (opcional)..."
-            className="w-full px-3 py-2 text-xs bg-white border border-[#E8ECEF] rounded-lg focus:outline-none focus:border-[#7AC143]"
+            className="w-full min-w-0 px-3 py-1.5 text-xs bg-white border border-[#E8ECEF] rounded-lg focus:outline-none focus:border-[#7AC143]"
           />
         </div>
       </div>

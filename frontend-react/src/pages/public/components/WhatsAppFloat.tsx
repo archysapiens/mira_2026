@@ -1,6 +1,12 @@
 import React from 'react';
+import { useQuoteModal } from '../../../context/QuoteModalContext';
 
 export const WhatsAppFloat: React.FC = () => {
+  const { isOpen } = useQuoteModal();
+
+  // Ocultar si el modal de cotización está activo
+  if (isOpen) return null;
+
   return (
     <a
       className="whatsappFloat"

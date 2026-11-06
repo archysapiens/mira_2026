@@ -81,6 +81,28 @@ export function createMockJwt(user: AuthUser): string {
 }
 
 export const INITIAL_DEMO_NOTES: Record<string, WorkNote[]> = {
+  'demo-cot-0041': [
+    {
+      WorkNoteId: 'note-041-1',
+      Note: 'Recepción y validación de especificaciones técnicas para transformador de 750kVA. Cotización preliminar enviada a revisión técnica.',
+      Author: 'Ing. Mariana Valdés Admin',
+      CreatedAt: new Date(Date.now() - 3600000 * 20).toISOString(),
+    },
+  ],
+  'demo-cot-0042': [
+    {
+      WorkNoteId: 'note-042-1',
+      Note: 'Visita de diagnóstico completada en sitio. Se revisaron 8 chillers en nave 3; programada recarga de gas y calibración.',
+      Author: 'Carlos Mendoza Técnico',
+      CreatedAt: new Date(Date.now() - 3600000 * 48).toISOString(),
+    },
+    {
+      WorkNoteId: 'note-042-2',
+      Note: 'Refacciones y filtros de alta eficiencia validados en almacén central. Listo para ejecución.',
+      Author: 'Carlos Mendoza Técnico',
+      CreatedAt: new Date(Date.now() - 3600000 * 12).toISOString(),
+    },
+  ],
   'demo-req-102': [
     {
       WorkNoteId: 'note-101',
@@ -106,6 +128,86 @@ export const INITIAL_DEMO_NOTES: Record<string, WorkNote[]> = {
 };
 
 export const INITIAL_DEMO_REQUESTS: ServiceRequest[] = [
+  {
+    RequestId: 'demo-cot-0041',
+    Folio: 'MIRA-COT-2026-0041',
+    ContactName: 'Ing. Fernando Morales',
+    Email: 'fmorales@aceronorte.com.mx',
+    Phone: '8182345678',
+    Company: 'Aceros Industriales del Norte SA de CV',
+    Location: 'Nuevo León - Apodaca - Parque Industrial Huinalá, Nave 4',
+    Need: 'Electricidad (Transformadores y Subestaciones)',
+    Urgency: 'Alta',
+    Description: 'Mantenimiento predictivo y correctivo urgente a transformador seco de 750kVA y termografía a tablero general de distribución en planta siderúrgica.',
+    Status: 'E', // Nueva / Enviada
+    CreatedAt: new Date(Date.now() - 3600000 * 18).toISOString(),
+    AssignedOperatorId: null,
+    OperatorName: null,
+  },
+  {
+    RequestId: 'demo-cot-0042',
+    Folio: 'MIRA-COT-2026-0042',
+    ContactName: 'Lic. Claudia Villarreal',
+    Email: 'cvillarreal@parquemonterrey.mx',
+    Phone: '8189876543',
+    Company: 'Parque Industrial Monterrey Sur',
+    Location: 'Nuevo León - Santa Catarina - Blvd. Gustavo Díaz Ordaz 400',
+    Need: 'Climatización (Chillers y Ventilación Central)',
+    Urgency: 'Media',
+    Description: 'Revisión y mantenimiento preventivo de sistema de agua helada (Chillers) y balanceo térmico en oficinas corporativas y laboratorios.',
+    Status: 'A', // Asignada / En atención
+    CreatedAt: new Date(Date.now() - 3600000 * 52).toISOString(),
+    AssignedOperatorId: 'c837e1b2-10bc-4d4f-9a3c-2b3c4d5e6f7a',
+    OperatorName: 'Carlos Mendoza Técnico',
+  },
+  {
+    RequestId: 'demo-cot-0043',
+    Folio: 'MIRA-COT-2026-0043',
+    ContactName: 'Ing. Rodrigo Zárate',
+    Email: 'rzarate@logisticabajio.com',
+    Phone: '4771239876',
+    Company: 'Logística Integral Bajío',
+    Location: 'Guanajuato - Silao - Puerto Interior Nave C-12',
+    Need: 'Pintura e Impermeabilización (Epóxicos Industriales)',
+    Urgency: 'Normal',
+    Description: 'Aplicación de recubrimiento epóxico de alta resistencia en 1,800 m² de piso de almacén y sellado de juntas de dilatación contra tránsito pesado.',
+    Status: 'T', // Aprobada / Concluida
+    CreatedAt: new Date(Date.now() - 3600000 * 120).toISOString(),
+    AssignedOperatorId: 'c837e1b2-10bc-4d4f-9a3c-2b3c4d5e6f7a',
+    OperatorName: 'Carlos Mendoza Técnico',
+  },
+  {
+    RequestId: 'demo-cot-0044',
+    Folio: 'MIRA-COT-2026-0044',
+    ContactName: 'Q.F.B. Marcela Treviño',
+    Email: 'mtrevino@sanpablofarma.com',
+    Phone: '5557890123',
+    Company: 'Laboratorios Farmacéuticos San Pablo',
+    Location: 'Estado de México - Toluca - Zona Industrial Exportec II',
+    Need: 'Fumigación y Desinfección (Grado Quirúrgico)',
+    Urgency: 'Baja',
+    Description: 'Sanitización con microdifusión en cuartos limpios ISO Clase 7 y control biológico integral para auditoría COFEPRIS.',
+    Status: 'E', // En revisión
+    CreatedAt: new Date(Date.now() - 3600000 * 6).toISOString(),
+    AssignedOperatorId: null,
+    OperatorName: null,
+  },
+  {
+    RequestId: 'demo-cot-0045',
+    Folio: 'MIRA-COT-2026-0045',
+    ContactName: 'Arq. Jorge Peñaloza',
+    Email: 'jpenaloza@desarrollosmetro.com',
+    Phone: '5554321098',
+    Company: 'Desarrollos Comerciales Metropolitana',
+    Location: 'Ciudad de México - Álvaro Obregón - Av. Insurgentes Sur 1800',
+    Need: 'Climatización e Instalaciones',
+    Urgency: 'Baja',
+    Description: 'Cotización desestimada por duplicidad de folio con contratista externo.',
+    Status: 'C', // Cancelada
+    CreatedAt: new Date(Date.now() - 3600000 * 140).toISOString(),
+    AssignedOperatorId: null,
+    OperatorName: null,
+  },
   {
     RequestId: 'demo-req-101',
     Folio: 'DEMO-2026-0101',
@@ -187,7 +289,13 @@ export const mockStore = {
   },
 
   getRequestById: (id: string): ServiceRequest | undefined => {
-    return mockRequestsState.find((r) => r.RequestId === id || r.Folio === id);
+    const clean = (id || '').trim().toLowerCase();
+    return mockRequestsState.find(
+      (r) =>
+        r.RequestId.toLowerCase() === clean ||
+        r.Folio.toLowerCase() === clean ||
+        r.Folio.toLowerCase().includes(clean)
+    );
   },
 
   getSystemUsers: (): SystemUser[] => {

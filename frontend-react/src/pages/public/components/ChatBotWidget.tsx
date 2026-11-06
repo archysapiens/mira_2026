@@ -11,10 +11,6 @@ export const ChatBotWidget: React.FC<ChatBotWidgetProps> = ({ onSelectSpace }) =
   const handleOptionClick = (space: NeedType) => {
     onSelectSpace(space);
     setIsOpen(false);
-    const quoteEl = document.getElementById('cotizar');
-    if (quoteEl) {
-      quoteEl.scrollIntoView({ behavior: 'smooth' });
-    }
   };
 
   return (

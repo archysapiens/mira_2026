@@ -1,8 +1,44 @@
 .venv/
+.venv*/
+.venv312/
 __pycache__/
 *.pyc
 local.settings.json
+local.settings.*.json
+*.settings*.json
+*.bak
+*.bak_*
+local.settings.azure.bak
 .env
+.env.local
+.env.*.local
 .DS_Store
 .vscode/
 
+# Azurite y almacenamiento local
+.azurite/
+AzuriteConfig
+__azurite_*
+__blobstorage__/
+
+# Bases de datos y migraciones locales de desarrollo
+database/local-dev/
+
+# Dependencias y compilaciones
+node_modules/
+dist/
+
+# Vercel
+.vercel/
+
+# Archivos temporales y respaldos
+scratch/
+*.patch
+
+# Capturas intermedias de documentación
+docs/after_restoration/
+docs/before_restoration/
+docs/comparisons/
+docs/reference_images/
+docs/reference_inspection/
+docs/screenshots_demo/

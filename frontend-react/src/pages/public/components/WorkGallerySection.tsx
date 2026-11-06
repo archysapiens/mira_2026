@@ -23,8 +23,8 @@ const GALLERY_ITEMS = [
   },
   {
     className: 'photo-3',
-    src: '/gallery/equipo.png',
-    hiresSrc: '/gallery/equipo.png',
+    src: '/gallery/equipo.jpg',
+    hiresSrc: '/gallery/equipo.jpg',
     alt: 'Trabajo en equipo',
     title: 'Trabajo en equipo',
     desc: 'Actividades ejecutadas por equipos bien estructurados.',
@@ -77,6 +77,16 @@ export const WorkGallerySection: React.FC<WorkGallerySectionProps> = ({ onImageC
               src={item.src}
               alt={item.alt}
               loading="lazy"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (target.dataset.fallbackTried) return;
+                target.dataset.fallbackTried = 'true';
+                if (target.src.endsWith('.jpg')) {
+                  target.src = target.src.replace(/\.jpg$/, '.png');
+                } else if (target.src.endsWith('.png')) {
+                  target.src = target.src.replace(/\.png$/, '.jpg');
+                }
+              }}
             />
             <span>
               <b>{item.title}</b>

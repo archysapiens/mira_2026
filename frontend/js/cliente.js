@@ -16,6 +16,35 @@
   let selectedRequestId = null;
   let isRequestingOtp = false;
   let isVerifyingOtp = false;
+  let isLoadingData = false;
+  let hasClaimedInSession = false;
+
+  // Mapeo visual amigable para NeedType
+  const NEED_TYPE_MAP = {
+    HOTEL: "Hotel / Hospedaje",
+    RESIDENCE: "Residencial / Condominio",
+    COMPANY: "Empresa / Planta",
+    OTHER: "Otro espacio"
+  };
+
+  function formatNeed(need) {
+    if (!need) return "Servicio general MIRA";
+    const key = String(need).trim().toUpperCase();
+    if (NEED_TYPE_MAP[key]) {
+      return NEED_TYPE_MAP[key];
+    }
+    return need;
+  }
+
+  function formatDescription(desc) {
+    if (!desc) return "Sin descripción adicional proporcionada.";
+    let formatted = desc;
+    for (const [code, label] of Object.entries(NEED_TYPE_MAP)) {
+      const regex = new RegExp(`Tipo de inmueble:\\s*${code}\\b`, "gi");
+      formatted = formatted.replace(regex, `Tipo de inmueble: ${label}`);
+    }
+    return formatted;
+  }
 
   // 2. Formateador de fechas para México
   function formatDate(dateStr) {
@@ -82,7 +111,7 @@
   // 4. Configurar selector de vistas (Inicio, Mis solicitudes, Documentos, Mi perfil)
   function initViewNavigation() {
     const views = ["summary", "requests", "documents", "profile"];
-    
+
     window.switchView = function (viewName) {
       // Actualizar botones de navegación en el sidebar y enlaces
       document.querySelectorAll("[data-view]").forEach(btn => {
@@ -158,7 +187,7 @@
   function showOtpFeedback(message, type = "info") {
     const feedback = document.getElementById("otpFeedback");
     if (!feedback) return;
-    
+
     let colorStyle = "color: #2563EB;";
     if (type === "error") colorStyle = "color: #B91C1C;";
     if (type === "success") colorStyle = "color: #047857;";
@@ -200,9 +229,9 @@
         if (res && res.sent) {
           if (step1) step1.classList.add("hidden");
           if (step2) step2.classList.remove("hidden");
-          
+
           showOtpFeedback(`Código de 6 dígitos enviado a tu correo.`, "info");
-          
+
           if (otpCodeInput) {
             otpCodeInput.value = "";
             setTimeout(() => otpCodeInput.focus(), 100);
@@ -245,7 +274,7 @@
 
       try {
         const res = await api.verifyEmail(session.email, code);
-        
+
         if (res && (res.verified || res.emailVerified)) {
           // 1. Actualizar estado local de sesión
           session.emailVerified = true;
@@ -264,6 +293,7 @@
           let claimedCount = res.claimedCount || 0;
           try {
             const claimRes = await api.claimRequests();
+            hasClaimedInSession = true;
             if (claimRes && claimRes.claimedCount) {
               claimedCount = claimRes.claimedCount;
             }
@@ -272,7 +302,7 @@
           }
 
           // 3. Feedback visual
-          const claimMsg = claimedCount > 0 
+          const claimMsg = claimedCount > 0
             ? ` ¡Se vincularon ${claimedCount} solicitud(es) anteriores!`
             : "";
           showOtpFeedback(`¡Correo verificado con éxito!${claimMsg}`, "success");
@@ -281,8 +311,8 @@
           // 4. Cambiar tarjeta al estado verificado verde
           updateVerificationUI();
 
-          // 5. Recargar datos del dashboard y solicitudes
-          await loadClientData();
+          // 5. Recargar datos del dashboard y solicitudes (sin duplicar claim)
+          await loadClientData({ skipClaim: true });
           renderProfileView();
 
         } else {
@@ -316,9 +346,14 @@
   }
 
   // 6. Carga de datos reales desde backend
-  async function loadClientData() {
+  async function loadClientData(options = {}) {
+    if (isLoadingData) return;
+    isLoadingData = true;
+
     try {
-      if (session.emailVerified) {
+      // Reclamar solicitudes como máximo 1 vez si corresponde
+      if (session.emailVerified && !hasClaimedInSession && !options.skipClaim) {
+        hasClaimedInSession = true;
         try {
           await api.claimRequests();
         } catch (e) {
@@ -336,7 +371,7 @@
 
       // Guardar solicitudes y renderizar
       allRequests = Array.isArray(requestsData) ? requestsData : [];
-      
+
       renderRecentRequests(allRequests);
       applyFiltersAndSearch();
 
@@ -355,6 +390,8 @@
     } catch (error) {
       console.error("Error al cargar portal cliente:", error);
       PortalCommon.showNotification("Error al cargar tus solicitudes: " + error.message, "error");
+    } finally {
+      isLoadingData = false;
     }
   }
 
@@ -405,7 +442,7 @@
     tbody.innerHTML = top5.map(req => {
       const statusInfo = PortalCommon.STATUS_CONFIG[req.Status] || { label: req.Status || "Sin estado", class: "badge-sent" };
       const folio = req.Folio || "Sin folio";
-      const need = req.Need || "Servicio MIRA";
+      const need = formatNeed(req.Need);
       const dateText = formatDate(req.CreatedAt);
       const pillClass = statusPillClass[req.Status] || "pill-e";
 
@@ -435,8 +472,9 @@
 
     filteredRequests = allRequests.filter(r => {
       const folio = (r.Folio || "").toLowerCase();
-      const need = (r.Need || "").toLowerCase();
-      const matchesSearch = !term || folio.includes(term) || need.includes(term);
+      const needText = formatNeed(r.Need).toLowerCase();
+      const rawNeed = (r.Need || "").toLowerCase();
+      const matchesSearch = !term || folio.includes(term) || needText.includes(term) || rawNeed.includes(term);
       const matchesStatus = (selectedStatus === "ALL") || (r.Status === selectedStatus);
       return matchesSearch && matchesStatus;
     });
@@ -468,7 +506,7 @@
     listEl.innerHTML = requests.map(req => {
       const statusInfo = PortalCommon.STATUS_CONFIG[req.Status] || { label: req.Status || "-", class: "badge-sent" };
       const folio = req.Folio || "Sin folio";
-      const need = req.Need || "Servicio general MIRA";
+      const need = formatNeed(req.Need);
       const dateText = formatDate(req.CreatedAt);
       const isSelected = req.RequestId === selectedRequestId;
       const pillClass = statusPillClass[req.Status] || "pill-e";
@@ -525,13 +563,14 @@
     const folio = req.Folio || "SOLICITUD";
     const createdDate = formatDate(req.CreatedAt);
     const requestedDate = extractRequestedDate(req.Description);
-    const need = req.Need || "Servicio general MIRA";
+    const need = formatNeed(req.Need);
     const location = req.Location || "Ubicación nacional no especificada";
     const company = req.Company ? `${req.Company} (${req.ContactName || 'Titular'})` : (req.ContactName || "-");
-    const operator = req.OperatorName 
-      ? `🛠️ ${req.OperatorName}` 
-      : "En asignación por mesa de servicio MIRA";
-    const description = req.Description || "Sin descripción adicional proporcionada.";
+    const operatorName = req.OperatorName || req.AssignedOperatorName;
+    const operator = operatorName
+      ? `🛠️ ${operatorName}`
+      : "Pendiente de asignación";
+    const description = formatDescription(req.Description);
 
     const isAttendedDone = (req.Status === "A" || req.Status === "T");
     const isCompletedDone = (req.Status === "T");
@@ -693,7 +732,7 @@
     if (refreshBtn) {
       refreshBtn.addEventListener("click", async () => {
         refreshBtn.disabled = true;
-        await loadClientData();
+        await loadClientData({ skipClaim: true });
         refreshBtn.disabled = false;
         PortalCommon.showNotification("Solicitudes actualizadas correctamente.", "success");
       });

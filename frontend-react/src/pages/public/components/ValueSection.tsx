@@ -1,6 +1,9 @@
 import React from 'react';
+import { useQuoteModal } from '../../../context/QuoteModalContext';
 
 export const ValueSection: React.FC = () => {
+  const { openQuote } = useQuoteModal();
+
   return (
     <section className="valueSection">
       <div className="valueLead">
@@ -14,9 +17,14 @@ export const ValueSection: React.FC = () => {
           Centralizamos distintas especialidades para reducir coordinación, retrasos y riesgos
           operativos. Tú mantienes visibilidad del proyecto; nosotros nos ocupamos de la ejecución.
         </p>
-        <a href="#cotizar" style={{ textDecoration: 'none' }}>
-          <button type="button">Evaluar mi proyecto →</button>
-        </a>
+        <button
+          type="button"
+          id="btnValueQuote"
+          onClick={() => openQuote()}
+          className="cursor-pointer"
+        >
+          Evaluar mi proyecto →
+        </button>
       </div>
       <div className="valueCards">
         <article>

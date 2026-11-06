@@ -15,6 +15,9 @@ const OperatorDashboardPage = lazy(() =>
 const AdminDashboardPage = lazy(() =>
   import('../pages/admin/AdminDashboardPage').then((m) => ({ default: m.AdminDashboardPage }))
 );
+const AdminQuoteDetailPage = lazy(() =>
+  import('../pages/admin/AdminQuoteDetailPage').then((m) => ({ default: m.AdminQuoteDetailPage }))
+);
 const DemoPage = lazy(() =>
   import('../pages/public/DemoPage').then((m) => ({ default: m.DemoPage }))
 );
@@ -62,6 +65,15 @@ export const AppRoutes: React.FC = () => {
           element={
             <ProtectedRoute allowedRoles={['ADMIN']}>
               <AdminDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/cotizaciones/:id"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <AdminQuoteDetailPage />
             </ProtectedRoute>
           }
         />

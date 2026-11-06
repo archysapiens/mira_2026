@@ -1,6 +1,9 @@
 import React from 'react';
+import { useQuoteModal } from '../../../context/QuoteModalContext';
 
 export const HeroSection: React.FC = () => {
+  const { openQuote } = useQuoteModal();
+
   return (
     <section className="hero" id="inicio">
       <div className="heroShade" />
@@ -21,7 +24,12 @@ export const HeroSection: React.FC = () => {
         <div className="heroActions">
           <a
             href="#cotizar"
-            className="primary"
+            id="heroQuoteBtn"
+            onClick={(e) => {
+              e.preventDefault();
+              openQuote();
+            }}
+            className="primary cursor-pointer"
             style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}
           >
             Recibir propuesta <span aria-hidden="true" style={{ marginLeft: '12px' }}>→</span>

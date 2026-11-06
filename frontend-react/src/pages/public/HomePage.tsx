@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { NeedType } from '../../types';
+import { QuoteModalProvider, useQuoteModal } from '../../context/QuoteModalContext';
 import { PublicHeader } from './components/PublicHeader';
 import { HeroSection } from './components/HeroSection';
 import { TrustRibbon } from './components/TrustRibbon';
@@ -11,7 +12,6 @@ import { MethodSection } from './components/MethodSection';
 import { PortfolioSection } from './components/PortfolioSection';
 import { CaseStudySection } from './components/CaseStudySection';
 import { WhereSection } from './components/WhereSection';
-import { QuoteWizard } from './components/quote/QuoteWizard';
 import { FaqSection } from './components/FaqSection';
 import { FunnelBanner } from './components/FunnelBanner';
 import { PublicFooter } from './components/PublicFooter';
@@ -20,8 +20,10 @@ import { WhatsAppFloat } from './components/WhatsAppFloat';
 import { ChatBotWidget } from './components/ChatBotWidget';
 import { LightboxModal } from './components/LightboxModal';
 import { TrackingModal } from './components/TrackingModal';
+import { QuoteModal } from './components/quote/QuoteModal';
 
-export const HomePage: React.FC = () => {
+const HomePageContent: React.FC = () => {
+  const { openQuote, updateDraft } = useQuoteModal();
   const [isTrackingOpen, setIsTrackingOpen] = useState<boolean>(false);
   const [lightbox, setLightbox] = useState<{
     isOpen: boolean;
@@ -32,9 +34,6 @@ export const HomePage: React.FC = () => {
     src: '',
     caption: '',
   });
-
-  const [wizardSpace, setWizardSpace] = useState<NeedType>('HOTEL');
-  const [wizardServiceCode, setWizardServiceCode] = useState<string | undefined>(undefined);
 
   const handleOpenLightbox = (src: string, caption: string) => {
     setLightbox({
@@ -53,15 +52,12 @@ export const HomePage: React.FC = () => {
   };
 
   const handleSelectServiceFromPreview = (serviceCode: string) => {
-    setWizardServiceCode(serviceCode);
-    const quoteEl = document.getElementById('cotizar');
-    if (quoteEl) {
-      quoteEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    openQuote(serviceCode);
   };
 
   const handleSelectSpaceFromBot = (space: NeedType) => {
-    setWizardSpace(space);
+    updateDraft({ needType: space });
+    openQuote();
   };
 
   return (
@@ -91,10 +87,6 @@ export const HomePage: React.FC = () => {
         <WhereSection />
         <FaqSection />
         <FunnelBanner />
-        <QuoteWizard
-          initialSpaceType={wizardSpace}
-          initialServiceCode={wizardServiceCode}
-        />
       </main>
 
       {/* Pie de página corporativo */}
@@ -106,6 +98,8 @@ export const HomePage: React.FC = () => {
       <ChatBotWidget onSelectSpace={handleSelectSpaceFromBot} />
 
       {/* Modales */}
+      <QuoteModal />
+
       <LightboxModal
         isOpen={lightbox.isOpen}
         src={lightbox.src}
@@ -121,5 +115,12 @@ export const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export const HomePage: React.FC = () => {
+  return (
+    <QuoteModalProvider>
+      <HomePageContent />
+    </QuoteModalProvider>
+  );
+};
 
+export default HomePage;

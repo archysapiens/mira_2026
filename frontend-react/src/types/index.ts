@@ -134,7 +134,7 @@ export interface SystemUser {
 }
 
 export type OperatorView = 'summary' | 'requests' | 'profile';
-export type AdminView = 'summary' | 'requests' | 'notes' | 'users' | 'profile';
+export type AdminView = 'summary' | 'requests' | 'notes' | 'users' | 'profile' | 'clients' | 'reports';
 
 // Contratos del Cotizador Público
 export type NeedType = 'HOTEL' | 'RESIDENCE' | 'COMPANY' | 'OTHER';
@@ -146,12 +146,14 @@ export interface QuoteFormData {
   municipality: string;
   address: string;
   requestedDate: string;
+  urgency?: string;
   comments: string;
   description: string;
   contactName: string;
   phone: string;
   company: string;
   email: string;
+  contextAnswers?: Record<string, string>;
 }
 
 export interface CreateServiceRequestPayload {

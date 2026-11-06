@@ -1,7 +1,8 @@
 import React from 'react';
+import { useQuoteModal } from '../../../context/QuoteModalContext';
 
 interface ServicesSectionProps {
-  onSelectService: (serviceCode: string) => void;
+  onSelectService?: (serviceCode: string) => void;
 }
 
 const SERVICES = [
@@ -50,6 +51,16 @@ const SERVICES = [
 ];
 
 export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectService }) => {
+  const { openQuote } = useQuoteModal();
+
+  const handleServiceClick = (code: string) => {
+    if (onSelectService) {
+      onSelectService(code);
+    } else {
+      openQuote(code);
+    }
+  };
+
   return (
     <section className="services" id="servicios">
       <div className="sectionHead">
@@ -57,11 +68,14 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
           <p className="eyebrow dark">Catálogo</p>
           <h2>Servicios para cada espacio</h2>
         </div>
-        <a href="#cotizar" style={{ textDecoration: 'none' }}>
-          <button type="button" className="textButton">
-            Seleccionar servicios →
-          </button>
-        </a>
+        <button
+          type="button"
+          id="btnSelectServicesSection"
+          onClick={() => openQuote()}
+          className="textButton cursor-pointer"
+        >
+          Seleccionar servicios →
+        </button>
       </div>
 
       <div className="serviceGrid">
@@ -70,11 +84,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
             key={s.code}
             role="button"
             tabIndex={0}
-            onClick={() => onSelectService(s.code)}
+            onClick={() => handleServiceClick(s.code)}
             onKeyDown={(e) => {
               if (e.key === ' ' || e.key === 'Enter') {
                 e.preventDefault();
-                onSelectService(s.code);
+                handleServiceClick(s.code);
               }
             }}
           >

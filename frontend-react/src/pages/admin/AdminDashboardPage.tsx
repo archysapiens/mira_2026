@@ -10,6 +10,8 @@ import { AdminRequestsView } from './components/AdminRequestsView';
 import { AdminNotesView } from './components/AdminNotesView';
 import { AdminUsersView } from './components/AdminUsersView';
 import { AdminProfileView } from './components/AdminProfileView';
+import { AdminClientsView } from './components/AdminClientsView';
+import { AdminReportsView } from './components/AdminReportsView';
 import { Header } from '../../components/layout/Header';
 
 export const AdminDashboardPage: React.FC = () => {
@@ -92,6 +94,17 @@ export const AdminDashboardPage: React.FC = () => {
   useEffect(() => {
     loadData();
     loadUsersData();
+
+    // Sincronización automática al recuperar el foco de la ventana (ej. tras editar en otra pestaña)
+    const handleWindowFocus = () => {
+      loadData();
+      loadUsersData();
+    };
+
+    window.addEventListener('focus', handleWindowFocus);
+    return () => {
+      window.removeEventListener('focus', handleWindowFocus);
+    };
   }, [loadData, loadUsersData]);
 
   const handleSelectRequestFromRecent = (requestId: string) => {
@@ -112,19 +125,29 @@ export const AdminDashboardPage: React.FC = () => {
       {/* Contenedor Principal */}
       <div className="flex-1 flex flex-col min-w-0">
         <Header
-          userName={user?.name || 'Administrador General'}
+          userName={user?.name || 'Diana Administradora'}
           userRole="ADMIN"
           title={
             currentView === 'summary'
               ? 'Consola de Administración'
               : currentView === 'requests'
-              ? 'Gestión de Solicitudes'
+              ? 'Cotizaciones'
+              : currentView === 'clients'
+              ? 'Cartera de Clientes'
+              : currentView === 'reports'
+              ? 'Reportes y Rendimiento'
               : currentView === 'notes'
               ? 'Bitácora Global'
               : currentView === 'users'
               ? 'Usuarios del Sistema'
               : 'Perfil Administrador'
           }
+          subtitle={
+            currentView === 'requests'
+              ? 'Administración y seguimiento de solicitudes de cotización'
+              : undefined
+          }
+          hideLogo={true}
           onLogout={handleLogout}
           onToggleSidebar={() => setIsOpenMobile((prev) => !prev)}
         />
@@ -167,6 +190,9 @@ export const AdminDashboardPage: React.FC = () => {
               onViewAllRequests={() => setCurrentView('requests')}
               onNavigateToUsers={() => setCurrentView('users')}
               onNavigateToNotes={() => setCurrentView('notes')}
+              onNavigateToClients={() => setCurrentView('clients')}
+              onNavigateToReports={() => setCurrentView('reports')}
+              onNavigateToSettings={() => setCurrentView('profile')}
             />
           )}
 
@@ -183,6 +209,14 @@ export const AdminDashboardPage: React.FC = () => {
                 await loadUsersData();
               }}
             />
+          )}
+
+          {currentView === 'clients' && (
+            <AdminClientsView requests={requests} users={users} />
+          )}
+
+          {currentView === 'reports' && (
+            <AdminReportsView counts={counts} requests={requests} />
           )}
 
           {currentView === 'notes' && (

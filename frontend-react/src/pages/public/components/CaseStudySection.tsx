@@ -1,6 +1,9 @@
 import React from 'react';
+import { useQuoteModal } from '../../../context/QuoteModalContext';
 
 export const CaseStudySection: React.FC = () => {
+  const { openQuote } = useQuoteModal();
+
   return (
     <section className="caseStudy">
       <div className="caseImage">
@@ -22,9 +25,14 @@ export const CaseStudySection: React.FC = () => {
             <b>Documentado</b>solicitud y seguimiento por folio
           </span>
         </div>
-        <a href="#cotizar" style={{ textDecoration: 'none' }}>
-          <button type="button">Solicitar diagnóstico →</button>
-        </a>
+        <button
+          type="button"
+          id="btnCaseStudyQuote"
+          onClick={() => openQuote()}
+          className="cursor-pointer"
+        >
+          Solicitar diagnóstico →
+        </button>
       </div>
     </section>
   );

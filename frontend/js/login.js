@@ -16,9 +16,21 @@ document.querySelectorAll('[data-email]').forEach(b => {
   b.onclick = () => email.value = b.dataset.email;
 });
 
+let isSubmitting = false;
+
 // Manejo del formulario de inicio de sesión
 login.onsubmit = async (e) => {
   e.preventDefault();
+  if (isSubmitting) return;
+
+  const submitBtn = login.querySelector('button.primary') || login.querySelector('button[type="submit"]');
+  const originalBtnText = submitBtn ? submitBtn.textContent : '';
+
+  isSubmitting = true;
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Iniciando sesión...";
+  }
   error.classList.add('hidden');
 
   try {
@@ -48,5 +60,10 @@ login.onsubmit = async (e) => {
   } catch (x) {
     error.textContent = x.message || "Error al iniciar sesión";
     error.classList.remove('hidden');
+    isSubmitting = false;
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText || "Iniciar sesión →";
+    }
   }
 };

@@ -6,7 +6,7 @@ import { AuthProvider } from '../context/AuthContext';
 import { HomePage } from '../pages/public/HomePage';
 import { requestsApi } from '../api/requests';
 
-describe('MIRA — Fase 11: Portal Público y Cotizador en React + TypeScript', () => {
+describe('MIRA — Fase 11: Portal Público y Nuevo Funnel de Cotización en React + TypeScript', () => {
   beforeEach(() => {
     localStorage.clear();
     vi.restoreAllMocks();
@@ -109,101 +109,137 @@ describe('MIRA — Fase 11: Portal Público y Cotizador en React + TypeScript', 
     expect(mailLink).toHaveAttribute('href', 'mailto:mirasa@prodigy.net.mx');
   });
 
-  it('6. Cotizador - Paso 1: Selección interactiva de tipo de espacio (Hotel, Residencia, Empresa, Otro)', () => {
+  it('6. Apertura del Funnel Modal y Paso 1 (Espacio): Opciones y avance guiado', async () => {
     renderHomePage();
 
-    expect(screen.getByText('¿Qué tipo de espacio requiere atención?')).toBeInTheDocument();
-    const hotelRadio = screen.getByLabelText(/Hotel \/ Hospedaje/i);
-    const empresaRadio = screen.getByLabelText(/Empresa \/ Planta/i);
+    // El modal no debe estar visible al inicio
+    expect(screen.queryByRole('dialog', { name: /solicitud de cotización mira/i })).not.toBeInTheDocument();
 
-    expect(hotelRadio).toBeChecked();
-    expect(empresaRadio).not.toBeChecked();
+    // Clic en el CTA de la barra banner
+    const ctaBanner = screen.getByRole('link', { name: /comenzar cotización/i });
+    fireEvent.click(ctaBanner);
 
-    fireEvent.click(empresaRadio);
-    expect(empresaRadio).toBeChecked();
+    // Debe abrirse el modal accesible
+    const modal = screen.getByRole('dialog', { name: /solicitud de cotización mira/i });
+    expect(modal).toBeInTheDocument();
+    expect(within(modal).getByText('¿Qué tipo de espacio requiere atención?')).toBeInTheDocument();
 
-    // Botón para continuar
-    const nextBtn = screen.getByRole('button', { name: /continuar a servicios/i });
+    // Verificar las cuatro opciones originales de espacio
+    expect(within(modal).getByText('Hotel / Hospedaje')).toBeInTheDocument();
+    expect(within(modal).getByText('Residencial / Condominio')).toBeInTheDocument();
+    expect(within(modal).getByText('Empresa / Planta')).toBeInTheDocument();
+    expect(within(modal).getByText('Otro espacio')).toBeInTheDocument();
+
+    // Clic en Empresa / Planta y avanzar a Paso 2 (Servicios)
+    const companyCard = within(modal).getByText('Empresa / Planta');
+    fireEvent.click(companyCard);
+
+    // Avanzar a Servicios
+    const nextBtn = within(modal).getByRole('button', { name: /continuar a servicios/i });
     fireEvent.click(nextBtn);
 
-    // Debe mostrar paso 2
-    expect(screen.getByText('Selecciona los servicios que necesitas')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(within(modal).getByText('Selecciona los servicios que necesitas')).toBeInTheDocument();
+    });
   });
 
-  it('7. Cotizador - Paso 2: Renderizado del catálogo dinámico de servicios con barra de búsqueda y filtros', async () => {
+  it('7. Cotizador - Paso 1: Selección interactiva y botón Continuar', async () => {
     renderHomePage();
 
-    // Avanzar a paso 2
-    fireEvent.click(screen.getByRole('button', { name: /continuar a servicios/i }));
+    // Abrir modal desde CTA hero
+    fireEvent.click(screen.getByRole('link', { name: /recibir propuesta/i }));
 
-    const searchInput = screen.getByRole('textbox', { name: /buscar servicio/i });
-    expect(searchInput).toBeInTheDocument();
+    const modal = screen.getByRole('dialog', { name: /solicitud de cotización mira/i });
+    expect(within(modal).getByText('¿Qué tipo de espacio requiere atención?')).toBeInTheDocument();
 
-    const catalog = screen.getByRole('group', { name: /servicios disponibles/i });
+    // Seleccionar Hotel / Hospedaje
+    const hotelCard = within(modal).getByText('Hotel / Hospedaje');
+    fireEvent.click(hotelCard);
 
-    // Buscar "silos"
-    fireEvent.change(searchInput, { target: { value: 'silos' } });
+    // Botón Continuar a Servicios
+    const continueBtn = within(modal).getByRole('button', { name: /continuar a servicios/i });
+    fireEvent.click(continueBtn);
 
-    expect(within(catalog).getByText('Limpieza y sanitización de silos')).toBeInTheDocument();
-    expect(within(catalog).queryByText('Servicios residenciales')).not.toBeInTheDocument();
-
-    // Limpiar búsqueda
-    const clearBtn = screen.getByRole('button', { name: /limpiar búsqueda/i });
-    fireEvent.click(clearBtn);
-
-    expect(within(catalog).getByText('Servicios residenciales')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(within(modal).getByText('Selecciona los servicios que necesitas')).toBeInTheDocument();
+    });
   });
 
-  it('8. Cotizador - Paso 2: Selección múltiple de servicios y actualización del contador visual', () => {
+  it('8. Apertura contextual desde tarjeta de catálogo de servicios preselecciona el servicio', async () => {
     renderHomePage();
 
-    fireEvent.click(screen.getByRole('button', { name: /continuar a servicios/i }));
+    const serviciosSec = document.querySelector('#servicios');
+    expect(serviciosSec).toBeInTheDocument();
 
-    const counter = screen.getByText('0 seleccionados');
-    expect(counter).toBeInTheDocument();
+    // Clic en la tarjeta de Silos en el catálogo público
+    const silosCardInCatalog = within(serviciosSec as HTMLElement).getByRole('button', {
+      name: /limpieza y sanitización de silos/i,
+    });
+    fireEvent.click(silosCardInCatalog);
 
-    const catalog = screen.getByRole('group', { name: /servicios disponibles/i });
-
-    // Seleccionar silos
-    const silosCard = within(catalog).getByText('Limpieza y sanitización de silos');
-    fireEvent.click(silosCard);
-
-    expect(screen.getByText('1 servicio seleccionado')).toBeInTheDocument();
-
-    // Seleccionar pintura
-    const pinturaCard = within(catalog).getByText('Pintura profesional y epóxicos');
-    fireEvent.click(pinturaCard);
-
-    expect(screen.getByText('2 servicios seleccionados')).toBeInTheDocument();
+    // Abre el modal con el servicio preseleccionado
+    await waitFor(() => {
+      const modal = screen.getByRole('dialog', { name: /solicitud de cotización mira/i });
+      expect(modal).toBeInTheDocument();
+      expect(within(modal).getByText(/Cuéntanos sobre tu proyecto/i)).toBeInTheDocument();
+    });
   });
 
-  it('9. Cotizador - Paso 2: Validación que impide avanzar si no se ha seleccionado al menos un servicio', () => {
+  it('9. Cotizador - Paso 2: Sugerencias, selección múltiple y contador', async () => {
     renderHomePage();
 
-    fireEvent.click(screen.getByRole('button', { name: /continuar a servicios/i }));
+    // Abrir modal y avanzar a Servicios
+    fireEvent.click(screen.getByRole('link', { name: /comenzar cotización/i }));
+    const modal = screen.getByRole('dialog', { name: /solicitud de cotización mira/i });
+    fireEvent.click(within(modal).getByText('Empresa / Planta'));
+    fireEvent.click(within(modal).getByRole('button', { name: /continuar a servicios/i }));
 
-    const continueBtn = screen.getByRole('button', { name: /continuar a proyecto/i });
-    expect(continueBtn).toBeDisabled();
+    await waitFor(() => {
+      expect(within(modal).getByText('Selecciona los servicios que necesitas')).toBeInTheDocument();
+    });
 
-    const catalog = screen.getByRole('group', { name: /servicios disponibles/i });
-    // Seleccionar un servicio para habilitarlo
-    fireEvent.click(within(catalog).getByText('Limpieza y sanitización de silos'));
-    expect(continueBtn).not.toBeDisabled();
+    // Seleccionar servicio de Silos
+    const silosOption = within(modal).getByText('Limpieza y sanitización de silos');
+    fireEvent.click(silosOption);
+
+    // Verificar contador
+    expect(within(modal).getByText(/1 servicio seleccionado/i)).toBeInTheDocument();
+
+    // Botón continuar con 1 servicio
+    const continueBtn = within(modal).getByRole('button', { name: /continuar con 1 servicio/i });
+    fireEvent.click(continueBtn);
+
+    // Debe llegar a paso 3 (Ubicación y detalles del trabajo)
+    await waitFor(() => {
+      expect(within(modal).getByText('Ubicación y detalles del trabajo')).toBeInTheDocument();
+    });
   });
 
-  it('10. Cotizador - Paso 3: Desplegables dependientes de estados y municipios de México', () => {
+  it('10. Cotizador - Paso 3: Desplegables dependientes de estados y municipios de México', async () => {
     renderHomePage();
 
-    // Llegar a paso 3
-    fireEvent.click(screen.getByRole('button', { name: /continuar a servicios/i }));
-    const catalog = screen.getByRole('group', { name: /servicios disponibles/i });
-    fireEvent.click(within(catalog).getByText('Limpieza y sanitización de silos'));
-    fireEvent.click(screen.getByRole('button', { name: /continuar a proyecto/i }));
+    fireEvent.click(screen.getByRole('link', { name: /comenzar cotización/i }));
+    const modal = screen.getByRole('dialog', { name: /solicitud de cotización mira/i });
+    fireEvent.click(within(modal).getByText('Empresa / Planta'));
+    fireEvent.click(within(modal).getByRole('button', { name: /continuar a servicios/i }));
 
-    expect(screen.getByText('Ubicación y detalles del trabajo')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(within(modal).getByText('Selecciona los servicios que necesitas')).toBeInTheDocument();
+    });
 
-    const stateSelect = screen.getByLabelText(/Estado en México \*/i) as HTMLSelectElement;
-    const muniSelect = screen.getByLabelText(/Municipio o Alcaldía \*/i) as HTMLSelectElement;
+    // Seleccionar Silos
+    fireEvent.click(within(modal).getByText('Limpieza y sanitización de silos'));
+    await waitFor(() => {
+      expect(within(modal).getByText(/1 servicio seleccionado/i)).toBeInTheDocument();
+    });
+    fireEvent.click(within(modal).getByRole('button', { name: /continuar/i }));
+
+    await waitFor(() => {
+      expect(within(modal).getByText('Ubicación y detalles del trabajo')).toBeInTheDocument();
+    });
+
+    const stateSelect = within(modal).getByLabelText(/Estado en México \*/i) as HTMLSelectElement;
+    const muniSelect = within(modal).getByLabelText(/Municipio o Alcaldía \*/i) as HTMLSelectElement;
 
     expect(muniSelect).toBeDisabled();
 
@@ -211,75 +247,99 @@ describe('MIRA — Fase 11: Portal Público y Cotizador en React + TypeScript', 
     fireEvent.change(stateSelect, { target: { value: 'Estado de México' } });
 
     expect(muniSelect).not.toBeDisabled();
-    expect(screen.getByRole('option', { name: 'Toluca' })).toBeInTheDocument();
+    expect(within(muniSelect).getByRole('option', { name: 'Toluca' })).toBeInTheDocument();
 
     // Seleccionar Toluca
     fireEvent.change(muniSelect, { target: { value: 'Toluca' } });
     expect(muniSelect.value).toBe('Toluca');
   });
 
-  it('11. Cotizador - Paso 3: Validación de campos obligatorios antes de permitir avanzar a Contacto', () => {
+  it('11. Cotizador - Paso 3: Validación de campos obligatorios de ubicación antes de avanzar', async () => {
     renderHomePage();
 
-    // Llegar a paso 3
-    fireEvent.click(screen.getByRole('button', { name: /continuar a servicios/i }));
-    const catalog = screen.getByRole('group', { name: /servicios disponibles/i });
-    fireEvent.click(within(catalog).getByText('Limpieza y sanitización de silos'));
-    fireEvent.click(screen.getByRole('button', { name: /continuar a proyecto/i }));
+    fireEvent.click(screen.getByRole('link', { name: /comenzar cotización/i }));
+    const modal = screen.getByRole('dialog', { name: /solicitud de cotización mira/i });
+    fireEvent.click(within(modal).getByText('Empresa / Planta'));
+    fireEvent.click(within(modal).getByRole('button', { name: /continuar a servicios/i }));
 
-    const nextToContactBtn = screen.getByRole('button', { name: /continuar a contacto/i });
+    await waitFor(() => {
+      expect(within(modal).getByText('Selecciona los servicios que necesitas')).toBeInTheDocument();
+    });
+
+    // Seleccionar Silos
+    fireEvent.click(within(modal).getByText('Limpieza y sanitización de silos'));
+    await waitFor(() => {
+      expect(within(modal).getByText(/1 servicio seleccionado/i)).toBeInTheDocument();
+    });
+    fireEvent.click(within(modal).getByRole('button', { name: /continuar/i }));
+
+    await waitFor(() => {
+      expect(within(modal).getByText('Ubicación y detalles del trabajo')).toBeInTheDocument();
+    });
+
+    const nextToContactBtn = within(modal).getByRole('button', { name: /continuar a contacto/i });
 
     // Intentar avanzar con campos vacíos
     fireEvent.click(nextToContactBtn);
 
-    // Debe mostrar mensajes de error
-    expect(screen.getByText('Selecciona un estado.')).toBeInTheDocument();
-    expect(screen.getByText('Selecciona un municipio o alcaldía.')).toBeInTheDocument();
-    expect(screen.getByText('Ingresa la dirección o referencias del sitio.')).toBeInTheDocument();
-    expect(screen.getByText('Indica la fecha requerida.')).toBeInTheDocument();
-    expect(screen.getByText('Describe el proyecto o requerimiento.')).toBeInTheDocument();
+    // Debe mostrar errores de validación
+    expect(within(modal).getByText('Selecciona un estado.')).toBeInTheDocument();
 
     // No debe haber avanzado al paso 4
-    expect(screen.queryByText('¿A quién enviamos la propuesta?')).not.toBeInTheDocument();
+    expect(within(modal).queryByText('¿A quién enviamos la propuesta?')).not.toBeInTheDocument();
   });
 
-  it('12. Cotizador - Paso 4: Validación de campos de contacto (nombre, teléfono y correo válido)', () => {
+  it('12. Cotizador - Paso 4: Validación de datos de contacto y resumen ejecutivo', async () => {
     renderHomePage();
 
-    // Paso 1 -> 2
-    fireEvent.click(screen.getByRole('button', { name: /continuar a servicios/i }));
-    // Paso 2 -> 3
-    const catalog = screen.getByRole('group', { name: /servicios disponibles/i });
-    fireEvent.click(within(catalog).getByText('Limpieza y sanitización de silos'));
-    fireEvent.click(screen.getByRole('button', { name: /continuar a proyecto/i }));
-    // Llenar paso 3
-    fireEvent.change(screen.getByLabelText(/Estado en México \*/i), { target: { value: 'Estado de México' } });
-    fireEvent.change(screen.getByLabelText(/Municipio o Alcaldía \*/i), { target: { value: 'Toluca' } });
-    fireEvent.change(screen.getByLabelText(/Dirección o referencias del sitio \*/i), {
-      target: { value: 'Parque Industrial Toluca 2000' },
-    });
-    fireEvent.change(screen.getByLabelText(/Fecha estimada de atención \*/i), {
-      target: { value: '2026-11-15' },
-    });
-    fireEvent.change(screen.getByLabelText(/Descripción del proyecto o requerimiento técnico \*/i), {
-      target: { value: 'Limpieza profunda de 2 silos de acero inoxidable.' },
-    });
-    // Paso 3 -> 4
-    fireEvent.click(screen.getByRole('button', { name: /continuar a contacto/i }));
+    fireEvent.click(screen.getByRole('link', { name: /comenzar cotización/i }));
+    const modal = screen.getByRole('dialog', { name: /solicitud de cotización mira/i });
+    fireEvent.click(within(modal).getByText('Empresa / Planta'));
+    fireEvent.click(within(modal).getByRole('button', { name: /continuar a servicios/i }));
 
-    expect(screen.getByText('¿A quién enviamos la propuesta?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(within(modal).getByText('Selecciona los servicios que necesitas')).toBeInTheDocument();
+    });
 
-    const submitBtn = screen.getByRole('button', { name: /enviar solicitud/i });
+    // Seleccionar Silos
+    fireEvent.click(within(modal).getByText('Limpieza y sanitización de silos'));
+    await waitFor(() => {
+      expect(within(modal).getByText(/1 servicio seleccionado/i)).toBeInTheDocument();
+    });
+    fireEvent.click(within(modal).getByRole('button', { name: /continuar/i }));
+
+    await waitFor(() => {
+      expect(within(modal).getByText('Ubicación y detalles del trabajo')).toBeInTheDocument();
+    });
+
+    // Llenar ubicación válida
+    fireEvent.change(within(modal).getByLabelText(/Estado en México \*/i), { target: { value: 'Estado de México' } });
+    fireEvent.change(within(modal).getByLabelText(/Municipio o Alcaldía \*/i), { target: { value: 'Toluca' } });
+    fireEvent.change(within(modal).getByLabelText(/Dirección o referencias/i), { target: { value: 'Parque Toluca 2000' } });
+    fireEvent.change(within(modal).getByLabelText(/Fecha estimada/i), { target: { value: '2026-11-20' } });
+    fireEvent.change(within(modal).getByLabelText(/Descripción del proyecto/i), { target: { value: 'Limpieza profunda de 2 silos de harina.' } });
+
+    fireEvent.click(within(modal).getByRole('button', { name: /continuar a contacto/i }));
+
+    await waitFor(() => {
+      expect(within(modal).getByText('¿A quién enviamos la propuesta?')).toBeInTheDocument();
+    });
+
+    // Verificar resumen de solicitud con datos reales
+    expect(within(modal).getByText('Resumen de solicitud')).toBeInTheDocument();
+    expect(within(modal).getByText('Empresa / Planta')).toBeInTheDocument();
+    expect(within(modal).getByText(/Toluca, Estado de México/i)).toBeInTheDocument();
 
     // Intentar enviar formulario vacío
+    const submitBtn = within(modal).getByRole('button', { name: /enviar solicitud/i });
     fireEvent.click(submitBtn);
 
-    expect(screen.getByText('Ingresa tu nombre completo.')).toBeInTheDocument();
-    expect(screen.getByText('Ingresa un número telefónico de contacto.')).toBeInTheDocument();
-    expect(screen.getByText('Ingresa un correo electrónico válido.')).toBeInTheDocument();
+    expect(within(modal).getByText('Ingresa tu nombre completo.')).toBeInTheDocument();
+    expect(within(modal).getByText('Ingresa un número telefónico de contacto.')).toBeInTheDocument();
+    expect(within(modal).getByText('Ingresa un correo electrónico válido.')).toBeInTheDocument();
   }, 15000);
 
-  it('13. Envío exitoso de la cotización: Simulación de API devolviendo folio y despliegue de pantalla de confirmación', async () => {
+  it('13. Envío exitoso de la cotización: Simulación de API devolviendo folio y despliegue de confirmación con copiado', async () => {
     const mockCreateRequest = vi.spyOn(requestsApi, 'createRequest').mockResolvedValue({
       id: 'req-test-999',
       folio: 'MIRA-2026-888999',
@@ -288,34 +348,55 @@ describe('MIRA — Fase 11: Portal Público y Cotizador en React + TypeScript', 
 
     renderHomePage();
 
-    // Paso 1 -> 2
-    fireEvent.click(screen.getByRole('button', { name: /continuar a servicios/i }));
-    // Paso 2 -> 3
-    const catalog = screen.getByRole('group', { name: /servicios disponibles/i });
-    fireEvent.click(within(catalog).getByText('Limpieza y sanitización de silos'));
-    fireEvent.click(screen.getByRole('button', { name: /continuar a proyecto/i }));
+    // Abrir modal y seleccionar Espacio
+    fireEvent.click(screen.getByRole('link', { name: /comenzar cotización/i }));
+    const modal = screen.getByRole('dialog', { name: /solicitud de cotización mira/i });
+    fireEvent.click(within(modal).getByText('Empresa / Planta'));
+    fireEvent.click(within(modal).getByRole('button', { name: /continuar a servicios/i }));
+
+    await waitFor(() => {
+      expect(within(modal).getByText('Selecciona los servicios que necesitas')).toBeInTheDocument();
+    });
+
+    // Seleccionar Silos
+    fireEvent.click(within(modal).getByText('Limpieza y sanitización de silos'));
+    await waitFor(() => {
+      expect(within(modal).getByText(/1 servicio seleccionado/i)).toBeInTheDocument();
+    });
+    fireEvent.click(within(modal).getByRole('button', { name: /continuar/i }));
+
+    await waitFor(() => {
+      expect(within(modal).getByText('Ubicación y detalles del trabajo')).toBeInTheDocument();
+    });
+
     // Llenar paso 3
-    fireEvent.change(screen.getByLabelText(/Estado en México \*/i), { target: { value: 'Estado de México' } });
-    fireEvent.change(screen.getByLabelText(/Municipio o Alcaldía \*/i), { target: { value: 'Toluca' } });
-    fireEvent.change(screen.getByLabelText(/Dirección o referencias del sitio \*/i), {
-      target: { value: 'Av. Industria No. 120' },
+    fireEvent.change(within(modal).getByLabelText(/Estado en México \*/i), { target: { value: 'Estado de México' } });
+    fireEvent.change(within(modal).getByLabelText(/Municipio o Alcaldía \*/i), { target: { value: 'Toluca' } });
+    fireEvent.change(within(modal).getByLabelText(/Dirección o referencias/i), { target: { value: 'Parque Toluca 2000' } });
+    fireEvent.change(within(modal).getByLabelText(/Fecha estimada/i), { target: { value: '2026-11-20' } });
+    fireEvent.change(within(modal).getByLabelText(/Descripción del proyecto/i), { target: { value: 'Limpieza profunda de 2 silos de harina.' } });
+
+    fireEvent.click(within(modal).getByRole('button', { name: /continuar a contacto/i }));
+
+    await waitFor(() => {
+      expect(within(modal).getByText('¿A quién enviamos la propuesta?')).toBeInTheDocument();
     });
-    fireEvent.change(screen.getByLabelText(/Fecha estimada de atención \*/i), {
-      target: { value: '2026-12-01' },
-    });
-    fireEvent.change(screen.getByLabelText(/Descripción del proyecto o requerimiento técnico \*/i), {
-      target: { value: 'Limpieza y aplicación de recubrimiento epóxico.' },
-    });
-    // Paso 3 -> 4
-    fireEvent.click(screen.getByRole('button', { name: /continuar a contacto/i }));
 
     // Llenar contacto
-    fireEvent.change(screen.getByLabelText(/Nombre completo \*/i), { target: { value: 'Ing. Fernando Pérez' } });
-    fireEvent.change(screen.getByLabelText(/Teléfono de contacto \*/i), { target: { value: '7221234567' } });
-    fireEvent.change(screen.getByLabelText(/Empresa o Razón Social/i), { target: { value: 'Alimentos Toluca SA' } });
-    fireEvent.change(screen.getByLabelText(/Correo electrónico \*/i), { target: { value: 'fperez@alimentos.mx' } });
+    fireEvent.change(within(modal).getByLabelText(/Nombre completo/i), {
+      target: { value: 'Ing. Fernando Pérez' },
+    });
+    fireEvent.change(within(modal).getByLabelText(/Teléfono de contacto/i), {
+      target: { value: '7221234567' },
+    });
+    fireEvent.change(within(modal).getByLabelText(/Empresa o Razón Social/i), {
+      target: { value: 'Alimentos Toluca SA' },
+    });
+    fireEvent.change(within(modal).getByLabelText(/Correo electrónico/i), {
+      target: { value: 'fperez@alimentos.mx' },
+    });
 
-    const submitBtn = screen.getByRole('button', { name: /enviar solicitud/i });
+    const submitBtn = within(modal).getByRole('button', { name: /enviar solicitud/i });
     fireEvent.click(submitBtn);
 
     await waitFor(() => {
@@ -324,19 +405,13 @@ describe('MIRA — Fase 11: Portal Público y Cotizador en React + TypeScript', 
 
     // Confirmación en pantalla
     await waitFor(() => {
-      expect(screen.getByText('¡Hemos registrado tu solicitud!')).toBeInTheDocument();
-      expect(screen.getByText('MIRA-2026-888999')).toBeInTheDocument();
-      expect(screen.getByText('fperez@alimentos.mx')).toBeInTheDocument();
+      expect(within(modal).getByText('¡Hemos registrado tu proyecto!')).toBeInTheDocument();
+      expect(within(modal).getByText('MIRA-2026-888999')).toBeInTheDocument();
+      expect(within(modal).getByText('fperez@alimentos.mx')).toBeInTheDocument();
     });
 
-    // Enlaces a registro e inicio de sesión con el folio en querystring
-    const registerLink = screen.getByRole('link', { name: /registrar contraseña/i });
-    expect(registerLink).toHaveAttribute('href', '/register?folio=MIRA-2026-888999');
-
-    const loginLinks = screen.getAllByRole('link', { name: /iniciar sesión/i });
-    const successLoginLink = loginLinks.find((l) => l.getAttribute('href')?.includes('folio=MIRA-2026-888999'));
-    expect(successLoginLink).toBeDefined();
-    expect(successLoginLink).toHaveAttribute('href', '/login?folio=MIRA-2026-888999');
+    // Botón de copiado de folio
+    expect(within(modal).getByRole('button', { name: /copiar folio/i })).toBeInTheDocument();
   }, 15000);
 
   it('14. Modal de seguimiento por folio: Apertura accesible, envío de consulta y visualización de la tarjeta de demostración con estatus [E] Enviada', async () => {

@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
+import { useQuoteModal } from '../../../context/QuoteModalContext';
 import { isDemoMode } from '../../../utils/demoMode';
+import { ThemeSelector } from '../../../components/common/ThemeSelector';
 
 interface PublicHeaderProps {
   onOpenTracking: () => void;
@@ -9,6 +11,7 @@ interface PublicHeaderProps {
 
 export const PublicHeader: React.FC<PublicHeaderProps> = ({ onOpenTracking }) => {
   const { user, isAuthenticated } = useAuth();
+  const { openQuote } = useQuoteModal();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [isMoreOpen, setIsMoreOpen] = useState<boolean>(false);
   const moreDropdownRef = useRef<HTMLDivElement>(null);
@@ -187,17 +190,35 @@ export const PublicHeader: React.FC<PublicHeaderProps> = ({ onOpenTracking }) =>
 
           <a
             href="#cotizar"
-            className="navCta"
-            onClick={closeAll}
+            id="navQuoteBtn"
+            className="navCta cursor-pointer"
+            onClick={(e) => {
+              e.preventDefault();
+              closeAll();
+              openQuote();
+            }}
           >
             Cotizar servicio
           </a>
+
+          {/* Selector de tema circular: Sol en claro, Luna en oscuro */}
+          <ThemeSelector id="desktopThemeToggleBtn" className="hidden lg:inline-flex" />
         </div>
       </nav>
 
       {/* Barra de acciones móvil en cabecera */}
-      <div className="mobileHeaderActions">
-        <a href="#cotizar" className="navCta mobileCta">
+      <div className="mobileHeaderActions flex items-center gap-2">
+        <ThemeSelector id="mobileThemeToggleBtn" />
+        <a
+          href="#cotizar"
+          id="navMobileQuoteBtn"
+          className="navCta mobileCta cursor-pointer"
+          onClick={(e) => {
+            e.preventDefault();
+            closeAll();
+            openQuote();
+          }}
+        >
           Cotizar
         </a>
         <button

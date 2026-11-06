@@ -57,7 +57,7 @@ export const OperatorAssignSelector: React.FC<OperatorAssignSelectorProps> = ({
         </span>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+      <div className="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center w-full min-w-0">
         <select
           id="operatorAssignSelect"
           value={selectedOperatorId}
@@ -65,12 +65,12 @@ export const OperatorAssignSelector: React.FC<OperatorAssignSelectorProps> = ({
             setSelectedOperatorId(e.target.value);
             setFeedback(null);
           }}
-          className="flex-1 px-3 py-2 text-xs bg-white border border-[#E8ECEF] rounded-lg focus:outline-none focus:border-[#7AC143] font-medium text-[#062D3A]"
+          className="flex-1 min-w-0 w-full px-3 py-1.5 text-xs bg-white border border-[#E8ECEF] rounded-lg focus:outline-none focus:border-[#7AC143] font-medium text-[#062D3A] truncate"
         >
           <option value="">-- Seleccionar operador especialista --</option>
           {activeOperators.map((op) => (
             <option key={op.UserId} value={op.UserId}>
-              {op.FullName} ({op.Email})
+              {op.FullName}
             </option>
           ))}
         </select>
@@ -78,7 +78,7 @@ export const OperatorAssignSelector: React.FC<OperatorAssignSelectorProps> = ({
         <button
           type="submit"
           disabled={isAssigning || !selectedOperatorId}
-          className="px-4 py-2 bg-[#7AC143] hover:bg-[#68A635] text-white text-xs font-bold rounded-lg transition-colors cursor-pointer disabled:opacity-50 shrink-0"
+          className="px-3.5 py-1.5 bg-[#7AC143] hover:bg-[#68A635] text-white text-xs font-bold rounded-lg transition-colors cursor-pointer disabled:opacity-50 shrink-0 whitespace-nowrap shadow-2xs"
         >
           {isAssigning ? 'Asignando...' : 'Asignar Especialista'}
         </button>

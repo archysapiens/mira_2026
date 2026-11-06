@@ -54,7 +54,21 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
       </button>
 
       <figure>
-        <img id="lightboxImg" src={src} alt={caption} />
+        <img
+          id="lightboxImg"
+          src={src}
+          alt={caption}
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.dataset.fallbackTried) return;
+            target.dataset.fallbackTried = 'true';
+            if (target.src.endsWith('.jpg')) {
+              target.src = target.src.replace(/\.jpg$/, '.png');
+            } else if (target.src.endsWith('.png')) {
+              target.src = target.src.replace(/\.png$/, '.jpg');
+            }
+          }}
+        />
         {caption && <figcaption id="lightboxCaption">{caption}</figcaption>}
       </figure>
     </div>

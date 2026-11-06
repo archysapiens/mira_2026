@@ -6,7 +6,7 @@ Instale:
 
 1. Git para Windows.
 2. Visual Studio Code.
-3. Python 3.11.
+3. Python 3.12 (versión estándar recomendada para desarrollo local; 3.11 compatible).
 4. Azure Functions Core Tools v4.
 5. Azure CLI.
 6. ODBC Driver 18 for SQL Server.
@@ -88,10 +88,12 @@ Copie el archivo de ejemplo:
 ```powershell
 cd backend
 Copy-Item local.settings.example.json local.settings.json
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+python -m venv .venv312
+.\.venv312\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
+
+*(Nota: Si conserva el entorno histórico `.venv`, active `.venv312` para ejecutar el backend bajo Python 3.12).*
 
 Edite `local.settings.json` y sustituya servidor, base, usuario, contraseña y `JWT_SECRET`.
 
@@ -129,7 +131,7 @@ Abra `http://localhost:5500`. El archivo `frontend/js/config.js` ya apunta a `ht
 
 1. Azure Portal → **Function App** → Create.
 2. Plan recomendado para MVP: **Consumption**.
-3. Runtime: Python 3.11.
+3. Runtime: Python 3.12 (o Python 3.11 si el recurso en Azure fue creado previamente con esa versión).
 4. Sistema operativo: Linux.
 5. Nombre sugerido: `func-mira-dev-<sufijo>`.
 6. Active Application Insights.
@@ -200,6 +202,10 @@ Los workflows incluidos publican automáticamente:
 
 - cambios en `backend/**` hacia Azure Functions;
 - cambios en `frontend/**` hacia Azure Static Web Apps.
+
+> [!NOTE]
+> **Sincronización de versiones entre GitHub Actions y Azure:**  
+> El paso `actions/setup-python` en `.github/workflows/deploy-functions.yml` compila las dependencias de Linux (incluyendo binarios en C de `pyodbc`). La versión de Python en el workflow debe coincidir con la versión activa configurada en Azure Function App (`linuxFxVersion`). Si la infraestructura existente en Azure aún utiliza Python 3.11, el administrador debe actualizar el recurso en Azure antes de migrar el workflow a Python 3.12.
 
 ## 9. Seguridad antes de producción
 

@@ -1,6 +1,8 @@
 import React from 'react';
+import { useQuoteModal } from '../../../context/QuoteModalContext';
 
 export const ContactSection: React.FC = () => {
+  const { openQuote } = useQuoteModal();
   return (
     <section className="py-16 sm:py-24 bg-white" id="contacto" aria-label="Contacto y atención comercial">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -55,13 +57,15 @@ export const ContactSection: React.FC = () => {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <a
-                href="#cotizar"
+              <button
+                type="button"
+                id="btnContactSectionQuote"
+                onClick={() => openQuote()}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#7AC143] hover:bg-[#68A635] text-white text-xs sm:text-sm font-bold rounded-xl transition-all cursor-pointer shadow-sm"
               >
                 <span>Cotizar servicio</span>
                 <span aria-hidden="true">→</span>
-              </a>
+              </button>
               <a
                 href="https://wa.me/527222245131?text=Hola%20MIRA%2C%20me%20interesa%20solicitar%20informaci%C3%B3n%20sobre%20sus%20servicios"
                 target="_blank"

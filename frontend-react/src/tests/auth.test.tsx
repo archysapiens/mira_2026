@@ -488,7 +488,12 @@ describe('MIRA - Pruebas de Autenticación, Registro y OTP (Fase 8)', () => {
       </MemoryRouter>
     );
 
+    const emailInput = screen.getByLabelText(/correo electrónico/i);
+    const passwordInput = screen.getByLabelText(/contraseña/i);
     const submitBtn = screen.getByRole('button', { name: /iniciar sesión/i });
+
+    fireEvent.change(emailInput, { target: { value: 'cliente@mira.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
     fireEvent.click(submitBtn);
 
     await waitFor(() => {

@@ -493,7 +493,7 @@
     const need = escapeHtml(req.Need || "Servicio general MIRA");
     const location = escapeHtml(req.Location || "Ubicación nacional no especificada");
     const company = escapeHtml(req.Company ? `${req.Company} (${req.ContactName || 'Titular'})` : (req.ContactName || "-"));
-    const operator = escapeHtml(req.OperatorName || session.name || "Carlos Mendoza");
+    const operator = escapeHtml(req.OperatorName || req.AssignedOperatorName || session.name || "Pendiente de asignación");
     const description = escapeHtml(req.Description || "Sin descripción técnica adicional proporcionada.");
 
     const isAttendedDone = (req.Status === "A" || req.Status === "T");

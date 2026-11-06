@@ -1,16 +1,56 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/assets/mira-circle-192.png" />
-    <meta name="robots" content="noindex, nofollow, noarchive" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistema MIRA — Soluciones Integrales</title>
-  </head>
-  <body class="antialiased">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="alternate icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/assets/mira-circle-192.png" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema MIRA — Soluciones Integrales</title>
+  <style>
+    /* Anti-destello blanco inmediato (Anti-FOUC) para visita con modo oscuro del sistema */
+    html.dark,
+    html.dark body {
+      background-color: #071e26 !important;
+      color: #f8fafc !important;
+      color-scheme: dark;
+    }
+  </style>
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('mira_theme');
+        var isDark;
+        // Prioridad 1: Selección manual explícita ('dark' o 'light')
+        if (stored === 'dark') {
+          isDark = true;
+        } else if (stored === 'light') {
+          isDark = false;
+        } else {
+          // Prioridad 2: Sin preferencia manual (null, 'system' u otros) -> Respetar SO
+          isDark = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        }
+
+        var root = document.documentElement;
+        if (isDark) {
+          root.classList.add('dark');
+          root.setAttribute('data-theme', 'dark');
+          root.style.colorScheme = 'dark';
+        } else {
+          root.classList.remove('dark');
+          root.setAttribute('data-theme', 'light');
+          root.style.colorScheme = 'light';
+        }
+      } catch (e) { }
+    })();
+  </script>
+</head>
+
+<body class="antialiased">
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

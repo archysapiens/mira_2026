@@ -4,6 +4,7 @@ import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { authApi } from '../../api/auth';
 import { useAuth, getRedirectPathForRole } from '../../context/AuthContext';
+import { isDemoMode } from '../../utils/demoMode';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -11,9 +12,10 @@ export const LoginPage: React.FC = () => {
   const folioParam = searchParams.get('folio');
 
   const { isAuthenticated, role, login } = useAuth();
+  const inDemo = isDemoMode();
 
-  const [email, setEmail] = useState('cliente@mira.com');
-  const [password, setPassword] = useState('123');
+  const [email, setEmail] = useState(inDemo ? 'cliente@mira.com' : '');
+  const [password, setPassword] = useState(inDemo ? '123' : '');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -147,39 +149,41 @@ export const LoginPage: React.FC = () => {
           </div>
         </form>
 
-        {/* Cuentas de Demostración */}
-        <div className="pt-4 border-t border-[#DCE2DD] space-y-2.5">
-          <span className="text-xs font-bold text-[#062D3A] block text-center">
-            Cuentas de demostración rápida
-          </span>
-          <div className="grid grid-cols-1 gap-1.5">
-            <button
-              type="button"
-              onClick={() => handleDemoAccount('cliente@mira.com')}
-              className="w-full text-left px-3 py-2 text-xs rounded-lg border border-[#DCE2DD] hover:bg-[#F4F6F4] text-[#062D3A] transition-colors flex justify-between items-center cursor-pointer"
-            >
-              <span className="font-semibold">Cliente</span>
-              <span className="text-[#56696D] font-mono">cliente@mira.com</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDemoAccount('operador@mira.com')}
-              className="w-full text-left px-3 py-2 text-xs rounded-lg border border-[#DCE2DD] hover:bg-[#F4F6F4] text-[#062D3A] transition-colors flex justify-between items-center cursor-pointer"
-            >
-              <span className="font-semibold">Operador</span>
-              <span className="text-[#56696D] font-mono">operador@mira.com</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDemoAccount('admin@mira.com')}
-              className="w-full text-left px-3 py-2 text-xs rounded-lg border border-[#DCE2DD] hover:bg-[#F4F6F4] text-[#062D3A] transition-colors flex justify-between items-center cursor-pointer"
-            >
-              <span className="font-semibold">Administrador</span>
-              <span className="text-[#56696D] font-mono">admin@mira.com</span>
-            </button>
+        {/* Cuentas de Demostración (disponibles exclusivamente en modo demo) */}
+        {inDemo && (
+          <div className="pt-4 border-t border-[#DCE2DD] space-y-2.5">
+            <span className="text-xs font-bold text-[#062D3A] block text-center">
+              Cuentas de demostración rápida
+            </span>
+            <div className="grid grid-cols-1 gap-1.5">
+              <button
+                type="button"
+                onClick={() => handleDemoAccount('cliente@mira.com')}
+                className="w-full text-left px-3 py-2 text-xs rounded-lg border border-[#DCE2DD] hover:bg-[#F4F6F4] text-[#062D3A] transition-colors flex justify-between items-center cursor-pointer"
+              >
+                <span className="font-semibold">Cliente</span>
+                <span className="text-[#56696D] font-mono">cliente@mira.com</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoAccount('operador@mira.com')}
+                className="w-full text-left px-3 py-2 text-xs rounded-lg border border-[#DCE2DD] hover:bg-[#F4F6F4] text-[#062D3A] transition-colors flex justify-between items-center cursor-pointer"
+              >
+                <span className="font-semibold">Operador</span>
+                <span className="text-[#56696D] font-mono">operador@mira.com</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoAccount('admin@mira.com')}
+                className="w-full text-left px-3 py-2 text-xs rounded-lg border border-[#DCE2DD] hover:bg-[#F4F6F4] text-[#062D3A] transition-colors flex justify-between items-center cursor-pointer"
+              >
+                <span className="font-semibold">Administrador</span>
+                <span className="text-[#56696D] font-mono">admin@mira.com</span>
+              </button>
+            </div>
+            <p className="text-[11px] text-[#8E9FA2] text-center">Contraseña predeterminada: 123</p>
           </div>
-          <p className="text-[11px] text-[#8E9FA2] text-center">Contraseña predeterminada: 123</p>
-        </div>
+        )}
       </main>
     </div>
   );

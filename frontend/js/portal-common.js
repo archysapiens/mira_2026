@@ -13,6 +13,32 @@
     C: { label: "Cancelada", class: "badge-canceled" }
   };
 
+  const NEED_TYPE_MAP = {
+    HOTEL: "Hotel / Hospedaje",
+    RESIDENCE: "Residencial / Condominio",
+    COMPANY: "Empresa / Planta",
+    OTHER: "Otro espacio"
+  };
+
+  function formatNeed(need) {
+    if (!need) return "Servicio general MIRA";
+    const key = String(need).trim().toUpperCase();
+    if (NEED_TYPE_MAP[key]) {
+      return NEED_TYPE_MAP[key];
+    }
+    return need;
+  }
+
+  function formatDescription(desc) {
+    if (!desc) return "Sin descripción adicional proporcionada.";
+    let formatted = desc;
+    for (const [code, label] of Object.entries(NEED_TYPE_MAP)) {
+      const regex = new RegExp(`Tipo de inmueble:\\s*${code}\\b`, "gi");
+      formatted = formatted.replace(regex, `Tipo de inmueble: ${label}`);
+    }
+    return formatted;
+  }
+
   function getInitials(name) {
     if (!name) return "M";
     const parts = name.trim().split(" ");
@@ -161,10 +187,11 @@
       const folio = req.Folio || `REQ-${index + 1}`;
       const contact = req.ContactName || "Contacto";
       const company = req.Company ? `<span style="display: block; font-size: 11.5px; color: #8E9FA2;">${req.Company}</span>` : "";
-      const need = req.Need || "Servicio general MIRA";
-      const operator = req.OperatorName 
-        ? `<span style="color: #062D3A; font-weight: 600;">🛠️ ${req.OperatorName}</span>` 
-        : `<span style="color: #8E9FA2; font-style: italic;">Sin asignar</span>`;
+      const need = formatNeed(req.Need);
+      const operatorName = req.OperatorName || req.AssignedOperatorName;
+      const operator = operatorName
+        ? `<span style="color: #062D3A; font-weight: 600;">🛠️ ${operatorName}</span>`
+        : `<span style="color: #8E9FA2; font-style: italic;">Pendiente de asignación</span>`;
 
       return `
         <tr>
@@ -196,7 +223,7 @@
       const statusInfo = STATUS_CONFIG[req.Status] || { label: req.Status || "-", class: "badge-sent" };
       const folio = req.Folio || "Sin folio";
       const contact = req.ContactName || "Sin nombre";
-      const need = req.Need || "Servicio MIRA";
+      const need = formatNeed(req.Need);
       const isSelected = index === selectedIndex;
 
       return `
@@ -236,9 +263,10 @@
     const contact = req.ContactName || "-";
     const company = req.Company ? ` (${req.Company})` : "";
     const location = req.Location || "No especificada";
-    const operator = req.OperatorName || "Sin asignar";
+    const operatorName = req.OperatorName || req.AssignedOperatorName;
+    const operator = operatorName || "Pendiente de asignación";
     const urgency = req.Urgency || "Normal";
-    const need = req.Need || "Servicio general MIRA";
+    const need = formatNeed(req.Need);
 
     const extraSectionHtml = options.extraHtml || "";
 
@@ -288,6 +316,9 @@
 
   window.PortalCommon = {
     STATUS_CONFIG,
+    NEED_TYPE_MAP,
+    formatNeed,
+    formatDescription,
     getInitials,
     getRoleLabel,
     setupHeaderIdentity,

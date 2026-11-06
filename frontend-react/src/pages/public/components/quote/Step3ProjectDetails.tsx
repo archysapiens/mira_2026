@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { MEXICO_LOCATIONS } from '../../../../data/mexicoLocations';
+import { funnelFormStyles } from './quoteFormStyles';
 
 interface Step3ProjectDetailsProps {
   state: string;
@@ -76,26 +77,27 @@ export const Step3ProjectDetails: React.FC<Step3ProjectDetailsProps> = ({
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <small className="text-[10px] font-bold text-[#7AC143] tracking-widest uppercase">
-          PASO 3 DE 4
-        </small>
-        <h3 className="text-xl sm:text-2xl font-black text-[#062D3A] tracking-tight mt-1">
-          Ubicación y detalles del trabajo
-        </h3>
-        <p className="text-xs sm:text-sm text-[#56696D] mt-1">
-          Indica la ubicación en México y la fecha estimada de intervención.
-        </p>
-      </div>
+    <div className="flex flex-col h-full min-h-0 select-none">
+      {/* 1. Área central de contenido desplazable */}
+      <div className="flex-1 overflow-y-auto pr-1 min-h-0 space-y-3">
+        <div>
+          <small className="text-[#63A135] dark:text-[#A8D24F] text-[11px] font-bold tracking-[0.15em] uppercase block">
+            PASO 3 DE 4
+          </small>
+          <h3 className="font-serif text-[24px] sm:text-[26px] font-normal text-[#102A35] dark:text-white leading-tight my-1">
+            Ubicación y detalles del trabajo
+          </h3>
+          <p className="text-xs sm:text-[13px] text-[#738083] dark:text-[#94A3B8]">
+            Indica la ubicación y fecha estimada.
+          </p>
+        </div>
 
-      <div className="space-y-4">
-        {/* Estado y Municipio */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* FILA 1: Estado en México y Municipio o Alcaldía */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label
               htmlFor="quoteState"
-              className="block text-xs font-bold text-[#062D3A] uppercase tracking-wider mb-1.5"
+              className={funnelFormStyles.label}
             >
               Estado en México *
             </label>
@@ -110,19 +112,21 @@ export const Step3ProjectDetails: React.FC<Step3ProjectDetailsProps> = ({
                   setErrors((prev) => ({ ...prev, state: '', municipality: '' }));
                 }
               }}
-              className={`w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white border rounded-xl text-[#062D3A] focus:outline-none focus:ring-2 focus:ring-[#7AC143] transition-all ${
-                errors.state ? 'border-red-500 bg-red-50/30' : 'border-[#CBD5E1]'
+              className={`${funnelFormStyles.selectBase} ${
+                errors.state ? funnelFormStyles.inputError : funnelFormStyles.inputNormal
               }`}
             >
-              <option value="">Selecciona un estado</option>
+              <option value="" className={funnelFormStyles.selectOption}>
+                Selecciona un estado
+              </option>
               {sortedStates.map((s) => (
-                <option key={s} value={s}>
+                <option key={s} value={s} className={funnelFormStyles.selectOption}>
                   {s}
                 </option>
               ))}
             </select>
             {errors.state && (
-              <span className="text-[11px] font-semibold text-red-600 mt-1 block">
+              <span className={funnelFormStyles.errorMessage}>
                 {errors.state}
               </span>
             )}
@@ -131,7 +135,7 @@ export const Step3ProjectDetails: React.FC<Step3ProjectDetailsProps> = ({
           <div>
             <label
               htmlFor="quoteMunicipality"
-              className="block text-xs font-bold text-[#062D3A] uppercase tracking-wider mb-1.5"
+              className={funnelFormStyles.label}
             >
               Municipio o Alcaldía *
             </label>
@@ -147,32 +151,32 @@ export const Step3ProjectDetails: React.FC<Step3ProjectDetailsProps> = ({
                   setErrors((prev) => ({ ...prev, municipality: '' }));
                 }
               }}
-              className={`w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white border rounded-xl text-[#062D3A] focus:outline-none focus:ring-2 focus:ring-[#7AC143] transition-all disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed ${
-                errors.municipality ? 'border-red-500 bg-red-50/30' : 'border-[#CBD5E1]'
+              className={`${funnelFormStyles.selectBase} disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed ${
+                errors.municipality ? funnelFormStyles.inputError : funnelFormStyles.inputNormal
               }`}
             >
-              <option value="">
-                {state ? 'Selecciona un municipio o alcaldía' : 'Selecciona primero un estado'}
+              <option value="" className={funnelFormStyles.selectOption}>
+                {state ? 'Selecciona un municipio' : 'Selecciona primero un estado'}
               </option>
               {municipalitiesForState.map((m) => (
-                <option key={m} value={m}>
+                <option key={m} value={m} className={funnelFormStyles.selectOption}>
                   {m}
                 </option>
               ))}
             </select>
             {errors.municipality && (
-              <span className="text-[11px] font-semibold text-red-600 mt-1 block">
+              <span className={funnelFormStyles.errorMessage}>
                 {errors.municipality}
               </span>
             )}
           </div>
         </div>
 
-        {/* Dirección o referencias */}
+        {/* FILA 2: Dirección o referencias del sitio (ancho completo) */}
         <div>
           <label
             htmlFor="quoteAddress"
-            className="block text-xs font-bold text-[#062D3A] uppercase tracking-wider mb-1.5"
+            className={funnelFormStyles.label}
           >
             Dirección o referencias del sitio *
           </label>
@@ -188,24 +192,24 @@ export const Step3ProjectDetails: React.FC<Step3ProjectDetailsProps> = ({
                 setErrors((prev) => ({ ...prev, address: '' }));
               }
             }}
-            placeholder="Calle, número, colonia, parque industrial o referencias"
-            className={`w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white border rounded-xl text-[#062D3A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7AC143] transition-all ${
-              errors.address ? 'border-red-500 bg-red-50/30' : 'border-[#CBD5E1]'
+            placeholder="Calle, colonia o referencia"
+            className={`${funnelFormStyles.inputBase} ${
+              errors.address ? funnelFormStyles.inputError : funnelFormStyles.inputNormal
             }`}
           />
           {errors.address && (
-            <span className="text-[11px] font-semibold text-red-600 mt-1 block">
+            <span className={funnelFormStyles.errorMessage}>
               {errors.address}
             </span>
           )}
         </div>
 
-        {/* Fecha y Comentarios */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* FILA 3: Fecha estimada de atención y Comentarios adicionales */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label
               htmlFor="quoteRequestedDate"
-              className="block text-xs font-bold text-[#062D3A] uppercase tracking-wider mb-1.5"
+              className={funnelFormStyles.label}
             >
               Fecha estimada de atención *
             </label>
@@ -217,16 +221,17 @@ export const Step3ProjectDetails: React.FC<Step3ProjectDetailsProps> = ({
               onChange={(e) => {
                 const val = e.target.value;
                 onChange({ requestedDate: val });
-                if (val) {
+                if (val.trim()) {
                   setErrors((prev) => ({ ...prev, requestedDate: '' }));
                 }
               }}
-              className={`w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white border rounded-xl text-[#062D3A] focus:outline-none focus:ring-2 focus:ring-[#7AC143] transition-all ${
-                errors.requestedDate ? 'border-red-500 bg-red-50/30' : 'border-[#CBD5E1]'
+              placeholder="dd/mm/aaaa"
+              className={`${funnelFormStyles.inputBase} ${
+                errors.requestedDate ? funnelFormStyles.inputError : funnelFormStyles.inputNormal
               }`}
             />
             {errors.requestedDate && (
-              <span className="text-[11px] font-semibold text-red-600 mt-1 block">
+              <span className={funnelFormStyles.errorMessage}>
                 {errors.requestedDate}
               </span>
             )}
@@ -235,7 +240,7 @@ export const Step3ProjectDetails: React.FC<Step3ProjectDetailsProps> = ({
           <div>
             <label
               htmlFor="quoteComments"
-              className="block text-xs font-bold text-[#062D3A] uppercase tracking-wider mb-1.5"
+              className={funnelFormStyles.label}
             >
               Comentarios adicionales (opcional)
             </label>
@@ -245,24 +250,24 @@ export const Step3ProjectDetails: React.FC<Step3ProjectDetailsProps> = ({
               name="comments"
               value={comments}
               onChange={(e) => onChange({ comments: e.target.value })}
-              placeholder="Horarios permitidos, accesos, etc."
-              className="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white border border-[#CBD5E1] rounded-xl text-[#062D3A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7AC143] transition-all"
+              placeholder="Horarios o indicaciones"
+              className={`${funnelFormStyles.inputBase} ${funnelFormStyles.inputNormal}`}
             />
           </div>
         </div>
 
-        {/* Descripción técnica */}
+        {/* FILA 4: Descripción del proyecto o requerimiento técnico (ancho completo) */}
         <div>
           <label
             htmlFor="quoteDescription"
-            className="block text-xs font-bold text-[#062D3A] uppercase tracking-wider mb-1.5"
+            className={funnelFormStyles.label}
           >
             Descripción del proyecto o requerimiento técnico *
           </label>
           <textarea
             id="quoteDescription"
             name="description"
-            rows={3}
+            rows={2}
             value={description}
             onChange={(e) => {
               const val = e.target.value;
@@ -271,33 +276,33 @@ export const Step3ProjectDetails: React.FC<Step3ProjectDetailsProps> = ({
                 setErrors((prev) => ({ ...prev, description: '' }));
               }
             }}
-            placeholder="Describe las condiciones actuales, metros cuadrados aproximados, alturas, insumos o detalles relevantes..."
-            className={`w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white border rounded-xl text-[#062D3A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7AC143] transition-all ${
-              errors.description ? 'border-red-500 bg-red-50/30' : 'border-[#CBD5E1]'
+            placeholder="Describe brevemente el trabajo"
+            className={`${funnelFormStyles.textareaBase} ${
+              errors.description ? funnelFormStyles.inputError : funnelFormStyles.inputNormal
             }`}
           />
           {errors.description && (
-            <span className="text-[11px] font-semibold text-red-600 mt-1 block">
+            <span className={funnelFormStyles.errorMessage}>
               {errors.description}
             </span>
           )}
         </div>
       </div>
 
-      {/* Botones de navegación */}
-      <div className="flex items-center justify-between pt-2">
+      {/* 2. Footer inferior fijo */}
+      <div className="flex-none pt-3 mt-3 border-t border-[#DFE4DF] dark:border-[#1E4555] bg-white dark:bg-[#0B2836] flex items-center justify-between">
         <button
           type="button"
           onClick={onBack}
-          className="px-4 py-2.5 text-xs sm:text-sm font-semibold text-[#56696D] hover:text-[#062D3A] transition-colors cursor-pointer"
+          className="text-[13px] font-bold text-[#657275] hover:text-[#102A35] dark:text-[#94A3B8] dark:hover:text-white bg-transparent border-0 cursor-pointer p-0 transition-colors"
         >
-          ← Volver a Servicios
+          ← Atrás
         </button>
 
         <button
           type="button"
           onClick={handleNext}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#7AC143] hover:bg-[#68A635] text-white text-xs sm:text-sm font-bold rounded-xl transition-colors cursor-pointer shadow-xs"
+          className="bg-[#79BD43] hover:bg-[#66A334] text-white text-[13px] font-bold px-6 py-2.5 rounded transition-colors shadow-xs cursor-pointer inline-flex items-center gap-1.5"
         >
           <span>Continuar a Contacto</span>
           <span aria-hidden="true">→</span>
@@ -306,4 +311,3 @@ export const Step3ProjectDetails: React.FC<Step3ProjectDetailsProps> = ({
     </div>
   );
 };
-
